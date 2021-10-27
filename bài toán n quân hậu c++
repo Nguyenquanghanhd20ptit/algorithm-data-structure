@@ -1,3 +1,4 @@
+sử dụng thuật toán quay lui
 #include<bits/stdc++.h>
 using namespace std;
 int n,a[100],cot[100]={0},d1[100]={0},d2[100]={0};

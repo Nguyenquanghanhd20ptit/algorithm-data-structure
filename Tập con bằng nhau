@@ -1,6 +1,7 @@
 TẬP CON BẰNG NHAU
 
-Cho tập các số A[] = (a1, a2, .., an). Hãy kiểm tra xem ta có thể chia tập A[] thành hai tập con sao cho tổng các phần tử của hai tập con bằng nhau hay không. Đưa ra YES nếu có thể thực hiện được, ngược lại đưa ra NO.
+Cho tập các số A[] = (a1, a2, .., an). Hãy kiểm tra xem ta có thể chia tập A[] thành hai tập con sao cho tổng các phần tử của hai tập con bằng nhau hay không. 
+Đưa ra YES nếu có thể thực hiện được, ngược lại đưa ra NO.
 
 Input:
 

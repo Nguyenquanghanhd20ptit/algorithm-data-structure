@@ -1,0 +1,76 @@
+ TÍNH P(N,K)
+
+P(n, k) là số phép biểu diễn các tập con có thứ tự gồm k phần tử của tập gồm n phần tử. Số P(n, k) được định nghĩa theo công thức sau:
+
+Cho số hai số n, k. Hãy tìm P(n,k) theo modulo 109+7.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T.
+Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là một cặp số n, k được viết trên một dòng.
+T, n, k thỏa mãn ràng buộc: 1 ≤ T ≤ 100;  1 ≤ n,k ≤ 1000.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Ví dụ:
+
+Input
+
+Output
+
+2
+5 2
+4 2
+ 
+
+20
+12
+ bài làm:
+ c1: dùng for trâu.
+ nhân từ n đến n-k+1 rồi in ra kq.
+ 
+#include<bits/stdc++.h>
+using namespace std;
+long long mod=1e9+7;
+int n,k;
+void solve(){
+	long long res=1;
+	for(int i=n;i>=n-k+1;i--){
+		res=res*i;
+		res=res%mod;
+	}
+	cout<<res<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		cin>>n>>k;
+		solve();
+	}
+}
+
+cách 2:sd quy hoạch động
+
+#include<bits/stdc++.h>
+using namespace std;
+long long mod=1e9+7;
+int n,k;
+long long a[1001][1001];
+void solve(){
+	for(int i=0;i<1001;i++){
+		a[i][0]=1;
+	}
+	for(int i=1;i<1001;i++){
+		for(int j=1;j<=i;j++){
+			a[i][j]=(a[i-1][j]+j*a[i-1][j-1])%mod;
+		}
+	}
+}
+int main(){
+	int t; cin>>t;
+	solve();
+	while(t--){
+		cin>>n>>k;
+		cout<<a[n][k]<<endl;
+	}
+}

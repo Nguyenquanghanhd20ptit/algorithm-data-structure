@@ -1,0 +1,79 @@
+ DI CHUYỂN ROBOT
+
+Một robot xuất phát từ vị trí (0,0) mặt quay về hướng Bắc. Mỗi lần chỉ có một trong 4 lệnh chuyển động là G, L, R, B tương ứng là tiến về phía trước, tiến sang trái,
+tiến sang phải, lùi về phía sau một đơn vị.
+
+Cho dãy lệnh chuyển động. Hãy tính xem vị trí cuối cùng của robot là vị trí nào?
+
+Input
+
+Dòng đầu tiên ghi n (n≤100) là số lệnh robot cần thực hiện.
+Dòng thứ hai là dãy n ký tự mô tả dãy lệnh robot thực hiện
+Output
+
+Ghi ra hai số nguyên là tọa độ (x,y) của vị trí cuối cùng robot
+
+Ví dụ
+
+Input
+
+Output
+
+5
+
+GLLRB
+
+-1 0
+
+Input
+
+Output
+
+2
+
+RG
+
+2 0
+bài làm:
+#include<bits/stdc++.h>
+using namespace std;
+int dx[4]={0,1,0,-1};
+int dy[4]={1,0,-1,0};
+int main(){
+	int n; cin>>n;
+	string s; cin>>s;
+	vector<pair<int,int>> v;
+	v.push_back(make_pair(0,-1));
+	v.push_back(make_pair(0,0));
+	for(int i=1;i<=n;i++){
+		int x=v[i].first-v[i-1].first;
+		int y=v[i].second-v[i-1].second;
+		if(s[i-1]=='B'){
+			v.push_back(make_pair(v[i-1].first,v[i-1].second));	
+			continue;	
+		}
+		for(int k=0;k<4;k++){
+			if(dx[k]==x && dy[k]==y){
+				if(s[i-1]=='G'){
+					if(k>1){
+						v.push_back(make_pair(v[i].first-dx[k-2],v[i].second-dy[k-2]));
+					}
+					else v.push_back(make_pair(v[i].first-dx[k+2],v[i].second-dy[k+2]));
+				}
+				if(s[i-1]=='L'){
+					if(k==3){
+						v.push_back(make_pair(v[i].first-dx[k-3],v[i].second-dy[k-3]));
+					}
+					else v.push_back(make_pair(v[i].first-dx[k+1],v[i].second-dy[k+1]));
+				}
+				if(s[i-1]=='R'){
+					if(k==0){
+						v.push_back(make_pair(v[i].first-dx[k+3],v[i].second-dy[k+3]));
+					}
+					else v.push_back(make_pair(v[i].first-dx[k-1],v[i].second-dy[k-1]));
+				}
+			}
+		}
+	}
+	cout<<v[v.size()-1].first<<" "<<v[v.size()-1].second;
+}

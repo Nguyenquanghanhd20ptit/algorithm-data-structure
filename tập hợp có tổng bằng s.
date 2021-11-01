@@ -73,3 +73,39 @@ int main(){
 		}
 	}
 }
+
+cách 2: sinh xâu nhị phân để liệt kê các trường hợp
+#include<bits/stdc++.h>
+using namespace std;
+int n,s,k,a[100];
+void inkq(){
+	int sum=0,res=0;
+	for(int i=1;i<=n;i++){
+		sum+=a[i];
+		res=res+a[i]*i;
+	}
+	if(sum==k && res==s){
+		for(int i=1;i<=n;i++){
+			if(a[i]==1){
+				cout<<i<<" ";
+			}
+		}
+		cout<<endl;
+	}
+}
+void ql(int i){
+	for(int j=0;j<=1;j++){
+		a[i]=j;
+		if(i==n){
+			inkq();
+		}
+		else ql(i+1);
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		cin>>n>>k>>s;
+		ql(1);
+	}
+}

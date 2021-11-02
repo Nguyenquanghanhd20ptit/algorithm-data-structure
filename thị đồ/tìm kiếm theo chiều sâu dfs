@@ -11,23 +11,16 @@ void nhap(){
 		v[y].push_back(x);
 	}
 }
-void bfs(int u){
-	queue<int> q;
-	q.push(u);
+void dfs(int u){
+	cout<<u<<" ";
 	a[u]=1;
-	while(!q.empty()){
-		int m=q.front();
-		q.pop();
-		cout<<m<<" ";
-		for(auto x:v[m]){
-			if(a[x]==0){
-				q.push(x);
-				a[x]=1;
-			}
+	for(auto x:v[u]){
+		if(a[x]==0){
+			dfs(x);
 		}
 	}
 }
 int main(){
 	nhap();
-	bfs(1);
+	dfs(1);
 }

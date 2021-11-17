@@ -1,0 +1,128 @@
+PP. duyệt toàn bộ - dùng thuật toán sinh: bài toán người đi du lịch:
+
+Test case mẫu:
+
+case=1
+
+input=
+
+5
+
+0   3 14 18 15
+
+3   0   4  22 20
+
+17 9   0 16  4
+
+6   2   7   0  12
+
+9  15  11  5  0
+
+output=
+
+22.0
+
+1 2 3 5 4 1
+
+cách 1: sinh hoán vị
+#include<bits/stdc++.h>
+using namespace std;
+int n,x,a[100],b[100][100],c[100];
+int res;
+void inp(){
+    cin>>n;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            cin>>b[i][j];
+        }
+    }
+}
+void ktao(){
+    for(int i=2;i<=n;i++){
+        a[i]=i;
+    }
+}
+void sinh(){
+    int i=n-1;
+    while(i>=2 && a[i]>a[i+1]){
+        i--;
+    }
+    if(i==1) x=0;
+    else{
+        int j=n;
+        while(a[i]>a[j]){
+            j--;
+        }
+        swap(a[i],a[j]);
+        reverse(a+i+1,a+n+1);
+    }
+}
+void solve(){
+    int sum=b[a[n]][1];
+    for(int i=1;i<n;i++){
+        sum+=b[a[i]][a[i+1]];
+    }
+    if(res>sum){
+        res=sum;
+        for(int i=1;i<=n;i++){
+            c[i]=a[i];
+        }
+    }
+}
+int main(){
+    inp();
+    ktao();
+    x=1; a[1]=1; res=1e9;
+    while(x==1){
+        solve();
+        sinh();
+    }
+    cout<<fixed<<setprecision(1)<<double(res)<<endl;
+    for(int i=1;i<=n;i++){
+        cout<<c[i]<<" ";
+    }
+    cout<<1<<endl;
+}
+
+cách 2:
+#include<bits/stdc++.h>
+using namespace std;
+int n,res,a[100],b[100][100],c[100],kt[100]={0},s;
+void inp(){
+    cin>>n;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            cin>>b[i][j];
+        }
+    }
+}
+void ql(int i){
+    for(int j=2;j<=n;j++){
+        if(kt[j]==0){
+            a[i]=j;
+            kt[j]=1;
+            s+=b[a[i-1]][j];
+            if(i==n){
+                if(s+b[j][1]<res){
+                    res=s+b[j][1];
+                    for(int i=1;i<=n;i++){
+                        c[i]=a[i];
+                    }
+                }
+            }
+            else ql(i+1);
+            s-=b[a[i-1]][j];
+            kt[j]=0;
+        }
+    }
+}
+int main(){
+    inp();
+    res=1e9; s=0; a[1]=1;
+    ql(2);
+    cout<<fixed<<setprecision(1)<<double(res)<<endl;
+    for(int i=1;i<=n;i++){
+        cout<<c[i]<<" ";
+    }
+    cout<<1<<endl;
+}

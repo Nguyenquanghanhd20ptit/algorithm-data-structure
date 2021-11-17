@@ -1,0 +1,161 @@
+PP. duyệt toàn bộ - dùng thuật toán sinh: bài toán cái túi
+
+
+Test case mẫu:
+
+case=1
+
+input=
+
+4
+
+9
+
+4 2 7 1
+
+5 1 8 1
+
+output=
+
+9.0
+
+0 0 1 1
+
+cách 1 sinh xâu nhị phân:
+#include<bits/stdc++.h>
+using namespace std;
+int n,m,ok,a[100],b[100],kl[100],gt[100];
+double x;
+void inp(){
+    cin>>n>>m;
+    for(int i=1;i<=n;i++){
+        cin>>kl[i];
+    }
+    for(int i=1;i<=n;i++){
+        cin>>gt[i];
+    }
+}
+void ktao(){
+    for(int i=1;i<=n;i++){
+        a[i]=0;
+    }
+}
+void sinh(){
+    int i=n;
+    while(i>=1 && a[i]==1){
+        a[i]=0;
+        i--;
+    }
+    if(i==0) ok=0;
+    else a[i]=1;
+}
+
+void solve(){
+    int kluong=0;
+    for(int i=1;i<=n;i++){
+        kluong+=a[i]*kl[i];
+    }
+    if(kluong<=m){
+        double gtri=0;
+        for(int i=1;i<=n;i++){
+            gtri+=a[i]*gt[i];
+        }
+        x=max(x,gtri);
+    }
+}
+void solve1(){
+    int kluong=0;
+    for(int i=1;i<=n;i++){
+        kluong+=a[i]*kl[i];
+    }
+    if(kluong<=m){
+        double gtri=0;
+        for(int i=1;i<=n;i++){
+            gtri+=a[i]*gt[i];
+        }
+        if(x==gtri){
+            for(int i=1;i<=n;i++){
+                b[i]=a[i];
+                ok=0;
+            }
+        }
+    }
+}
+int main(){
+    inp();
+    ktao();
+    ok=1;  x=0;
+    while(ok==1){
+        solve();
+        sinh();
+    }
+    cout<<fixed<<setprecision(1)<<x<<endl;
+    ktao(); ok=1;
+    while(ok==1){
+        solve1();
+        sinh();
+    }
+    for(int i=1;i<=n;i++){
+        cout<<b[i]<<" ";
+    }
+}
+
+cách 2 quay lui xâu nhị phân:
+#include<bits/stdc++.h>
+using namespace std; 
+int n,m,k,a[100],b[100],kl[100],gt[100];
+double x;
+void inp(){
+    cin>>n>>m;
+    for(int i=1;i<=n;i++){
+        cin>>kl[i];
+    }
+    for(int i=1;i<=n;i++){
+        cin>>gt[i];
+    }
+}
+void inkq(){
+    int kluong=0;
+    for(int i=1;i<=n;i++){
+        kluong+=a[i]*kl[i];
+    }
+    if(kluong<=m){
+        double gtri=0;
+        for(int i=1;i<=n;i++){
+            gtri+=a[i]*gt[i];
+        }
+        if(x<=gtri){
+            if(x<gtri){
+                x=gtri;
+                for(int i=1;i<=n;i++){
+                    b[i]=a[i];
+                }
+                k=kluong;
+            }
+            if(x==gtri && kluong<k){
+                for(int i=1;i<=n;i++){
+                    b[i]=a[i];
+                }
+                k=kluong;
+            }
+        }
+    }
+}
+void ql(int i){
+    for(int j=0 ;j<=1;j++){
+        a[i]=j;
+        if(i==n){
+            inkq();
+        }
+        else ql(i+1);
+    }
+}
+int main(){
+    inp();
+    x=0; k=1e9;
+    ql(1);
+    cout<<fixed<<setprecision(1)<<x<<endl;
+    for(int i=1;i<=n;i++){
+        cout<<b[i]<<" ";
+    }
+}

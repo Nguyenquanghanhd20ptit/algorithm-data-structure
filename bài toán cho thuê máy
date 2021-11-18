@@ -1,0 +1,207 @@
+PP. duyệt toàn bộ - dùng thuật toán sinh: bài toán cho thuê máy
+
+Test case mẫu:
+
+input=
+
+10
+
+20
+
+0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 
+
+0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 
+
+1 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 0 
+
+0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 
+
+0 1 1 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 
+
+0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 
+
+0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 
+
+0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
+
+1 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 
+
+0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1
+
+output=
+
+0 0 0 0 1 1 1 1 1 1
+
+0 1 1 1 0 1 0 1 0 0
+
+bài làm:
+cách 1 sử dụng sinh xâu nhị phân
+#include<bits/stdc++.h>
+using namespace std;
+int n,m,x,res,dem,a[100],b[100][100];
+vector<int> v[100];
+void inp(){
+    cin>>n>>m;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            cin>>b[i][j];
+        }
+    }
+}
+void ktao(){
+    for(int i=1;i<=n;i++){
+        a[i]=0;
+    }
+}
+void sinh(){
+    int i=n;
+    while(i>=1 && a[i]==1){
+        a[i]=0;
+        i--;
+    }
+    if(i==0) x=0;
+    else a[i]=1;
+}
+void slove(){
+    int c[100][100];
+    memset(c,0,sizeof(c));
+    for(int i=1;i<=n;i++){
+        if(a[i]==1){
+            for(int j=1;j<=m;j++){
+                c[i][j]=b[i][j];
+            }
+        }
+    }
+    int d[100];
+    memset(d,0,sizeof(d));
+    for(int i=1;i<=m;i++){
+        for(int j=1;j<=n;j++){
+            d[i]+=c[j][i];
+        }
+    }
+    int sum=0;
+    for(int i=1;i<=m;i++){
+        if(d[i]>1){
+            sum=0;
+            break;
+        }
+        else{
+            sum+=d[i];
+        }
+    }
+    if(res<=sum && sum!=0){
+        if(res<sum){
+            res=sum;
+            for(int i=0;i<=dem;i++){
+                v[i]={};
+            }
+            dem=0;
+            for(int i=1;i<=n;i++){
+                v[0].push_back(a[i]);
+            }
+        }
+        else{
+            dem++;
+            for(int i=1;i<=n;i++){
+                v[dem].push_back(a[i]);
+            }
+        }
+    }
+}
+int main(){
+    inp();
+    ktao();
+    x=1; res=0; dem=0;
+    while(x==1){
+        slove();
+        sinh();
+    }
+    cout<<res<<endl;
+    for(int i=0;i<=dem;i++){
+        for(auto it:v[i]){
+            cout<<it<<" ";
+        }
+        cout<<endl;
+    }
+}
+
+cách 2 quay lui :
+#include<bits/stdc++.h>
+using namespace std;
+int n,m,res,dem,a[100],b[100][100];
+vector<int> v[100];
+void inp(){
+    cin>>n>>m;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            cin>>b[i][j];
+        }
+    }
+}
+void solve(){
+    int c[100][100];
+    memset(c,0,sizeof(c));
+    for(int i=1;i<=n;i++){
+        if(a[i]==1){
+            for(int j=1;j<=m;j++){
+                c[i][j]=b[i][j];
+            }
+        }
+    }
+    int d[100];
+    memset(d,0,sizeof(d));
+    for(int i=1;i<=m;i++){
+        for(int j=1;j<=n;j++){
+            d[i]+=c[j][i];
+        }
+    }
+    int sum=0;
+    for(int i=1;i<=m;i++){
+        if(d[i]>1){
+            sum=0;
+            break;
+        }
+        else{
+            sum+=d[i];
+        }
+    }
+    if(res<=sum && sum!=0){
+        if(res<sum){
+            res=sum;
+            for(int i=0;i<=dem;i++){
+                v[i]={};
+            }
+            dem=0;
+            for(int i=1;i<=n;i++){
+                v[0].push_back(a[i]);
+            }
+        }
+        else{
+            dem++;
+            for(int i=1;i<=n;i++){
+                v[dem].push_back(a[i]);
+            }
+        }
+    }
+}
+void ql(int i){
+    for(int j=0;j<=1;j++){
+        a[i]=j;
+         if(i==n){
+         	solve();
+		 }
+        else ql(i+1);
+    }
+}
+int main(){
+    inp();
+    dem=0; res=0;
+    ql(1);
+    cout<<res<<endl;
+    for(int i=0;i<=dem;i++){
+        for(auto x:v[i]){
+            cout<<x<<" ";
+        }
+        cout<<endl;
+    }
+}

@@ -1,0 +1,176 @@
+LỊCH THI HỌC KỲ
+
+Hệ thống quản lý lịch thi học kỳ cho nhiều Môn học, mỗi môn học có các (Có thông tin Mã môn học, tên môn học) Lịch thi học kỳ bao gồm nhiều thông tin gồm: Mã ca thi, Mã môn học, Ngày thi, Giờ thi, Nhóm thi. Mã ca thi được đánh số từ T001, T002 và tự động tăng dần.
+
+Cho danh sách các ca thi, mỗi môn học có nhiều ca thi, hãy thực hiện sắp xếp danh sách các ca thi theo thứ tự ưu tiên như sau ngày tăng dần, giờ tăng dần, mã môn học tăng dần.
+
+Input:
+
+Dòng đầu tiên cho 2 số N, M lần lượt là số môn học và số ca thi.
+
+N * 2 dòng tiếp theo là thông tin mã môn học và tên môn học.
+
+M dòng còn lại mỗi dòng là thông tin lịch thi bao gồm Mã môn học, ngày thi (dd/mm/yyyy) giờ thi (hh:mm) và nhóm thi (dạng xâu ký có 2 ký tự bất kỳ).
+
+Output:
+
+Lịch thi đã sắp xếp như mẫu, mỗi lịch thi trên một dòng
+
+Ví dụ:
+
+Input
+
+Output
+
+2 10
+
+INT1155
+
+Tin hoc co so 2
+
+INT1339
+
+Ngon ngu lap trinh C++
+
+INT1155 25/11/2021 08:00 01
+
+INT1155 04/12/2021 08:00 02
+
+INT1155 04/12/2021 13:30 03
+
+INT1155 25/11/2021 13:30 04
+
+INT1155 25/11/2021 15:00 05
+
+INT1339 25/11/2021 08:00 01
+
+INT1339 25/11/2021 08:00 02
+
+INT1339 04/12/2021 13:30 03
+
+INT1339 04/12/2021 13:30 04
+
+INT1339 04/12/2021 15:00 05
+
+T001 INT1155 Tin hoc co so 2 25/11/2021 08:00 01
+
+T006 INT1339 Ngon ngu lap trinh C++ 25/11/2021 08:00 01
+
+T007 INT1339 Ngon ngu lap trinh C++ 25/11/2021 08:00 02
+
+T004 INT1155 Tin hoc co so 2 25/11/2021 13:30 04
+
+T005 INT1155 Tin hoc co so 2 25/11/2021 15:00 05
+
+T002 INT1155 Tin hoc co so 2 04/12/2021 08:00 02
+
+T003 INT1155 Tin hoc co so 2 04/12/2021 13:30 03
+
+T008 INT1339 Ngon ngu lap trinh C++ 04/12/2021 13:30 03
+
+T009 INT1339 Ngon ngu lap trinh C++ 04/12/2021 13:30 04
+
+T010 INT1339 Ngon ngu lap trinh C++ 04/12/2021 15:00 05
+
+ 
+Giới hạn thời gian: 2s
+
+Giới hạn bộ nhớ: 65536 Kb
+
+Bài tập này yêu cầu sử dụng hàm main cho sẵn như sau:
+
+C/C++
+int main() {
+	int n, m;
+	cin >> n >> m;
+	cin.ignore();
+	MonHoc mh[100];
+	LichThi lt[1000];
+	for (int i = 0; i < n; i++) {
+		cin >> mh[i];
+	}
+	for (int i = 0; i < m; i++) {
+		cin >> lt[i];
+	}
+	process(mh, n, lt, m);
+	for (int i = 0; i < m; i++) {
+		cout << lt[i];
+	}
+}
+
+bai lam:
+#include<bits/stdc++.h>
+using namespace std;
+int dem=0;
+class MonHoc{
+	public:
+	string mamh,tenmon;
+	friend istream& operator >> (istream &in ,MonHoc &a){
+		in>>a.mamh;
+		getline(cin>>ws,a.tenmon);
+		return in;
+	}
+};
+class LichThi{
+	private:
+		string ma,mamon,ngay,gio,nhom;
+	public:
+		string mon;
+		friend istream& operator >>(istream &in,LichThi &a){
+			dem++;
+			in>>a.mamon>>a.ngay>>a.gio>>a.nhom;
+			string s=to_string(dem);
+			while(s.length()<3){
+				s="0"+s;
+			}
+			s="T"+s;
+			a.ma=s;
+			return in;
+		}
+		friend bool operator <(LichThi a, LichThi b){
+			string s1=a.ngay,s2=b.ngay;
+			int n1=(s1[0]-'0')*10+s1[1]-48, n2=(s2[0]-'0')*10+s2[1]-48;
+			int t1=(s1[3]-'0')*10+s1[4]-48, t2=(s2[3]-'0')*10+s2[4]-48;
+			string nam1=s1.substr(6), nam2=s2.substr(6);
+			if(stoi(nam1)!=stoi(nam2))return nam1<nam2;
+			if(t1!=t2) return t1<t2;
+			if(n1!=n2) return n1<n2;
+			if(a.gio!=b.gio) return a.gio<b.gio;
+			else return a.mamon<b.mamon;
+		}
+		friend ostream& operator <<(ostream &out, LichThi a){
+			out<<a.ma<<" "<<a.mamon<<" "<<a.mon<<" "<<a.ngay<<" "<<a.gio<<" "<<a.nhom<<endl;
+			return out;
+		}
+		string x(){
+			return mamon;
+		}
+};
+	void process(MonHoc mh[],int n,LichThi lt[],int m){
+		for(int i=0;i<m;i++){
+			for(int j=0;j<n;j++){
+				if(mh[j].mamh==lt[i].x()){
+					lt[i].mon=mh[j].tenmon;
+					break;
+				}
+			}
+		}
+		sort(lt,lt+m);
+	}
+int main() {
+	int n, m;
+	cin >> n >> m;
+	cin.ignore();
+	MonHoc mh[100];
+	LichThi lt[1000];
+	for (int i = 0; i < n; i++) {
+		cin >> mh[i];
+	}
+	for (int i = 0; i < m; i++) {
+		cin >> lt[i];
+	}
+	process(mh, n, lt, m);
+	for (int i = 0; i < m; i++) {
+		cout << lt[i];
+	}
+}

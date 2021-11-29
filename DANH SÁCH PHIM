@@ -1,0 +1,157 @@
+ DANH SÁCH PHIM
+
+Trên hệ thống phim của một website có các thông tin bộ phim bao gồm Mã phim, Tên phim, Ngày khởi chiếu, Số tập phim, Thể loại. Mã phim được đánh số tự động từ P001, P002 và tự động tăng dần. Thể loại phim bao gồm thông tin Mã thể loại và Tên thể loại. Mã thể loại được đanh số tự động tăng dần từ TL001, TL002
+
+Cho danh sách các phim trên hệ thống, hãy thực hiện sắp xếp danh sách các bộ phim theo thứ tự ưu tiên ngày khởi chiếu tăng dần, tên phim sắp xếp theo thứ tự từ điển, số tập phim giảm dần.
+
+Input:
+
+Dòng đầu tiên cho 2 số N, M lần lượt là số lượng thể loại và số lượng bộ phim.
+
+N dòng tiếp theo là thông tin tên thể loại. Mã thể loại tự động sinh theo thứ tự nhập vào
+
+M dòng còn lại mỗi dòng là thông tin phim bao gồm Mã thể loại, ngày khởi chiếu (dd/mm/yyyy) tên phim và số tập phim (số nguyên tối đa 10000).
+
+Output:
+
+Danh sách phim đã sắp xếp như mẫu, mỗi phim trên một dòng
+
+Ví dụ:
+
+Input
+
+Output
+
+2 3
+
+Hai huoc
+
+Tinh cam
+
+TL001
+
+25/11/2021
+
+Phim so 1
+
+10
+
+TL001
+
+04/12/2021
+
+Phim so 2
+
+15
+
+TL002
+
+25/11/2021
+
+Phim so 3
+
+5
+
+P001 Hai huoc 25/11/2021 Phim so 1 10
+P003 Tinh cam 25/11/2021 Phim so 3 5
+P002 Hai huoc 04/12/2021 Phim so 2 15
+
+ 
+Giới hạn thời gian: 2s
+
+Giới hạn bộ nhớ: 65536 Kb
+
+Bài tập này yêu cầu sử dụng hàm main cho sẵn như sau:
+
+C/C++
+int main() {
+	int n, m;
+	cin >> n >> m;
+	cin.ignore();
+	TheLoai tl[100];
+	Phim p[1000];
+	for (int i = 0; i < n; i++) {
+		cin >> tl[i];
+	}
+	for (int i = 0; i < m; i++) {
+		cin >> p[i];
+	}
+	process(tl, n, p, m);
+	for (int i = 0; i < m; i++) {
+		cout << p[i];
+	}
+}
+
+bai lam:
+#include<bits/stdc++.h>
+using namespace std;
+int dem=0;
+class TheLoai{
+	public:
+		string theloai;
+		friend istream& operator >>(istream &in,TheLoai &a){
+			getline(cin>>ws,a.theloai);
+			return in;
+		}
+};
+class Phim{
+	private :
+		string tl,ma,ngay,sttphim;
+	    int tap;
+	public:
+		string tloai;
+			friend istream& operator >>(istream &in,Phim &a){
+				in>>a.tl>>a.ngay;
+				getline(in>>ws,a.sttphim);
+				in>>a.tap;
+				dem++;
+				a.ma=to_string(dem);
+				while(a.ma.length()<3){
+					a.ma="0"+a.ma;
+				}
+				a.ma="P"+a.ma;
+				return in;
+			}
+		friend bool operator < (Phim a,Phim b){
+			string s1=a.ngay,s2=b.ngay;
+			int n1=(s1[0]-'0')*10+s1[1]-48, n2=(s2[0]-'0')*10+s2[1]-48;
+			int t1=(s1[3]-'0')*10+s1[4]-48, t2=(s2[3]-'0')*10+s2[4]-48;
+			string nam1=s1.substr(6), nam2=s2.substr(6);
+			if(stoi(nam1)!=stoi(nam2))return nam1<nam2;
+			if(t1!=t2) return t1<t2;
+			if(n1!=n2) return n1<n2;
+		    if(a.sttphim!=b.sttphim) return a.sttphim<b.sttphim;
+		    else return a.tap>b.tap;
+		}
+		friend ostream& operator <<(ostream &out,Phim a){
+			out<<a.ma<<" "<<a.tloai<<" "<<a.ngay<<" "<<a.sttphim<<" "<<a.tap<<endl;
+			return out;
+		}
+		string x(){
+			return tl;
+		}
+};
+  void	process(TheLoai tl[], int n,Phim p[],int m){
+	        for(int i=0;i<m;i++){
+	        	int z=stoi(p[i].x().substr(2));
+	        	p[i].tloai=tl[z-1].theloai;
+			}
+			sort(p,p+m);
+}
+int main() {
+	int n, m;
+	cin >> n >> m;
+	cin.ignore();
+	TheLoai tl[100];
+	Phim p[1000];
+	for (int i = 0; i < n; i++) {
+		cin >> tl[i];
+	}
+	for (int i = 0; i < m; i++) {
+		cin >> p[i];
+	}
+	process(tl, n, p, m);
+	for (int i = 0; i < m; i++) {
+		cout << p[i];
+	}
+}

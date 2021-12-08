@@ -1,0 +1,50 @@
+Bài 25. Cặp số có tổng lớn hơn k
+Cho mảng a gồm n phần tử và số nguyên dương k.
+Đếm số lượng cặp số có tổng lớn hơn k.
+Input
+Dòng thứ 1 là số lượng test case T ( 1≤T≤100).
+Mỗi test case gồm 2 dòng, dòng thứ 1 là số lượng phần tử trong mảng và số nguyên
+dương k (1≤n, k ≤106
+)
+
+Dòng thứ 2 là n phần tử trong mảng (-106≤ ai≤106
+).
+
+Output
+In ra số lượng cặp số có tổng lớn hơn k trên mỗi dòng.
+
+Ví dụ
+
+Input
+Input Output
+2
+4 5
+2 3 4 5
+3 3
+1 2 3
+
+5
+2
+
+bai lam:
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t; cin>>t;
+	while(t--){
+		int n,k; cin>>n>>k;
+		int a[n];
+		for(int i=0;i<n;i++){
+			cin>>a[i];
+		}
+		sort(a,a+n);
+		int dem=0;
+		for(int i=0;i<n-1;i++){
+			auto it=lower_bound(a+i,a+n,k-a[i]);
+			if(n-(it-a)-1>=0){
+		    	dem+=n-(it-a)-1;
+    		}
+		}
+		cout<<dem<<endl;
+	}
+}

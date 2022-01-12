@@ -1,0 +1,75 @@
+Bài 5. Quân mã.
+Cho một quân mã trên bàn cờ vua tại vị trí ST. Nhiệm vụ của bạn là hãy tìm số bước di
+chuyển ít nhất để đưa quân mã tới vị trí EN.
+
+Input:
+Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+Mỗi test gồm 2 xâu dạng “xy” và “uv”, trong đó x, y là kí tự trong “abcdefgh” còn y, v là
+số thuộc 1, 2, 3, 4, 5, 6, 7, 8.
+Output:
+Với mỗi test, in ra đáp án tìm được trên một dòng.
+Ví dụ:
+
+Input: Output
+8
+e2 e4
+a1 b2
+b2 c3
+a1 h8
+a1 h7
+h8 a1
+b1 c3
+f6 f6
+
+2
+4
+2
+6
+5
+6
+1
+0
+
+bài làm:
+#include<bits/stdc++.h>
+using namespace std;
+string s,e;
+int x,y,u,v;
+int a[100][100];
+int dx[8]={-2,-2,-1,1,2,2,1,-1};
+int dy[8]={-1,1,2,2,1,-1,-2,-2};
+int d[100][100]={0};
+void inp(){
+	cin>>s>>e;
+	y=s[0]-'a'+1  ; x=s[1]-'0';
+	v=e[0]-'a'+1  ; u=e[1]-'0';
+}
+void bfs(int i,int j){
+	queue<pair<int,int>> q;
+	q.push({i,j});
+	d[i][j]=0;
+	if(s==e) return;
+	while(!q.empty()){
+		pair<int,int> it=q.front();
+		q.pop();
+		for(int k=0;k<8;k++){
+			int i1=it.first+dx[k];
+			int j1=it.second+dy[k];
+			if(i1>=1 && i1<=8 && j1>=1 && j1<=8){
+				d[i1][j1]=d[it.first][it.second]+1;
+				if(i1==u && j1==v){
+					return;
+				}
+				q.push({i1,j1});
+			}
+		}
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		inp();
+		bfs(x,y);
+		cout<<d[u][v]<<endl;
+	}
+}

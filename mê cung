@@ -1,0 +1,92 @@
+Bạn được đưa cho một bản đồ của một mê cung, và nhiệm vụ của bạn là tìm đường đi từ đầu đến cuối. Bạn có thể đi bộ sang trái, phải, lên và xuống.
+
+Đầu vào Dòng nhập
+
+đầu tiên có hai số nguyênn và m: chiều cao và chiều rộng của bản đồ.
+
+Sau đó, cón dòng của mnhân vật mô tả mê cung. Mỗi ký tự là .(sàn), #(tường), A(bắt đầu) hoặc B(kết thúc). Có chính xác một Avà một Btrong đầu vào.
+
+Đầu ra
+
+Đầu tiên in "CÓ", nếu có đường dẫn và "KHÔNG" nếu không.
+
+Nếu có một đường dẫn, hãy in độ dài của đường dẫn đó ngắn nhất và mô tả của nó dưới dạng một chuỗi bao gồm các ký tự L(trái), R(phải), U(lên) và D(xuống).
+Bạn có thể in bất kỳ giải pháp hợp lệ nào.
+
+Hạn chế
+1 ≤ n , m ≤ 1000
+Ví dụ
+
+Đầu vào: Đầu ra:
+5 8
+########
+#.A#...#
+#.##.#B#
+#......#
+########
+
+
+YES
+9
+LDDRRRRRU
+
+bài làm
+#include<bits/stdc++.h>
+using namespace std;
+int n,m;
+char a[1001][1001];
+pair<int,int> path[4]={{-1,0},{0,-1},{0,1},{1,0}};
+string s1="ULRD";
+int d[1001][1001];
+bool bfs(int i,int j){
+	a[i][j]='#';
+	queue<pair<int,int>> q;
+	q.push({i,j});
+	while(!q.empty()){
+		pair<int,int> x=q.front();
+		q.pop();
+		for(int k=0;k<4;k++){
+			int i1=x.first+path[k].first;
+			int j1=x.second+path[k].second;
+			if(i1>=1 && i1<=n && j1>=1 && j1<=m && a[i1][j1]!='#'){
+				d[i1][j1]=k;
+				if(a[i1][j1]=='B'){
+					return true;
+				}
+				q.push({i1,j1});
+				a[i1][j1]='#';
+			}
+		}
+	}
+	return false;
+}
+int main(){
+    cin>>n>>m;
+	pair<int,int> s,e;
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			cin>>a[i][j];
+			if(a[i][j]=='A'){
+				s.first=i ; s.second=j;
+			}
+			else if(a[i][j]=='B'){
+				e.first=i  ; e.second=j;
+			}
+		}
+	}
+	if(bfs(s.first,s.second)){
+		string res="";
+		int i=e.first  ; int j=e.second;
+		while(i!=s.first || j!=s.second){
+			int k=d[i][j];
+			res+=string(1,s1[k]);
+			i=i-path[k].first;
+			j=j-path[k].second;
+		}
+		reverse(res.begin(),res.end());
+		cout<<"YES"<<endl;
+		cout<<res.length()<<endl;
+		cout<<res<<endl;
+	}
+	else cout<<"NO"<<endl;
+}

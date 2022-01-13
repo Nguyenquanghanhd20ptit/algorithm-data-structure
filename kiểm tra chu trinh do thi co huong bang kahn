@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+int n,m;
+vector<int> v[1001];
+int in[1001];
+void inp(){
+	cin>>n>>m;
+	for(int i=0;i<m;i++){
+		int x,y; cin>>x>>y;
+		v[x].push_back(y);
+		in[y]++;
+	}
+}
+bool kahn(){
+	int dem=0;
+	queue<int> q;
+	for(int i=1;i<=n;i++){
+		if(in[i]==0){
+			q.push(i);
+		}
+	}
+	while(!q.empty()){
+		int u=q.front(); q.pop();
+		dem++;
+		for(auto x:v[u]){
+			in[x]--;
+			if(in[x]==0){
+				q.push(x);
+			}
+		}
+	}
+	if(dem==n) return false;
+	else return true;
+}
+
+int main(){
+	inp();
+	if(kahn()){
+		cout<<"YES"<<endl;
+	}
+	else cout<<"NO"<<endl;
+}

@@ -1,0 +1,24 @@
+string mu[1001],gt[1001];
+string operator*(string a,string b){
+	int n=a.length(),m=b.length(),temp=n+m-1;
+	string kq="";
+	vector<int> v(n+m,0);
+	for(int i=n-1;i>=0;i--){
+		for(int j=m-1;j>=0;j--){
+			v[i+j+1]+=(a[i]-'0')*(b[j]-'0');
+		}
+	}
+	for(int i=n+m-1;i>=0;i--){
+		if(v[i] >9){
+			v[i-1]+= v[i]/10;
+			v[i]%=10;
+		}
+	}
+	for(int i=0;i<n+m-1;i++){
+		if(v[i]!=0){
+			temp=i; break;
+		}
+	}
+	for(int i=temp;i<n+m;i++) kq+='0'+v[i];
+	return kq;
+}

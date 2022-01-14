@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+int n,m;
+bool a[1001];
+vector<int> v[1001],v1[1001];
+stack<int> st;
+void inp(){
+	cin>>n>>m;
+	for(int i=0;i<m;i++){
+		int x,y; cin>>x>>y;
+		v[x].push_back(y);
+		v1[y].push_back(x);
+	}
+}
+void dfs1(int i){
+	a[i]=true;
+	for(auto x:v[i]){
+		if(a[x]==false){
+			dfs1(x);
+		}
+	}
+	st.push(i);
+}
+void dfs2(int i){
+	a[i]=true;
+	cout<<i<<" ";
+	for(auto x:v1[i]){
+		if(a[x]==false){
+			dfs2(x);
+		}
+	}
+}
+void lienthong(){
+	memset(a,false,sizeof(a));
+	for(int i=1;i<=n;i++){
+		if(a[i]==false){
+			dfs1(i);
+		}
+	}
+	cout<<endl;
+	memset(a,false,sizeof(a));
+	while(!st.empty()){
+		int x=st.top();  st.pop();
+		if(a[x]==false){
+			dfs2(x);
+			cout<<endl;
+		}
+	}
+}
+int main(){
+	inp();
+	lienthong();
+}

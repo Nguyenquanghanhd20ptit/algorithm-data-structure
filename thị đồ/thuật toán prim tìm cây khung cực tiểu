@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+int n,m;
+bool used[1001];
+struct edge{
+	int a,b,w;
+};
+vector<pair<int,int>> canh[1001];
+void inp(){
+	cin>>n>>m;
+	for(int i=0;i<m;i++){
+		int x,y,z; cin>>x>>y>>z;
+		canh[x].push_back({y,z});
+		canh[y].push_back({x,z});
+	}
+	memset(used,false,sizeof(used));
+}
+void prim(int u){
+	vector<edge> mst;
+	int d=0;
+	used[u]=true;
+	while(mst.size()<n-1){
+		int min_w=INT_MAX;
+		int x,y;
+		for(int i=1;i<=n;i++){
+			if(used[i]==true){
+				for(auto j:canh[i]){
+					if(used[j.first]==false && j.second<min_w){
+						x=i; y=j.first; min_w=j.second;
+					}
+				}
+			}
+		}
+		edge e;
+		e.a=x; e.b=y; e.w=min_w;
+		mst.push_back(e);
+		d+=e.w;
+		used[y]=true;
+	}
+	if(mst.size()!=n-1){
+		cout<<"khong ton tai cay khung"<<endl;
+	}
+	else{
+		cout<<d<<endl;
+		for(auto x:mst){
+			cout<<x.a<<" "<<x.b<<" "<<x.w<<endl;
+		}
+	}
+}
+int main(){
+	inp();
+	prim(1);
+}

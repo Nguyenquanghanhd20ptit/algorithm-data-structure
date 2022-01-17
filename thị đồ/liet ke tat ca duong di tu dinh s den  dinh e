@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+int n,m,s,e;
+bool a[1001];
+vector<int> v[1001];
+void inp(){
+	cin>>n>>m>>s>>e;
+	for(int i=0;i<m;i++){
+		int x,y; cin>>x>>y;
+		v[x].push_back(y);
+	}
+}
+void printpath(vector<int>& path){  
+    int size = path.size();
+    for (int i = 0; i < size; i++)
+        cout << path[i] << " ";   
+    cout << endl;
+}
+
+int isNotVisited(int x, vector<int>& path){   // kiem tra xem vector da co dinh chuan bi them vao chua
+    int size = path.size();
+    for (int i = 0; i < size; i++)
+        if (path[i] == x)
+            return 0;
+    return 1;
+}
+
+void findpaths(int s, int e){
+    queue<vector<int> > q;
+    vector<int> path;
+    path.push_back(s);
+    q.push(path);
+    while (!q.empty()) {
+        path = q.front();
+        q.pop();
+        int last = path[path.size() - 1];
+        
+        if (last == e) printpath(path);   
+        for (auto x:v[last]) {
+            if (isNotVisited(x, path)) {
+                vector<int> newpath(path); // 1 vector moi giong path.
+                newpath.push_back(x);
+                q.push(newpath);
+            }
+        }
+    }
+}
+ 
+int main(){
+	inp();
+	findpaths(s,e);
+    return 0;
+}

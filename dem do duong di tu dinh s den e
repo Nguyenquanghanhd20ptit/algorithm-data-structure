@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+using namespace std;
+int n,m,e,s;
+bool a[1001];
+vector<int> v[1001];
+int dem=0;
+void inp(){
+	cin>>n>>m>>s>>e;
+	for(int i=0;i<m;i++){
+		int x,y; cin>>x>>y;
+		v[x].push_back(y);
+		v[y].push_back(x);
+	}
+}
+void dfs(int s,int e){
+	a[s]=true;
+	for(auto x:v[s]){
+		if(a[x]==false){
+			dfs(x,e);
+    	}
+		if(s==e) dem++; 
+	}
+}
+int main(){
+	inp();
+	dem=0;
+	dfs(s,e);
+	cout<<dem<<endl;
+}

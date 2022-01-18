@@ -1,0 +1,119 @@
+Tìm đường 2.
+Cho một bảng S[][] kích thước N x M, bao gồm các ô trống, các vật cản. Ban đầu bạn ở vị
+trí S. Nhiệm vụ của bạn là hãy di chuyển tới vị trí T, sao cho số lần đổi hướng không quá
+hai lần.
+Input:
+Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+
+Mỗi test bắt đầu bởi hai số nguyên N và M (1 ≤ N, M ≤ 500).
+N dòng tiếp theo, mỗi dòng gồm M kí tự mô tả bảng S. Trong đó: ‘.’ là một ô trống, ‘*’ là
+vật cản, ‘S’ là vị trí xuất phát và ‘T’ là vị trí đích. (Chỉ có một vị trí S và T duy nhất).
+Output:
+Với mỗi test, in ra “YES” nếu tìm được đường đi, ra in “NO” trong trường hợp ngược lại.
+Ví dụ:
+Input: Output
+2
+5 5
+..S..
+****.
+T....
+****.
+
+.....
+5 5
+S....
+****.
+
+.....
+.****
+..T..
+
+YES
+NO
+
+bai lam:
+#include<bits/stdc++.h>
+using namespace std;
+int n,m,x,y;
+char a[1001][1001];
+int dx[4]={-1,0,0,1};
+int dy[4]={0,-1,1,0};
+int d[1001][1001];
+string s="ULRD";
+vector<string> v;
+void inp(){
+	cin>>n>>m;
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			cin>>a[i][j];
+			if(a[i][j]=='S'){
+				x=i; y=j;
+			}
+		}
+	}
+	memset(d,0,sizeof(d));
+}
+bool check(vector<pair<int,int>> u,int i,int j){
+	if(a[i][j]=='*') return false;
+	for(auto x:u){
+		if(x.first==i && x.second==j ){
+			return false;
+		}
+	}
+	return true;
+}
+void inkq(vector<pair<int,int>> &path){
+	string res="";
+	for(auto i=1;i<path.size();i++){
+		int k=d[path[i].first][path[i].second];
+		res+=s[k];
+	}
+	v.push_back(res);
+}
+void bfs(int i,int j){
+	queue<vector<pair<int,int>>> q;
+	vector<pair<int,int>> u;
+	u.push_back({i,j});
+	q.push(u);
+	while(!q.empty()){
+		vector<pair<int,int>> path=q.front(); q.pop();
+		pair<int,int> last=*path.rbegin();
+		int fi=last.first, se=last.second;
+		if(a[fi][se]=='T'){
+			inkq(path);
+		}
+		for(int k=0;k<4;k++){
+			int i1=fi+dx[k];
+			int j1=se+dy[k];
+			if(check(path,i1,j1) && i1>=1 && i1<=n && j1>=1 && j1<=m){
+				vector<pair<int,int>> new_path(path);
+				new_path.push_back({i1,j1});
+				d[i1][j1]=k;
+				q.push(new_path);
+			}
+		}
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		inp();
+		bfs(x,y);
+		int kt=INT_MAX;
+		for(auto it:v){
+			int dem=0;
+			char res=it[0];
+			for(int i=0;i<it.length();i++){
+				if(res!=it[i]){
+					dem++;
+					res=it[i];
+				}
+			}
+			kt=min(kt,dem);
+		}
+		
+		if(kt<=2) cout<<"YES"<<endl;
+		else cout<<"NO"<<endl;
+		v.clear();
+	}
+}

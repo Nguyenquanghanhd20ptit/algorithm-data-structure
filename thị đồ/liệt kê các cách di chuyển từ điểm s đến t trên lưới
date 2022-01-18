@@ -1,0 +1,80 @@
+test cây
+2
+5 5
+..S..
+****.
+T....
+****.
+
+.....
+5 5
+S....
+****.
+
+.....
+.****
+..T..
+
+
+#include<bits/stdc++.h>
+using namespace std;
+int n,m,x,y;
+char a[1001][1001];
+int dx[4]={-1,0,0,1};
+int dy[4]={0,-1,1,0};
+void inp(){
+	cin>>n>>m;
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			cin>>a[i][j];
+			if(a[i][j]=='S'){
+				x=i; y=j;
+			}
+		}
+	}
+}
+bool check(vector<pair<int,int>> u,int i,int j){
+	if(a[i][j]=='*') return false;
+	for(auto x:u){
+		if(x.first==i && x.second==j ){
+			return false;
+		}
+	}
+	return true;
+}
+void inkq(vector<pair<int,int>> &path){
+	for(auto x:path){
+		cout<<x.first<<" "<<x.second<<endl;
+	}
+	cout<<endl;
+}
+void bfs(int i,int j){
+	queue<vector<pair<int,int>>> q;
+	vector<pair<int,int>> u;
+	u.push_back({i,j});
+	q.push(u);
+	while(!q.empty()){
+		vector<pair<int,int>> path=q.front(); q.pop();
+		pair<int,int> last=*path.rbegin();
+		int fi=last.first, se=last.second;
+		if(a[fi][se]=='T'){
+			inkq(path);
+		}
+		for(int k=0;k<4;k++){
+			int i1=fi+dx[k];
+			int j1=se+dy[k];
+			if(check(path,i1,j1) && i1>=1 && i1<=n && j1>=1 && j1<=m){
+				vector<pair<int,int>> new_path(path);
+				new_path.push_back({i1,j1});
+				q.push(new_path);
+			}
+		}
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		inp();
+		bfs(x,y);
+	}
+}

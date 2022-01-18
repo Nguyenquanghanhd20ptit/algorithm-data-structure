@@ -45,9 +45,59 @@ void findpaths(int s, int e){
         }
     }
 }
- 
+ 2,
 int main(){
 	inp();
 	findpaths(s,e);
     return 0;
+}
+
+#include<bits/stdc++.h>
+using namespace std;
+int n,m,s,e;
+vector<int> v[1001];
+void inp(){
+	cin>>n>>m>>s>>e;
+	for(int i=0;i<m;i++){
+		int x,y; cin>>x>>y;
+		v[x].push_back(y);
+	}
+}
+bool check(vector<int> u,int a){
+	for(auto x:u){
+		if(x==a){
+			return false;
+		}
+	}
+	return true;
+}
+void inkq(vector<int> &path){
+	for(auto x:path){
+		cout<<x<<" ";
+	}
+	cout<<endl;
+}
+void bfs(int s,int e){
+	queue<vector<int>> q;
+	vector<int> u;
+	u.push_back(s);
+	q.push(u);
+	while(!q.empty()){
+		vector<int> path=q.front(); q.pop();
+		int last=*path.rbegin();
+		if(last==e){
+			inkq(path);
+		}
+		for(auto x:v[last]){
+			if(check(path,x)){
+				vector<int> new_path(path);
+				new_path.push_back(x);
+				q.push(new_path);
+			}
+		}
+	}
+}
+int main(){
+	inp();
+	bfs(s,e);
 }

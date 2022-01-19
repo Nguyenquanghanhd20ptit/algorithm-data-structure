@@ -78,6 +78,9 @@ int main(){
 		bfs(x,y);
 	}
 }
+
+
+
 in theo trai phai len xuong
 #include<bits/stdc++.h>
 using namespace std;
@@ -85,7 +88,6 @@ int n,m,x,y;
 char a[1001][1001];
 int dx[4]={-1,0,0,1};
 int dy[4]={0,-1,1,0};
-int d[1001][1001];
 string s="ULRD";
 void inp(){
 	cin>>n>>m;
@@ -97,7 +99,6 @@ void inp(){
 			}
 		}
 	}
-	memset(d,0,sizeof(d));
 }
 bool check(vector<pair<int,int>> u,int i,int j){
 	if(a[i][j]=='*') return false;
@@ -111,8 +112,15 @@ bool check(vector<pair<int,int>> u,int i,int j){
 void inkq(vector<pair<int,int>> &path){
 	string res="";
 	for(auto i=1;i<path.size();i++){
-		int k=d[path[i].first][path[i].second];
-		res+=s[k];
+		int x=path[i].first-path[i-1].first;
+		int y=path[i].second-path[i-1].second;
+		int z=0;
+		for(int k=0;k<4;k++){
+			if(dx[k]==x && dy[k]==y){
+				z=k;
+			}
+		}
+		res+=s[z];
 	}
 	cout<<res<<endl;
 }
@@ -134,7 +142,6 @@ void bfs(int i,int j){
 			if(check(path,i1,j1) && i1>=1 && i1<=n && j1>=1 && j1<=m){
 				vector<pair<int,int>> new_path(path);
 				new_path.push_back({i1,j1});
-				d[i1][j1]=k;
 				q.push(new_path);
 			}
 		}

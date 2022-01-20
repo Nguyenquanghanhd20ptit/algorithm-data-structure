@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+using namespace std;
+int n,m,s;
+int inf=1e9;
+int d[1001],parent[1001]={0};
+bool a[1001];
+vector<pair<int,int>> v[1001];
+void inp(){
+	cin>>n>>m>>s;
+	for(int i=0;i<m;i++){
+		int x,y,z;  cin>>x>>y>>z;
+		v[x].push_back({y,z});
+		v[y].push_back({x,z});
+	}
+	memset(a,false,sizeof(a));
+	for(int i=1;i<=n;i++){
+		d[i]=inf;
+	}
+}
+void dijkastra(int s){
+	d[s]=0;
+	for(int i=1;i<=n;i++){
+		int u=-1;
+		for(int j=1;j<=n;j++){
+			if(a[j]==false && (u==-1 || d[u]>d[j])){
+				u=j;
+			}
+		}
+		if(d[u]==inf) break;
+		a[u]=true;
+		for(auto edge :v[u]){
+			int x=edge.first;
+			int len=edge.second;
+			if(d[u]+len<d[x]){
+				d[x]=d[u]+len;
+				parent[x]=u;
+			}
+		}
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		inp();
+		dijkastra(s);
+		for(int i=1;i<=n;i++){
+			cout<<d[i]<<endl;
+		}
+	}
+}

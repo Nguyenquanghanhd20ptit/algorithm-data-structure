@@ -1,0 +1,94 @@
+Từ điển
+Cho tập từ ghi trong trừ điển dic[] và một bảng hai chiều A[M][N] các ký tự. Hãy
+tạo nên tất cả các từ có mặt trong từ điển dic[] bằng cách nối các ký tự kề nhau
+trong mảng A[][]. Chú ý, phép nối các ký tự kề nhau trong mảng A[][] được thực
+hiện theo 8 hướng nhưng không có phần tử A[i][j] nào được lặp lại. Ví dụ với từ
+điển dic[] ={ “GEEKS”, “FOR”, “QIUZ”, “GO”} và mảng A[][] dưới đây sẽ cho ta
+kết quả: “GEEKS”, “QUIZ”
+
+G I Z
+U E K
+Q S E
+Input:
+● Dòng đầu tiên đưa vào số lượng bộ test T.
+● Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai phần: phần thứ
+nhất đưa vào ba số K, M, N tương ứng với số từ của từ điển dic[], số hàng và
+số cột của ma trận ký tự A[M][N]; dòng tiếp theo đưa vào K từ của từ điển
+dic[]; dòng cuối cùng đưa vào các phần tử A[i][j].
+● T, K, M, N th*a mãn ràng buộc: 1≤T ≤10+ 1≤K≤100+ 1≤ M, N ≤3.
+Output:
+
+18
+
+● Đưa ra theo thứ tự tăng dần các từ có mặt trong từ điển dic[] được tạo ra từ
+ma trận A[][]. Đưa ra -1 nếu không thể tạo ra từ nào thuộc dic[] từ A[][].
+Input Output
+1
+4 3 3
+GEEKS FOR QUIZ GO
+G I Z
+U E K
+Q S E
+
+GEEKS QUIZ
+
+bai lam:
+#include<bits/stdc++.h>
+using namespace std;
+int k,n,m;
+char a[1001][1001],used[1001][1001];
+vector<string> v,s;
+int dx[8]={-1,-1,-1,0,0,1,1,1};
+int dy[8]={-1,0,1,-1,1,-1,0,1};
+void inp(){
+	cin>>k>>n>>m;
+	for(int i=0;i<k;i++){
+		string res; cin>>res;
+		s.push_back(res);
+	}
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			cin>>a[i][j];
+		}
+	}
+}
+void dfs(int i,int j, string res){
+	for(int l=0;l<k;l++){
+		if(res==s[l]){
+			v.push_back(res);
+		}
+	}
+	for(int l=0;l<8;l++){
+		int i1=i+dx[l];
+		int j1=j+dy[l];
+		if(i1>=1 && i1<=n && j1>=1 && j1<=m && used[i1][j1]==false){
+			used[i1][j1]=true;
+			dfs(i1,j1,res+a[i1][j1]);
+			used[i1][j1]=false;
+		}
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		inp();
+		for(int i=1;i<=n;i++){
+			for(int j=1;j<=m;j++){
+				memset(used,false,sizeof(used));
+				used[i][j]=true;
+				string res="";
+				dfs(i,j,res+a[i][j]);
+			}
+		}
+		if(v.size()==0){
+			cout<<-1<<endl;
+		}
+		else{
+			for(auto x:v){
+			cout<<x<<" ";
+	     	}
+	    	cout<<endl;
+		}
+		v.clear(); s.clear();
+	}
+}

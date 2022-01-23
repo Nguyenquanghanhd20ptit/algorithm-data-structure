@@ -1,0 +1,94 @@
+ LŨY THỪA MA TRẬN
+
+Bài làm tốt nhất
+Cho ma trận vuông A kích thước N x N. Nhiệm vụ của bạn là hãy tính ma trận X = AK với K là số nguyên cho trước. Đáp số có thể rất lớn, hãy in ra kết quả theo modulo 109+7.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 100).
+
+Mỗi test bắt gồm một số nguyên N và K (1 ≤ N ≤ 10, 1 ≤ K ≤ 109) là kích thước của ma trận và số mũ.
+
+Output: 
+
+Với mỗi test, in ra kết quả của ma trận X.
+
+Ví dụ:
+
+Input:
+
+Output
+
+2
+
+2 5
+
+1 1
+
+1 0
+
+3 1000000000
+
+1 2 3
+
+4 5 6
+
+bai lam:
+#include<bits/stdc++.h>
+using namespace std;
+long long n,k,mod=1e9+7;
+struct lt{
+	long long  pos[15][15];
+};
+lt nhan(lt a,lt b){
+	lt res;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			res.pos[i][j]=0;
+			for(int k=0;k<n;k++){
+				res.pos[i][j]=(res.pos[i][j]+(a.pos[i][k]*b.pos[k][j])%mod)%mod;
+	    	}
+		}
+	}
+	return res;
+}
+lt power(lt a,long long k){
+	if(k==1) return a;
+	lt b=power(a,k/2);
+	if(k%2==0) return nhan(b,b);
+	return nhan(a,nhan(b,b));
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		lt x;
+		cin>>n>>k;
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n;j++){
+				cin>>x.pos[i][j];
+			}
+		}
+		lt c=power(x,k);
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n;j++){
+				cout<<c.pos[i][j]<<" ";
+			}
+			cout<<endl;
+		}
+	}
+}
+
+
+7 8 9
+
+8 5
+
+5 3
+
+597240088 35500972 473761863
+
+781257150 154135232 527013321
+
+965274212 272769492 580264779
+
+ 

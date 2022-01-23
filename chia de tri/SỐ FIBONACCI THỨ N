@@ -1,0 +1,92 @@
+SỐ FIBONACCI THỨ N
+
+Bài làm tốt nhất
+Dãy số Fibonacci được xác định bằng công thức như sau:
+
+F[0] = 0, F[1] = 1;
+
+F[n] = F[n-1] + F[n-2] với mọi n >= 2.
+
+Các phần tử đầu tiên của dãy số là 0, 1, 1, 2, 3, 5, 8, ...
+
+Nhiệm vụ của bạn là hãy xác định số Fibonaci thứ n. Do đáp số có thể rất lớn, in ra kết quả theo modulo 109+7.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 1000).
+
+Mỗi test bắt gồm một số nguyên N (1 ≤ N ≤ 109).
+
+Output: 
+
+Với mỗi test, in ra đáp án trên một dòng.
+
+Ví dụ:
+
+Input:
+
+Output
+
+3
+
+2
+
+6
+
+20
+
+ 
+
+1
+
+8
+
+6765
+
+bai lam:
+#include<bits/stdc++.h>
+using namespace std;
+long long k,mod=1e9+7;
+struct lt{
+	long long  pos[10][10];
+};
+lt nhan(lt a,lt b){
+	lt res;
+	for(int i=0;i<2;i++){
+		for(int j=0;j<2;j++){
+			res.pos[i][j]=0;
+			for(int k=0;k<2;k++){
+				res.pos[i][j]=(res.pos[i][j]+(a.pos[i][k]*b.pos[k][j])%mod)%mod;
+	    	}
+		}
+	}
+	return res;
+}
+lt power(lt a,long long k){
+	if(k==1) return a;
+	lt b=power(a,k/2);
+	if(k%2==0) return nhan(b,b);
+	return nhan(a,nhan(b,b));
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		lt x;
+		int dem=0,d[4]={1,1,1,0};
+		for(int i=0;i<2;i++){
+			for(int j=0;j<2;j++){
+				x.pos[i][j]=d[dem];
+				dem++;
+			}
+		}
+		cin>> k;
+		lt c=power(x,k);
+		for(int i=0;i<2;i++){
+			for(int j=0;j<2;j++){
+				cout<<c.pos[i][j]<<" ";
+			}
+			cout<<endl;
+		}
+		cout<<c.pos[0][1]<<endl;
+	}
+}

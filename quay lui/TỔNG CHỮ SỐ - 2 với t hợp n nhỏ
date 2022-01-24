@@ -1,0 +1,103 @@
+TỔNG CHỮ SỐ - 2
+
+Bài làm tốt nhất
+Cho hai số nguyên dương A và B. Tìm số N nhỏ nhất thỏa mãn: A là tổng các chữ số của N, B là tổng bình phương các chữ số của N. Nếu không tồn tại N thỏa mãn A và B hãy đưa ra -1. 
+Giả thiết N có không quá 100 chữ số.
+
+
+Ví dụ với A = 18, B = 162 ta tìm được số nhỏ nhất N=99 vì 9+9=18 và 92 + 92 = 162. Với A = 12, B = 9 ta có kết quả  là -1.
+
+Input: Dòng đầu tiên đưa vào số lượng bộ test T. Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là cặp số A, B được viết trên một dòng. 
+T, A, B thỏa mãn ràng buộc: 1≤T≤100;  1≤A≤100; 1≤B≤10000.
+
+Output: Đưa ra kết quả mỗi test theo từng dòng.
+
+Ví dụ:
+
+ Input
+
+Output
+
+2
+18  162
+12  9
+
+99
+
+-1
+bài làm:
+#include<bits/stdc++.h>
+using namespace std;
+int s,k,a[1001],b[1001],u;
+bool ok=true;
+vector<string> v;
+bool cmp(string a,string b){
+	if(a.length()!=b.length()) return a.length()<b.length();
+	return a<b;
+}
+bool cmp1(char a,char b){
+	return a<b;
+}
+void inp(){
+	cin>>s>>k; u=0; ok=true;
+	for(int i=1;i<=9;i++){
+		a[9-i+1]=i;
+	}
+	memset(b,0,sizeof(b));
+}
+void ql(int x,int cnt,int sum){
+	if(sum==s && cnt <=19){
+		long long res=0;
+		for(int i=1;i<cnt;i++){
+	     	res+=b[i]*b[i];
+    	}
+    	if(res==k){
+    		if(u!=0 || cnt-1!=u) ok=false;
+    		string pos="";
+    		for(int i=1;i<cnt;i++){
+    			pos+=to_string(b[i]);
+			}
+			u=pos.length();
+			v.push_back(pos);
+		}
+	}
+	if(ok== false) return;
+	for(int j=x;j<=9;j++){
+		if(sum+a[j]<=s){
+			b[cnt]=a[j];
+			ql(j,cnt+1,sum+a[j]);
+		}
+	}
+}
+void solve(){
+	inp();
+	ql(1,1,0);
+	if(v.size()==0){
+		cout<<-1<<endl;
+		return;
+	}
+	sort(v.begin(),v.end(),cmp);
+	sort(v[0].begin(),v[0].end(),cmp1);
+	long long x;
+	if(v[0].length()<=18)  x=stoll(v[0]);
+	else{
+		cout<<-1<<endl;
+		return;
+	}
+	for(int i=1;i<v.size();i++){
+		if(v[i].size()==v[0].size()){
+			sort(v[i].begin(),v[i].end(),cmp1);
+			long long y=stoll(v[i]);
+			x=min(x,y);
+		}
+		else break;
+	}
+	cout<<x<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		solve();
+		v.clear();
+	}
+}

@@ -1,0 +1,57 @@
+Khoảng cách chỉnh sửa giữa hai chuỗi là số thao tác tối thiểu cần thiết để biến đổi một chuỗi này thành chuỗi kia.
+
+Các hoạt động được phép là:
+Thêm một ký tự vào chuỗi.
+Xóa một ký tự khỏi chuỗi.
+Thay thế một ký tự trong chuỗi.
+Ví dụ: khoảng cách chỉnh sửa giữa LOVE và MOVIE là 2, vì trước tiên bạn có thể thay thế L bằng M, sau đó thêm I.
+
+Nhiệm vụ của bạn là tính toán khoảng cách chỉnh sửa giữa hai chuỗi.
+
+Đầu vào
+
+Dòng đầu tiên có một chuỗi chứancác ký tự giữa A – Z.
+
+Dòng đầu vào thứ hai có một chuỗi chứamcác ký tự giữa A – Z.
+
+Đầu ra
+
+In một số nguyên: khoảng cách chỉnh sửa giữa các chuỗi.
+
+Hạn chế
+1 ≤ n , m ≤ 5000
+Ví dụ
+
+Đầu vào: Đầu ra:
+LOVE
+MOVIE
+
+
+2
+
+#include<bits/stdc++.h>
+using namespace std;
+const int mod = (int) 1e9 + 7;
+void solve(){
+	string a,b; cin>>a>>b;
+	int n=a.length(), m=b.length();
+	int d[n+100][m+100]={0};
+	for(int i=1;i<=n;i++){
+        d[i][0] = i;     // loai bo thang ria vi ta lay min o duoi;
+    }
+    for(int i=1;i<=m;i++){
+        d[0][i] = i;
+    }
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			if(a[i-1]==b[j-1]) d[i][j]=d[i-1][j-1];
+			else d[i][j]=min(d[i-1][j-1],min(d[i-1][j],d[i][j-1]))+1;
+		}
+	}
+	cout<<d[n][m]<<endl;
+}
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+	solve();
+}

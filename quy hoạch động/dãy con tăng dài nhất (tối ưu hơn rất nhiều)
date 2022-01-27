@@ -1,0 +1,51 @@
+Giới hạn thời gian: 1.00 giây Giới hạn bộ nhớ: 512 MB
+Bạn được cung cấp một mảng có chứansố nguyên. Nhiệm vụ của bạn là xác định dãy con dài nhất tăng dần trong mảng, tức là dãy con dài nhất mà mọi phần tử đều lớn hơn 
+phần tử trước đó.
+
+Một dãy con là một dãy có thể được dẫn xuất từ ​​mảng bằng cách xóa một số phần tử mà không làm thay đổi thứ tự của các phần tử còn lại.
+
+Đầu vào
+
+Dòng đầu tiên chứa một số nguyênn: kích thước của mảng.
+
+Sau này cónsố nguyênx1,x2, … ,xn: nội dung của mảng.
+
+Đầu ra
+
+In độ dài của dãy con tăng dần dài nhất.
+
+Hạn chế
+1 ≤ n ≤ 2 ⋅105
+1 ≤xi≤109
+Ví dụ
+
+Đầu vào: Đầu ra:
+8
+7 3 5 3 6 2 9 8
+
+
+4
+
+bai lam:
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	ios_base::sync_with_stdio(0);
+    cin.tie(0);
+	int n; cin>>n;
+	int a[n+1];
+	for(int i=0;i<n;i++){
+		cin>>a[i];
+	}
+	vector<int> d{a[0]};
+	for(int i=1;i<n;i++){
+		if(d[d.size()-1]<a[i]){
+			d.push_back(a[i]);
+		}
+		else{
+			auto x=lower_bound(d.begin(),d.end(),a[i]);
+			d[x-d.begin()]=a[i];
+		}
+	}
+	cout<<d.size()<<endl;
+}

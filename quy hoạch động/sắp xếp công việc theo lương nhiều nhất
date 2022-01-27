@@ -1,0 +1,63 @@
+Giới hạn thời gian: 1.00 giây Giới hạn bộ nhớ: 512 MB
+Có ndự án bạn có thể tham dự. Đối với mỗi dự án, bạn biết ngày bắt đầu và ngày kết thúc của dự án và số tiền bạn sẽ nhận được làm phần thưởng. 
+Bạn chỉ có thể tham dự một dự án trong một ngày.
+
+Số tiền tối đa bạn có thể kiếm được là bao nhiêu?
+
+Đầu vào
+
+Dòng đầu tiên chứa một số nguyênn: số lượng dự án.
+
+Sau này, cóncác dòng. Mỗi dòng như vậy có ba số nguyên a, b, và P: ngày bắt đầu, ngày kết thúc và phần thưởng.
+
+Đầu ra
+
+In một số nguyên: số tiền tối đa bạn có thể kiếm được.
+
+Hạn chế
+1 ≤ n ≤ 2 ⋅105
+1 ≤a≤b≤109
+1 ≤Pi≤109
+Ví dụ
+
+Đầu vào: Đầu ra:
+4
+2 4 4
+3 6 6
+6 8 2
+5 7 3
+
+
+7
+
+bai lam:
+#include "bits/stdc++.h"
+using namespace std;
+#define ar array
+#define ll long long
+ 
+const int mxN = 2e5;
+ar<ll, 3> a[mxN];
+ 
+int main(){
+    int n;
+    cin >> n;
+    ll ans = 0;
+    for (int i = 0; i < n; i++){
+        cin >> a[i][1];
+        cin >> a[i][0];
+        cin >> a[i][2];
+    }
+    sort(a,a+n);
+    set<ar<ll, 2> > s;
+    s.insert({0,0});
+    for (int i = 0; i < n; i++){
+        auto it = s.lower_bound({a[i][1]});
+        if (it != s.begin()){
+            --it;
+            ans = max(ans, (*it)[1] + a[i][2]);
+            s.insert({a[i][0], ans});
+        }
+    }
+    cout << ans;
+}

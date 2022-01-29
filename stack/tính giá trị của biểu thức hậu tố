@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool ktra(char a){
+	if(a=='+' || a=='-'|| a=='*' || a=='/' || a=='^'){
+		return true;
+	}
+	return false;
+}
+int tinh(int a,int b, char x){
+	if(x=='+') return a+b;   if(x=='-') return a-b;
+	if(x=='*') return a*b;   if(x=='/') return a/b;
+}
+void solve(){
+	string s; cin>>s;
+	stack<int> st;
+	for(int i=0;i<s.length();i++){
+		if(ktra(s[i])==false){
+			st.push(s[i]-'0');
+		}
+		else{
+			int  a=st.top(); st.pop();
+		    int  b=st.top(); st.pop();
+		    int  res=tinh(b,a,s[i]);
+		    st.push(res);
+		}
+	}
+	cout<<st.top()<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		solve();
+	}
+}

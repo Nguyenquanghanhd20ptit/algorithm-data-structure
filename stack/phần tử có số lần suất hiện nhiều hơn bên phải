@@ -1,0 +1,40 @@
+đề bài:
+tìm phần tử gần nhất bên phải có số lần xuất hiện lớn hơn số hiện tại
+inp:
+1
+7
+1 1 2 3 4 2 1
+-1 -1 1 2 2 1 -1
+#include<bits/stdc++.h>
+using namespace std;
+void solve(){
+	int n; cin>>n;
+	int a[n],b[n];
+    static int dem[1000000]={0};
+	for(int i=0;i<n;i++){
+		cin>>a[i];
+		dem[a[i]]++;
+	}
+	stack<int> val,pos;
+	for(int i=0;i<n;i++){
+		while(!val.empty() && dem[a[i]]>val.top()){
+			b[pos.top()]=a[i];
+			val.pop(); pos.pop();
+		}
+	val.push(dem[a[i]]); pos.push(i);
+	}
+	while(!val.empty()){
+		b[pos.top()]=-1;
+		val.pop(); pos.pop();
+	}
+	for(int i=0;i<n;i++){
+		cout<<b[i]<<" ";
+	}
+	cout<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		solve();
+	}
+}

@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+using namespace std;
+void solve(){
+	string s; cin>>s;
+	s=" "+s;
+	stack<int> st;
+	for(int i=1;i<=s.length();i++){ //kq co n+1 ki tu
+		if(s[i]=='D') st.push(i);
+		else{
+			cout<<i;
+			while(!st.empty()){
+				cout<<st.top();
+				st.pop();
+			}
+		}
+	}
+	cout<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		solve();
+	}
+}

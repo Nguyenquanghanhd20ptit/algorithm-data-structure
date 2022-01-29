@@ -1,0 +1,38 @@
+nhiệm vụ kiểm tra xem biểu thức có bị thừa dấu ngoặc hay không
+#include<bits/stdc++.h>
+using namespace std;
+bool dau(char x){
+	if(x=='*' || x=='/' ||x=='-'|| x=='+'){
+		return true;
+	}
+	return false;
+}
+void solve(){
+	string s; cin>>s;
+	stack<char> st;
+	int dem=0;
+	for(auto x:s){
+		if(x!=')'){
+			st.push(x);
+		}
+		else{
+			bool check=true;
+			while(st.size()!=0){
+				char c=st.top(); st.pop();
+				if(c=='(') break; 
+				if(dau(c)) check=false; // kiem tra xem trong cap dau 
+				}                       //ngoac co dau =,-.. hay khong
+			if(check){
+				cout<<"YES"<<endl
+				return;
+			}
+		}
+	}
+	cout<<"NO"<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		solve();
+	}
+}

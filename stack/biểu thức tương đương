@@ -1,0 +1,73 @@
+cách 1:
+#include<bits/stdc++.h>
+using namespace std;
+void solve(){
+	string s; cin>>s;
+	stack<char> st;
+	for(int i=0;i<s.length();i++){
+		if(s[i]=='('){ // neu s[i] la dau mo ngoac ta xet phan tu truoc no
+			if(s[i-1]=='+' || s[i-1]=='-'){
+				st.push(s[i-1]);
+			}
+		}
+		if(!st.empty() && st.top()=='-'){ // neu la dau '-' ta doi nguoc dau trong ngoac
+			if(s[i]=='-') s[i]='+';
+			if(s[i]=='+') s[i]='-';
+		}
+		if(s[i]==')') st.pop();
+	}
+	for(int i=0;i<s.length();i++){
+		if(s[i]!='(' && s[i]!=')') cout<<s[i];
+	}
+	cout<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		solve();
+	}
+}
+
+cách 2:
+#include<bits/stdc++.h>
+using namespace std;
+char doidau(char x){
+	if(x=='-') return x='+';
+	else return x='-';
+}
+
+void solve(){
+	string s; cin>>s;
+	stack<string> st;
+	string res="";
+	bool check=false;
+	for(int i=0;i<s.length();i++){
+		if(s[i]=='+' || s[i]=='-'){
+			if(check==true){  // co dau tru ngoai ngoac
+				st.push(string(1,doidau(s[i]))); 
+			}
+			else st.push(string(1,s[i]));
+		}
+		else if(s[i]=='(' && !st.empty()){
+			string a=st.top();
+			if(a=="-") {
+			    check=true;
+			}
+		}
+		else if(s[i]==')') check=false;
+		else if(!st.empty()){
+			res+=st.top()+s[i];
+			st.pop();
+		}
+		else if(st.empty()){
+	    	if(s[i]!='(')res+=s[i];
+	    }
+	}
+	cout<<res<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		solve();
+	}
+}

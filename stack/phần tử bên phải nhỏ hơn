@@ -1,0 +1,55 @@
+đề bài:
+hãy đưa ra phần tử nhỏ hơn tiếp theo của phần tử lớn hơn đầu tiên hiện tại. nếu k có giá trị thì in ra -1;
+inp:
+1
+7
+5 1 9 2 5 1 7
+2 2 1 1 -1 -1 -1 
+
+#include<bits/stdc++.h>
+using namespace std;
+void solve(){
+	int n; cin>>n;
+	int a[n];
+	for(int i=0;i<n;i++){
+		cin>>a[i];
+	}
+	int b[n],c[n]; //mang b luu vi tri lon hon tiep theo                
+                  // mang c luu vi tri nho hon tiep theo
+    stack<int> val,pos;
+    for(int i=0;i<n;i++){
+    	while(!val.empty() && a[i]>val.top()){
+    		b[pos.top()]=i;       // luu vi tri;
+    		val.pop(); pos.pop();   // xoa het gia tri trong stack
+		}
+		val.push(a[i]); pos.push(i);
+	}
+	while(val.size()){
+		b[pos.top()]=-1;   // so nao khong co ptu lon hon ta cho =-1;
+		val.pop(); pos.pop();
+	}
+	for(int i=0;i<n;i++){
+		if(!val.empty() && a[i]<val.top()){
+			c[pos.top()]=i;
+			val.pop(); pos.pop();
+		}
+		val.push(a[i]); pos.push(i);
+	}
+	while(!val.empty()){
+		c[pos.top()]=-1;
+		val.pop(); pos.pop();
+	}
+	for(int i=0;i<n;i++){
+		if(b[i]!=-1 && c[b[i]]!=-1){
+			cout<<a[c[b[i]]]<<" ";
+		}
+		else cout<<-1<<" ";
+	}
+	cout<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		solve();
+	}
+}

@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int mod = (int) 1e9 + 7;
+long long d[1000001]={0};
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+	int n,k; cin>>n>>k;
+	long long a[n+1];
+	for(int i=1;i<=n;i++){
+		cin>>a[i];
+	}
+	vector<string> v[10000];
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=k;j++){
+			if(j==a[i]){
+				v[j].clear();
+				v[j].push_back(to_string(a[i]));
+			}
+			else if(j>a[i]){
+				for(auto x:v[j-a[i]]){
+					x+=" "+to_string(a[i]);
+					v[j].push_back(x);
+				}
+			}
+		}
+	}
+	for(auto x:v[k]){
+		cout<<x<<endl;
+	}
+}

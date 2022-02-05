@@ -1,0 +1,82 @@
+ĐỘ SÂU CÂY NHỊ PHÂN TÌM KIẾM
+
+Bài làm tốt nhất
+Cho dãy số gồm N số là phép duyệt theo thứ tự trước (Preorder) của một cây nhị phân tìm kiếm. Hãy tìm độ sâu của cây ?
+
+Ví dụ với dãy A[] = {30, 20, 15, 25, 23, 28, 40, 35, 33, 38, 45} là phép duyệt cây theo thứ tự trước sẽ cho ta kết quả là 3.                                                  
+
+     Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T (T≤100).
+Những dòng kế tiếp đưa vào T bộ test. Mỗi bộ test gồm 2 dòng: dòng thứ nhất là số tự nhiên N (N≤106). Dòng tiếp theo là N số là phép duyệt theo thứ tự trước của cây BST.
+    Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+    Ví dụ:
+
+Input:
+
+Output
+
+2
+
+6
+
+10 5 1 7 40 50
+
+11
+
+30 20 15 25 23 28 40 35 33 38 45
+
+2
+
+3
+
+bai lam:
+#include<bits/stdc++.h>
+using namespace std;
+int dem=0,cnt=0;
+struct Node{
+	int data;
+	Node *l;
+	Node *r;
+	Node(int x){
+		data=x;
+		l=NULL;
+		r=NULL;
+	}
+};
+typedef Node* node;
+void them_node(node &a,int x){
+	if(a==NULL){
+		node p=new Node(x);
+		a=p;
+	}
+	else{
+		if(x < a->data) them_node(a->l,x);
+		if(x > a->data) them_node(a->r,x);
+	}
+}
+void duyet_inorder(node a){
+	if(a!=NULL){
+		dem++;
+		cnt=max(cnt,dem);
+		duyet_inorder(a->l);
+		if(a->l != NULL) dem--; // khi de quy quay lai vi tri truoc thi dem--
+		duyet_inorder(a->r);    // neu vtri do node la null thi bo qua;
+		if(a->r != NULL) dem--; 
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		int n; cin>>n;
+		node a=NULL; dem=0;
+		for(int i=0;i<n;i++){
+			int x; cin>>x;
+			them_node(a,x);
+		}
+		duyet_inorder(a);
+		cout<<cnt-1<<endl;
+	}
+}

@@ -1,0 +1,89 @@
+DUYỆT CÂY 1
+
+Bài làm tốt nhất
+Cho phép duyệt cây nhị phân Inorder và Preorder, hãy đưa ra kết quả phép duyệt Postorder của cây nhị phân. Ví dụ với cây nhị phân có các phép duyệt cây nhị phân của cây dưới đây:
+
+Inorder     : 4  2  5  1  3  6
+
+Preorder:  : 1  2  4  5  3  6
+
+Postorder : 4  5  2  6  3  1 
+
+     Input:
+
+Dòng đầu tiên đưa vào số lượng test T.
+Những dòng tiếp theo đưa vào các bộ test. Mỗi bộ test gồm 3 dòng: dòng đầu tiên đưa vào số N là số lượng node; dòng tiếp theo đưa vào N số theo phép duyệt Inorder;
+dòng cuối cùng đưa vào N số là kết quả của phép duyệt Preorder; các số được viết cách nhau một vài khoảng trống.
+T, N, node thỏa mãn ràng buộc: 1≤T≤100; 1≤N≤1000; 1≤ giá trị node ≤104;
+Output:
+
+Đưa ra kết quả phép duyệt Postorder theo từng dòng.
+     Ví dụ:
+
+Input
+
+Output
+
+1
+
+6
+4  2  5  1  3  6
+
+1  2  4  5  3  6
+ 
+
+4  5  2  6  3  1
+ 
+bai lam:
+#include<bits/stdc++.h>
+using namespace std;
+// hinh dung cach duyet cua inor va preor de tim cach giai
+int inor[10001],preor[10001],n;
+struct Node{
+	int data;
+	Node *l;
+	Node *r;
+	Node(int x){
+		data=x;
+		l=NULL;
+		r=NULL;
+	}
+};
+typedef Node* node;
+node build_tree(int start,int end,int &k, map<int,int> mp){
+	if(start > end) return NULL;
+	node tmp=new Node(preor[k]);
+	k++;
+	if(start == end) return tmp;
+	int index=mp[tmp->data];  //lay ra vi tri cua data trong mang inor
+	tmp->l=build_tree(start,index-1,k,mp); // noi tree tu cuoi len o ben trai
+	tmp->r=build_tree(index+1,end,k,mp);   // noi tree tu cuoi len o ben phai
+	return tmp;
+}
+node tao_tree(){
+	map<int,int> mp;
+	for(int i=1;i<=n;i++){
+		mp[inor[i]]=i;    // luu gia tri va vi tri(co the dung vector pair)
+	}
+	int k=1;
+	return build_tree(1,n,k,mp);
+}
+void duyet_portor(node x){
+	if(x!=NULL){
+		duyet_portor(x->l);
+		duyet_portor(x->r);
+		cout<<x->data<<" ";
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		cin>>n;
+		for(int i=1;i<=n;i++) cin>>inor[i];
+		for(int i=1;i<=n;i++) cin>>preor[i];
+		node x=tao_tree();
+		duyet_portor(x);
+		cout<<endl;
+	}
+}
+ 

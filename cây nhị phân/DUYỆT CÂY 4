@@ -1,0 +1,90 @@
+DUYỆT CÂY 4
+
+Bài làm tốt nhất
+Cho hai mảng là phép duyệt Inorder và Level-order, nhiệm vụ của bạn là xây dựng cây nhị phân và đưa ra kết quả phép duyệt Postorder. Level-order là phép duyệt theo từng mức
+của cây. Ví dụ như cây dưới đây ta có phép Inorder và Level-order như dưới đây:
+
+Inorder : 4  8  10  12 14 20 22
+
+Level order: 20  8  22  4  12  10  14
+
+https://media.geeksforgeeks.org/wp-content/cdn-uploads/BinaryTree4.png
+
+      Input:
+
+Dòng đầu tiên đưa vào số lượng test T.
+Những dòng tiếp theo đưa vào các bộ test. Mỗi bộ test gồm 3 dòng: dòng đầu tiên đưa vào số N là số lượng node; dòng tiếp theo đưa vào N số là phép duyệt Inorder;
+dòng cuối cùng đưa vào N số là phép duyệt Level-order; các số được viết cách nhau một vài khoảng trống.
+T, N, node thỏa mãn ràng buộc: 1≤T≤100; 1≤N≤103; 1≤A[i]≤104;
+Output:
+
+Đưa ra kết quả phép duyệt Postorder theo từng dòng.
+     Ví dụ:
+
+Input
+
+Output
+
+2
+3
+1 0 2 
+0 1 2 
+7
+3 1 4 0 5 2 6 
+0 1 2 3 4 5 6 
+
+1 2 0
+
+3 4 1 5 6 2 0
+
+bai lam:
+#include<bits/stdc++.h>
+using namespace std;
+int inor[10001],lever[10001],n;
+struct Node{
+	int data;
+	Node *l;
+	Node *r;
+	Node(int x){
+		data=x;
+		l=NULL;
+		r=NULL;
+	}
+};
+typedef Node* node;
+node tao_tree(int start,int end,map<int,int> mp){
+	if(start > end) return NULL;
+	int index=start;
+	for(int i=start;i<=end;i++){
+		if(mp[inor[i]] < mp[inor[index]]) index=i; // tim vi tri goc chinh cua cac nhanh cay
+	}
+	node tmp=new Node(inor[index]);
+	tmp->l=tao_tree(start,index-1,mp);  // noi tree tu ben trai
+	tmp->r=tao_tree(index+1,end,mp);    // noi tree tu ben phai
+	return tmp;
+}
+node tao_cay(){
+	map<int,int> mp;
+	for(int i=1;i<=n;i++){
+		mp[lever[i]]=i;
+	}
+	return tao_tree(1,n,mp);
+}
+void duyet_postor(node x){
+	if(x!=NULL){
+		duyet_postor(x->l);
+		duyet_postor(x->r);
+		cout<<x->data<<" ";
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		cin>>n;
+		for(int i=1;i<=n;i++) cin>>inor[i];
+		for(int i=1;i<=n;i++) cin>>lever[i];
+		node x=tao_cay();
+		duyet_postor(x);
+		cout<<endl;
+	}
+}

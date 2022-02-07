@@ -65,7 +65,7 @@ struct edge{
 };
 vector<edge> e;
 void inp(){
-	cin>>n>>m>>s; res=1;
+	cin>>n>>m>>s; res=0;
 	e.push_back({0,0,0});
 	for(int i=0;i<m;i++){
 		int x,y,z; cin>>x>>y>>z;
@@ -77,9 +77,9 @@ void inp(){
 }
 void bellman(int s){
 	d[s]=0;
-	int x=-1;
-	for(int i=1;i<=n-1;i++){
-		int ok=false;
+	int x;
+	for(int i=1;i<=n;i++){
+		int ok=false; x=-1;
 		for(int j=1;j<=m;j++){
 			if(d[e[j].a] < inf){
 				if(d[e[j].a]+e[j].w < d[e[j].b]){
@@ -88,10 +88,10 @@ void bellman(int s){
 					ok=true;
 				}
 			}
-			if(ok==false) break;
 		}
-		if(x!=1) res=0;
+		if(ok==false) break;
 	}
+	if(x!=-1) res=1;
 }
 int main(){
 	int t; cin>>t;
@@ -112,20 +112,20 @@ int main(){
 	}
 }
 
-in ra duong di:
+
+
+truy vet duong di
 #include<bits/stdc++.h>
 using namespace std;
-int n,m,s;
+int n,m,s,res;
 int inf=1e9;
-int d[1001],parent[1001]={0};
-bool a[1001];
+int d[1001],parent[1001]={0},tmp[1001]={0};
 struct edge{
 	int a,b,w;
 };
 vector<edge> e;
-vector<int> path[1001];
 void inp(){
-	cin>>n>>m>>s;
+	cin>>n>>m>>s; res=0;
 	e.push_back({0,0,0});
 	for(int i=0;i<m;i++){
 		int x,y,z; cin>>x>>y>>z;
@@ -137,49 +137,61 @@ void inp(){
 }
 void bellman(int s){
 	d[s]=0;
+	int x;
 	for(int i=1;i<=n;i++){
-		int ok=false;
+		int ok=false; x=-1;
 		for(int j=1;j<=m;j++){
 			if(d[e[j].a] < inf){
 				if(d[e[j].a]+e[j].w < d[e[j].b]){
 					d[e[j].b] = d[e[j].a]+e[j].w;
+					x=e[j].b;
 					parent[e[j].b]=e[j].a;
+					tmp[e[j].b]=e[j].a;
 					ok=true;
 				}
 			}
-			if(ok==false) break;
 		}
-		if(d[i]==inf){
-			continue;
-		}
-		else{
-			int e=i;
-			while(s!=e){
-				path[i].push_back(e);
-				e=parent[e];
-			}
-			path[i].push_back(s);
-			reverse(path[i].begin(),path[i].end());
-		}
+		if(ok==false) break;
 	}
+	if(x!=-1) res=1; // co chu trinh am
 }
 int main(){
 	int t; cin>>t;
 	while(t--){
 		inp();
 		bellman(s);
-		for(int i=0;i<n;i++){
-			cout<<d[i+1]<<endl;
-			cout<<"duong di tu s den i la:"<<endl;
-			if(d[i+1]==inf){
-				cout<<"khong co duong di"<<endl;
-			}
-			else{
-				for(auto x:path[i]){
-					cout<<x<<" ";
+		if(res) cout<<-1<<endl;
+		else{
+			for(int i=1;i<=n;i++){
+				if(d[i]==inf){
+					cout<<"khong co duong di tu ";
+					cout<<s<<"->"<<i<<endl;
 				}
-				cout<<endl;
-			}
+		    	else{
+		    	cout<<"gia tri duong di ngan nhat tu "<<s<<"->"<<i<<":";
+		    		cout<<d[i]<<endl;
+		    		int e=i;
+		    		vector<int> path;
+		    		while(e!=s){
+		    			path.push_back(e);
+		    			e=parent[e];
+					}
+					path.push_back(s);
+					reverse(path.begin(),path.end());
+					cout<<"duong di tu "<<s<<"->"<<i<<":";
+					for(int j=0;j<path.size()-1;j++){
+						cout<<path[j]<<"->";
+					}
+					cout<<path[path.size()-1]<<endl;
+					for(int j=1;j<=n;j++){
+						parent[j]=tmp[j];
+					}
+				}
+	    	}
+	    	cout<<endl;
 		}
+		e.clear();
 	}
 }
+
+

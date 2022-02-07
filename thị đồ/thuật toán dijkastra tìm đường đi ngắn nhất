@@ -48,3 +48,53 @@ int main(){
 		}
 	}
 }
+
+
+sử dụng hàng đợi ưu tiên:
+#include<bits/stdc++.h>
+using namespace std;
+typedef pair<int,int> pii;
+int n,m,s,inf=1e9,d[10001];
+vector<pii> v[10001];
+void inp(){
+	cin>>n>>m>>s;
+	for(int i=0;i<m;i++){
+		int x,y,z; cin>>x>>y>>z;
+		v[x].push_back({y,z});
+		v[y].push_back({x,z});
+	}
+	for(int i=1;i<=n;i++){
+		d[i]=inf;
+	}
+}
+void dijkstra(int s){
+	d[s]=0;
+	priority_queue<pii,vector<pii>,greater<pii>> q;
+	q.push({s,0});
+	while(!q.empty()){
+		pii tmp=q.top(); q.pop();
+		int u=tmp.first;
+		int d_u=tmp.second;
+		if(d_u != d[u]) continue;  //no khac nhau khi duong den dinh u da co duong di ngan hon
+		for(auto it:v[u]){
+			int x=it.first;
+			int len=it.second;
+			if(d[u]+len < d[x]){
+				d[x]=d[u]+len;
+				q.push({x,d[x]});
+			}
+		}
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		inp();
+		dijkstra(s);
+		for(int i=1;i<=n;i++){
+			cout<<d[i]<<" ";
+			v[i].clear();
+		}
+		cout<<endl;
+	}
+}

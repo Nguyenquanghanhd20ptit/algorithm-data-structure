@@ -1,0 +1,53 @@
+SẮP XẾP CHẴN LẺ
+
+Bài làm tốt nhất
+Cho dãy số a[] có n phần tử, đánh số từ 1 đến n. Hãy sắp xếp các phần tử ở vị trí lẻ theo thứ tự tăng dần, các phần tử ở vị trí chẵn theo thứ tự giảm dần.
+
+Input
+
+Dòng đầu tiên ghi số n, không quá 105
+
+Dòng thứ 2 ghi n số của dãy a[] (a ≤ a[i] ≤ 109)
+
+Output
+
+Ghi ra dãy số kết quả trên một dòng
+
+Ví dụ
+
+Input
+
+Output
+
+4
+
+1 2 3 4
+
+1 4 3 2
+
+#include<bits/stdc++.h>
+using namespace std;
+bool cmp(int a,int b){
+	return a>b;
+}
+int main(){
+	int n,m=0; cin>>n;
+	int a[n/2+1],b[n/2+1];
+	for(int i=0;i<n;i++){
+		int x; cin>>x;
+		if(i%2==1){
+			b[i/2]=x;
+			m++;
+		}
+		else{
+			a[i/2]=x;
+		}
+	}
+	sort(b,b+m,cmp);
+	sort(a,a+(n-m));
+	for(int i=0;i<n;i++){
+		if(i%2==1) cout<<b[i/2]<<" ";
+		else cout<<a[i/2]<<" ";
+	}
+	cout<<endl;
+}

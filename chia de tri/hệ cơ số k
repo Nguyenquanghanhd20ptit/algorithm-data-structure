@@ -1,3 +1,5 @@
+tính tổng 2 số ở hệ cơ số k
+
 #include<bits/stdc++.h>
 using namespace std;
 int main(){

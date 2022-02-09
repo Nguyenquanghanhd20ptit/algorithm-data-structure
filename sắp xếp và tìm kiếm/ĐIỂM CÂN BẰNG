@@ -1,0 +1,75 @@
+ĐIỂM CÂN BẰNG
+
+Bài làm tốt nhất
+Cho dãy số A[] gồm có N phần tử nguyên dương. Phần tử thứ i được gọi là điểm cân bằng của dãy số nếu như tổng các số bên trái bằng tổng các số bên phải của nó.
+
+Nhiệm vụ của bạn là điểm cân bằng đầu tiên của dãy A[] cho trước. Nếu không có đáp án, in ra -1.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 10).
+
+Mỗi test gồm số nguyên N (1≤ N ≤ 100 000), số lượng phần tử trong dãy số ban đầu.
+
+Dòng tiếp theo gồm N số nguyên A[i] (-1000 ≤ A[i] ≤ 1000).
+
+Output: 
+
+Với mỗi test, in ra trên một dòng vị trí của điểm cân bằng tìm được.
+
+ 
+
+Ví dụ:
+
+Input:
+
+Output
+
+2
+
+7
+
+-7 1 5 2 -4 3 0
+
+5
+
+1 2 3 4 5
+
+ 
+
+4
+
+-1
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t; cin>>t; 
+	while(t--){
+		int n; cin>>n;
+		int a[n];
+		long long sumr=0,suml=0;
+		for(int i=0;i<n;i++){
+			cin>>a[i];
+			sumr+=a[i];
+		}
+		suml=a[0]; sumr=sumr-a[0]-a[1];
+		int i=1;
+		bool ok=true;
+		while(i<n-1){
+			if(suml == sumr){
+				cout<<i+1<<endl;
+				ok=false;
+				break;
+			}
+			else{
+				suml+=a[i];
+				sumr-=a[i+1];
+				i++;
+			}
+		}
+		if(ok) cout<<-1<<endl;
+	}
+}
+
+ 

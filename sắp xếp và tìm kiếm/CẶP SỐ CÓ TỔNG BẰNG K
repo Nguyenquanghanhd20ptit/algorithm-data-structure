@@ -70,7 +70,7 @@ int main(){
 			auto it=lower_bound(a+i+1,a+n,k-a[i]);
 			if(*it==k-a[i] ){
 				auto tmp=upper_bound(a+i+1,a+n,k-a[i]);
-			    dem+=(tmp-a)-(it-a);
+			    dem+=(tmp-a)-(it-a);  // dem xem tat ca cac so bang *it dang sau no
 			}
 		}
 		cout<<dem<<endl;

@@ -1,0 +1,78 @@
+XÂU AB ĐẶC BIỆT
+
+Bài làm tốt nhất
+Một xâu kí tự S = (s1, s2, .., sn) được gọi là xâu AB độ dài n nếu với mọi siÎS thì si hoặc là kí tự A hoặc si là kí tự B . Ví dụ xâu S = “ABABABAB” 
+là một xâu AB độ dài 8. Cho số tự nhiên N và số tự nhiên K (1£K<N£15 được nhập từ bàn phím), hãy viết chương trình liệt kê tất cả các xâu AB có độ dài N
+chứa duy nhất một dãy K kí tự A liên tiếp.
+
+Dữ liệu vào chỉ có một dòng ghi hai số N và K.
+
+Kết quả ghi ra màn hình theo khuôn dạng:
+
+Dòng đầu tiên ghi lại số các xâu AB thỏa mãn yêu cầu bài toán;
+Những dòng kế tiếp, mỗi dòng ghi lại một xâu AB thỏa mãn. Các xâu được ghi ra theo thứ tự từ điển.
+Ví dụ:
+
+INPUT
+
+OUTPUT
+
+5 3 
+
+5
+
+AAABA
+
+AAABB
+
+ABAAA
+
+BAAAB
+
+BBAAA
+
+#include<bits/stdc++.h>
+using namespace std;
+int n,k,a[1001];
+vector<string> v;
+void inkq(){
+	int dem=0;
+	bool ok=false;
+	for(int i=1;i<=n;i++){
+		if(a[i]==0){
+			dem++;
+		}
+		else dem=0;
+		if(dem==k && (a[i+1]==1 || i==n)){
+			ok=true;
+		}
+	}
+	if(ok){
+		string res="";
+		for(int i=1;i<=n;i++){
+		if(a[i]==0){
+			res+="A";
+		}
+		else res+="B";
+    	}
+     	v.push_back(res);
+	}
+}
+void ql(int i){
+	for(int j=0;j<=1;j++){
+		a[i]=j;
+		if(i==n){
+			inkq();
+		}
+		else ql(i+1);
+	}
+}
+int main(){
+	cin>>n>>k;
+	ql(1);
+	cout<<v.size()<<endl;
+	for(auto x:v){
+		cout<<x<<endl;
+	}
+	v.clear();
+}

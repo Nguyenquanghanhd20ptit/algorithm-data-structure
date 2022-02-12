@@ -1,0 +1,57 @@
+DÃY CON TĂNG DẦN BẬC K
+
+Bài làm tốt nhất
+Cho dãy gồm N số phân biệt AN = {a1, a2, .., aN } và số tự nhiên K (K<=N<=100). Ta gọi một dãy con tăng dần bậc K của dãy số AN là một dãy các số gồm K phần tử
+trong dãy đó thỏa mãn tính chất tăng dần. Bài toán được đặt ra là in ra màn hình  số các dãy con tăng dần bậc K của dãy số AN. Ví dụ :
+
+Input:  5    3
+
+2    5    15   10    20  
+
+Dòng đầu tiên ghi lại hai số N và K tương ứng với số phần tử của dãy số và bậc của dãy con.
+Dòng kế tiếp : N số của dãy số AN, các số trong dãy không lớn hơn 100. 
+thì Output : 7 (số các dãy con tăng dần bậc 3 của dãy số AN)
+
+
+#include<bits/stdc++.h>
+using namespace std;
+// bai toan nay chi can dem so to hop chap k cua n
+int n,dem,k,a[1001],b[1001],c[1001];
+void inp(){
+	cin>>n>>k; dem=0;
+	for(int i=1;i<=n;i++){
+		cin>>b[i];
+	}
+	for(int i=1;i<=k;i++){
+		a[i]=i;
+	}
+}
+void inkq(){
+	int cnt=1;
+	for(int i=1;i<=k;i++){
+		c[cnt]=b[a[i]];
+		cnt++;
+	}
+	bool ok=true;
+	for(int i=2;i<=k;i++){
+		if(c[i-1]>c[i]){
+			ok=false; 
+			break;
+		}
+	}
+	if(ok) dem++;
+}
+void ql(int i){
+	for(int j=a[i-1]+1;j<=n-k+i;j++){
+		a[i]=j;
+		if(i==k){
+			inkq();
+		}
+		else ql(i+1);
+	}
+}
+int main(){
+	inp();
+	ql(1);
+	cout<<dem<<endl;
+}

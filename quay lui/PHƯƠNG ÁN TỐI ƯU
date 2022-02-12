@@ -1,0 +1,88 @@
+PHƯƠNG ÁN TỐI ƯU
+
+Bài làm tốt nhất
+Cho ai, ci , W, N (i =1, 2,..,N; N£100) là những số nguyên dương  và tập hợp
+
+      
+
+Hãy viết chương trình tìm phương án tối ưu XOPT =(x1,x2,..,xN) và giá trị tối ưu FOPT=F(XOPT) của hàm mục tiêu
+
+; với  .
+
+      Dữ liệu vào cho bởi file data.in theo khuôn dạng sau:
+
+Dòng đầu tiên ghi lại số tự nhiên N và W. Hai số được viết cách nhau một vài khoảng trống;
+Dòng kế tiếp ghi lại N số cj (j=1,2,..,N). Hai số được viết cách nhau một vài khoảng trống;
+Dòng kế tiếp ghi lại N số aj (j=1,2,..,N). Hai số được viết cách nhau một vài khoảng trống;
+Giá trị tối ưu FOPT và phương án XOPT tìm được sẽ liệt kê trên màn hình theo khuôn dạng:
+
+Dòng đầu tiên ghi lại giá trị tối ưu FOPT;
+Dòng kế tiếp ghi lại phương án tối ưu XOPT. Hai phần tử khác nhau của phương án tối ưu được viết cách nhau bởi một khoảng trống.
+Ví dụ sau sẽ minh họa khuôn dạng cho file data.in  của bài toán.
+
+                  data.in                                                                           
+
+4                      10                               
+
+6          5          3          7    
+
+5          4          6          5
+
+#include<bits/stdc++.h>
+using namespace std;
+int n,res,k,w,a[1001],kl[1001],gt[1001];
+int b[1001];
+void inp(){
+	cin>>n>>w;  res=0; k=1e9;
+	for(int i=1;i<=n;i++){
+		cin>>gt[i];
+	}
+	for(int i=1;i<=n;i++){
+		cin>>kl[i];
+	}
+}
+void inkq(){
+	int kluong=0;
+	for(int i=1;i<=n;i++){
+		kluong+=a[i]*kl[i];
+	}
+	if(kluong<=w){
+		int gtri=0;
+		for(int i=1;i<=n;i++){
+			gtri+=a[i]*gt[i];
+		}
+		if(gtri>=res){
+			if(gtri==res && kluong < k){
+				for(int i=1;i<=n;i++){
+					b[i]=a[i];
+				}
+				k=kluong;
+			}
+			if(gtri>res){
+				res=gtri;
+				for(int i=1;i<=n;i++){
+					b[i]=a[i];
+				}
+				k=kluong;
+			}
+		}
+	}
+}
+void ql(int i){
+	for(int j=0;j<=1;j++){
+		a[i]=j;
+		if(i==n){
+			inkq();
+		}
+		else ql(i+1);
+	}
+}
+int main(){
+	inp();
+	ql(1);
+	cout<<res<<endl;
+	for(int i=1;i<=n;i++){
+		cout<<b[i]<<" ";
+	}
+	cout<<endl;
+}

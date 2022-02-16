@@ -1,0 +1,41 @@
+Giới hạn thời gian: 1.00 giây Giới hạn bộ nhớ: 512 MB
+Bạn được cung cấp một chuỗi DNA: một chuỗi bao gồm các ký tự A, C, G và T. Nhiệm vụ của bạn là tìm ra đoạn lặp lại dài nhất trong chuỗi.
+Đây là một chuỗi con có độ dài tối đa chỉ chứa một loại ký tự.
+
+Đầu vào Dòng đầu vào
+
+duy nhất chứa một chuỗinnhân vật.
+
+Đầu ra
+
+In một số nguyên: độ dài của lần lặp lại dài nhất.
+
+Hạn chế
+1 ≤ n ≤106
+Ví dụ
+
+Đầu vào:
+ATTCGGGA
+
+Đầu ra:
+3
+
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	string s;  cin>>s;
+	int dem[256]={0};
+	int res=1;  dem[s[0]]=1;
+	for(int i=1;i<s.length();i++){
+		if(s[i]==s[i-1]){
+			dem[s[i]]++;
+		}
+		else{
+			dem[s[i]]++;
+			dem[s[i-1]]=0;
+		}
+		res=max(res,dem[s[i]]);
+	}
+	cout<<res<<endl;
+}

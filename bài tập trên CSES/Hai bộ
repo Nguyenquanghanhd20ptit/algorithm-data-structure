@@ -1,0 +1,68 @@
+Giới hạn thời gian: 1.00 giây Giới hạn bộ nhớ: 512 MB
+Nhiệm vụ của bạn là chia các số1 , 2 , … , nthành hai tập hợp có tổng bằng nhau.
+
+Đầu vào Dòng nhập
+
+duy nhất chứa một số nguyênn.
+
+Đầu ra
+
+In "CÓ", nếu phép chia là có thể, và "KHÔNG" nếu không.
+
+Sau đó, nếu có thể phân chia, hãy in một ví dụ về cách tạo các tập hợp. Đầu tiên, in số phần tử trong tập hợp đầu tiên,
+tiếp theo là chính các phần tử đó trong một dòng riêng biệt, sau đó in tập hợp thứ hai theo cách tương tự.
+
+Hạn chế
+1 ≤ n ≤106
+Ví dụ 1
+
+Đầu vào:
+7
+
+Đầu ra: Ví dụ 2 Đầu vào: Đầu ra:
+YES
+4
+1 2 4 7
+3
+3 5 6
+
+
+
+
+6
+
+
+NO
+
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	long long n; cin>>n;
+	long long sum=n*(n+1)/2;
+	if(sum%2==1){
+		cout<<"NO"<<endl;
+		return 0;
+	}
+	cout<<"YES"<<endl;
+	sum/=2;
+	vector<int> a,b;
+	for(int i=n;i>0;i--){
+		if(i<=sum){
+			a.push_back(i);
+			sum-=i;
+		}
+		else{
+			b.push_back(i);
+		}
+	}
+	cout<<a.size()<<endl;
+	for(auto x:a){
+		cout<<x<<" ";
+	}
+	cout<<endl;
+	cout<<b.size()<<endl;
+	for(auto x:b){
+		cout<<x<<" ";
+	}
+}

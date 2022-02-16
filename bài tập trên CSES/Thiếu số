@@ -1,0 +1,52 @@
+Giới hạn thời gian: 1.00 giây Giới hạn bộ nhớ: 512 MB
+Bạn được cung cấp tất cả các số giữa1 , 2 , … , nngoại trừ một. Nhiệm vụ của bạn là tìm số còn thiếu.
+
+Đầu vào
+
+Dòng đầu tiên chứa một số nguyênn.
+
+Dòng thứ hai chứa n - 1những con số. Mỗi số là khác biệt và giữa 1 và n(bao gồm).
+
+Đầu ra
+
+In số còn thiếu.
+
+Hạn chế
+2 ≤ n ≤ 2 ⋅105
+Ví dụ
+
+Đầu vào: Đầu ra:
+5
+2 3 1 5
+
+
+4
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int n; cin>>n;
+	set<int> s;
+	string res; getline(cin>>ws,res);
+	stringstream ss(res);
+	string hanh;
+	while(ss>>hanh){
+		s.insert(stoi(hanh));
+	}
+	int i=1;
+	while(i<=n){
+		for(auto x:s){
+			if(i==x){
+				i++;
+			}
+			if(*s.rbegin()<i){
+				cout<<i<<endl;
+				return 0;
+			}
+			while(x>i){
+				cout<<i<<endl;
+				return 0;
+			}
+		}
+	}
+}

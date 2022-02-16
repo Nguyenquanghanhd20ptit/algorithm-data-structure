@@ -1,0 +1,47 @@
+Giới hạn thời gian: 1.00 giây Giới hạn bộ nhớ: 512 MB
+Một hoán vị của các số nguyên1 , 2 , … , nđược gọi là đẹp nếu không có các phần tử liền kề mà sự khác biệt của chúng là 1.
+
+Được n, xây dựng một hoán vị đẹp nếu một hoán vị như vậy tồn tại.
+
+Đầu vào Dòng nhập
+
+duy nhất chứa một số nguyênn.
+
+Đầu ra
+
+In một hoán vị đẹp của các số nguyên1 , 2 , … , n. Nếu có một số giải pháp, bạn có thể in bất kỳ giải pháp nào trong số chúng. Nếu không có giải pháp nào, 
+hãy in "KHÔNG CÓ GIẢI PHÁP".
+
+Hạn chế
+1 ≤ n ≤106
+Ví dụ 1
+
+Đầu vào:
+5
+
+Đầu ra:
+4 2 5 3 1
+
+Ví dụ 2
+
+Đầu vào:
+3
+
+Đầu ra:
+NO SOLUTION
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int n; cin>>n;
+	if(n==1) cout<<1<<endl;
+	else if(n<4) cout<<"NO SOLUTION"<<endl;
+	else{
+		for(int i=2;i<=n;i+=2){
+			cout<<i<<" ";
+		}
+		for(int i=1;i<=n;i+=2){
+			cout<<i<<" ";
+		}
+	}
+}

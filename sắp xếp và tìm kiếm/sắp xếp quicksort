@@ -1,0 +1,80 @@
+1,quicksort với phân hoạch lomuto
+
+#include<bits/stdc++.h>
+using namespace std;
+int patition(int a[],int l,int r){
+	int i=l-1,p=a[r]; // phan tu ben phai cung
+	for(int j=l;j<r;j++){
+		if(a[j]<=p){
+			i++;
+			swap(a[i],a[j]);
+		}
+	}
+	i++;  //dua chot ve giua
+	swap(a[i],a[r]);
+	return i;
+}
+void quicksort(int a[],int l,int r){
+	if(l>=r) return;
+	int p=patition(a,l,r);
+	quicksort(a,l,p-1);
+	quicksort(a,p+1,r);
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		int n; cin>>n;
+		int a[n];
+		for(int i=0;i<n;i++){
+			cin>>a[i];
+		}
+		quicksort(a,0,n-1);
+		for(int i=0;i<n;i++){
+			cout<<a[i]<<" ";
+		}
+		cout<<endl;
+	}
+}
+
+2,quicksort với phân hoạch hoare
+
+#include<bits/stdc++.h>
+using namespace std;
+int patition(int a[],int l,int r){
+	int p=a[l];
+	int i=l, j=r;
+	while(1){
+		while(a[i]<p){
+			i++;
+		}
+		while(a[j]>p){
+			j--;
+		}
+		if(i<j){
+			swap(a[i],a[j]);
+			i++; j--;
+		}
+		else return j;
+	}
+}
+void quicksort(int a[],int l,int r){
+	if(l>=r) return;
+	int p=patition(a,l,r);
+	quicksort(a,l,p);
+	quicksort(a,p+1,r);
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		int n; cin>>n;
+		int a[n];
+		for(int i=0;i<n;i++){
+			cin>>a[i];
+		}
+		quicksort(a,0,n-1);
+		for(int i=0;i<n;i++){
+			cout<<a[i]<<" ";
+		}
+		cout<<endl;
+	}
+}

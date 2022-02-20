@@ -1,0 +1,58 @@
+Giới hạn thời gian: 1.00 giây Giới hạn bộ nhớ: 512 MB
+Cónvé xem hòa nhạc có sẵn, mỗi vé có một mức giá nhất định. Sau đó,mkhách hàng lần lượt đến nơi.
+
+Mỗi khách hàng thông báo mức giá tối đa mà họ sẵn sàng trả cho một chiếc vé và sau đó, họ sẽ nhận được một vé với mức giá gần nhất có thể sao cho nó không
+vượt quá mức giá tối đa.
+
+Đầu vào Dòng nhập
+
+đầu tiên chứa các số nguyênnvàm: số lượng vé và số lượng khách hàng.
+
+Dòng tiếp theo chứansố nguyênh1,h2,…,hn: giá của mỗi vé.
+
+Dòng cuối cùng chứamsố nguyênt1,t2,…,tm: giá tối đa cho mỗi khách hàng trong đơn hàng họ đến.
+
+In đầu ra
+
+, cho mỗi khách hàng, giá mà họ sẽ trả cho vé của họ. Sau đó, vé không thể được mua lại.
+
+Nếu khách hàng không lấy được vé, hãy in−1.
+
+Hạn chế
+1≤n,m≤2⋅105
+1≤h,t≤109
+Ví dụ
+
+Đầu vào: Đầu ra:
+5 3
+5 3 7 8 5
+4 8 3
+
+
+3
+8
+-1
+
+#include "bits/stdc++.h"
+using namespace std;
+ 
+int main(){
+	int n,m,x;
+	cin>>n>>m;
+	multiset<int> ms;
+	for(int i=0;i<n;i++){
+		cin>>x;
+		ms.insert(-x);
+	}
+	for(int i=0;i<m;i++){
+		cin>>x;
+		auto y=ms.lower_bound(-x);
+		if(y == ms.end()){
+			cout<<"-1\n";
+		}else{
+			cout<<(-(*y))<<"\n";
+			ms.erase(y);
+		}
+	}
+	return 0;
+}

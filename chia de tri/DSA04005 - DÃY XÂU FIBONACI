@@ -1,0 +1,49 @@
+DÃY XÂU FIBONACI
+
+Bài làm tốt nhất
+Một dãy xâu ký tự G chỉ bao gồm các chữ cái A và B được gọi là dãy xâu Fibonacci nếu thỏa mãn tính chất:   
+G(1) = A; G(2) = B; G(n) = G(n-2)+G(n-1). Với phép cộng (+) là phép nối hai xâu với nhau.  Bài toán đặt ra là tìm ký tự ở vị trí thứ i (tính từ 1) 
+của xâu Fibonacci thứ n.
+
+Dữ liệu vào: Dòng 1 ghi số bộ test. Mỗi bộ test ghi trên một dòng 2 số nguyên N và i (1<N<93). Số i đảm bảo trong phạm vi của xâu G(N) và không quá 18 chữ số.
+Kết quả: Ghi ra màn hình kết quả tương ứng với từng bộ test.
+
+Input
+
+Output
+
+2
+
+6 4
+
+8 19
+
+A
+
+B
+
+ 
+ #include<bits/stdc++.h>
+using namespace std;
+long long fi[100];
+void fibo(){
+	fi[1]=1; fi[2]=1;
+	for(int i=3;i<=92;i++){
+		fi[i]=fi[i-1]+fi[i-2];
+	}
+}
+char fiboxau(int n, long long k){
+	if(n==1) return 'A';
+	if(n==2) return 'B';
+	if(k<=fi[n-2]) return fiboxau(n-2,k); 
+	else return fiboxau(n-1,k-fi[n-2]);
+}
+int main(){
+	fibo();
+	int t; cin>>t;
+	while(t--){
+		int n; cin>>n;
+		long long k; cin>>k;
+		cout<<fiboxau(n,k)<<endl;
+	}
+}

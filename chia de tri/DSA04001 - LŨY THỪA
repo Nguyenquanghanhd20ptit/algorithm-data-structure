@@ -1,0 +1,48 @@
+LŨY THỪA
+
+Bài làm tốt nhất
+Cho số nguyên dương N và K. Hãy tính NK modulo 109+7.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+
+Mỗi test gồm 1 số nguyên N và K (1 ≤ N ≤ 1000, 1 ≤ K ≤ 109).
+
+Output: 
+
+Với mỗi test, in ra đáp án trên một dòng.
+
+Ví dụ:
+
+Input:
+
+Output
+
+2
+
+2 3
+
+4 2
+
+8
+
+16
+
+#include<bits/stdc++.h>
+using namespace std;
+long long mod=1e9+7;
+long long power(long long a,long long n){
+	if(n==0) return 1;
+	if(n==1) return a;
+	long long x=power(a,n/2);
+	if(n%2==0) return (x*x)%mod;
+	else return ((x*x%mod)*a)%mod;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		long long n,k; cin>>n>>k;
+	    cout<<power(n,k)<<endl;
+	}
+}

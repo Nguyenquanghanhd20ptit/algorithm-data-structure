@@ -1,0 +1,73 @@
+tính tổng 2 số ở hệ cơ số k
+
+HỆ CƠ SỐ K
+
+Bài làm tốt nhất
+Cho hai số A, B ở hệ cơ số K. Hãy tính tổng hai số đó ở hệ cơ số K.
+
+Input: Dòng đầu ghi số bộ test T (T<10). Mỗi bộ test ghi 3 số K,A,B.
+
+            (2≤K≤10; A và B nếu biểu diễn trong hệ cơ số 10 đều nhỏ hơn 109)
+
+Output: In ra tổng của A và B trong hệ cơ số K
+
+Ví dụ:
+
+Input
+
+Output
+
+1
+
+2 1 10
+
+11
+
+ 
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t; cin>>t;
+	while(t--){
+		int k; string a,b; cin>>k>>a>>b;
+		while(a.length()<b.length()) a="0"+a;
+		while(a.length()>b.length()) b="0"+b;
+		string res=""; int du=0;
+		for(int i=a.length()-1;i>=0; i--){
+			int tong=a[i]-'0'+b[i]-'0'+du;
+			res=char(tong%k+'0')+res;
+			du=tong/k;
+		}
+		if(du>0) res="1"+res; 
+		cout<<res<<endl;
+	}
+}
+
+cach 2
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t; cin>>t;
+	while(t--){
+		int k; cin>>k;
+		string a,b; cin>>a>>b;
+		if(a.length()<b.length()) swap(a,b);
+		while(a.length()>b.length()){
+			b="0"+b;
+		}
+		vector<int> v;
+		int du=0;
+		for(int i=a.length()-1;i>=0;i--){
+			int tong=a[i]-'0'+b[i]-'0'+du;
+			du=tong/k;
+			tong=tong%k;
+			v.push_back(tong);
+		}
+		if(du>0) v.push_back(du);
+		reverse(v.begin(),v.end());
+		for(auto x:v){
+			cout<<x;
+		}
+		cout<<endl;
+	}
+}

@@ -1,0 +1,56 @@
+SỐ TRIBONACCI
+
+Bài làm tốt nhất
+Dãy số Tribonacci được xây dựng như sau:
+
+T(i) = i với i ≤ 3.
+
+T(i) = T(i-1) + T(i-2) + T(i-3) với i ≥ 4.
+
+Nhiệm vụ của bạn là hãy tính tổng N phần tử đầu tiên của dãy số này.
+
+F(N) = T(1) + T(2) + …+ T(N)
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 100).
+
+Mỗi test gồm một số nguyên dương N (N ≤ 109).
+
+in ra số thứ n
+
+// số tribonacci chính là a[2][1] của lũy thừa ma trận a[][] mũ k
+#include<bits/stdc++.h>
+using namespace std;
+long long mod=1e15+7;
+struct lt{
+	long long pos[10][10]={0};
+};
+lt nhan(lt a,lt b){
+	lt res;
+	for(int i=0;i<3;i++){
+		for(int j=0;j<3;j++){
+			res.pos[i][j]=0;
+			for(int k=0;k<3;k++){
+				res.pos[i][j]=res.pos[i][j]+(a.pos[i][k]*b.pos[k][j]%mod)%mod;
+			}
+		}
+	}
+	return res;
+}
+lt power(lt a,long long k){
+	if(k==1) return a;
+	lt x=power(a,k/2);
+	if(k%2==0) return nhan(x,x);
+	else return nhan(a,nhan(x,x));
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		lt a;
+		a.pos[0][1]=a.pos[1][2]=a.pos[2][0]=a.pos[2][1]=a.pos[2][2]=1;
+		long long k; cin>>k;
+		lt x=power(a,k);
+		cout<<x.pos[2][1]<<endl;
+	}
+}

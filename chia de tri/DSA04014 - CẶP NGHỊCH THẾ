@@ -1,0 +1,81 @@
+CẶP NGHỊCH THẾ
+
+Bài làm tốt nhất
+Cho mảng A[] gồm N phần. Ta gọi cặp nghịch thế của mảng A[] là số các cặp i, j sao cho i<j và A[i]>A[j]. Đối với mảng đã được sắp xếp thì số cặp nghịch thế bằng 0.
+Mảng đã sắp theo thứ tự giảm dần có số đảo ngược cực đại. Nhiệm vụ của bạn là hãy đưa ra số cặp nghịch thế của mảng A[] gồm N phần tử.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T.
+Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai phần: phần thứ nhất đưa vào số N tương ứng với số phần tử của mảng A[]; phần thứ 2 là N số của mảng A[]
+; các số được viết cách nhau một vài khoảng trống.
+T, N, A[i] thỏa mãn ràng buộc: 1≤T≤100;  1≤N≤107; 1≤A[i]≤1018.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Ví dụ:
+
+Input
+
+Output
+
+2
+5
+2 4 1 3 5
+
+5
+
+5 4 3 2 1
+
+3
+
+10
+
+#include<bits/stdc++.h>
+using namespace std;
+long long dem=0;
+long long merge(long long a[],int l,int m,int r){
+	vector<long long> x(a+l,a+m+1);
+	vector<long long> y(a+m+1,a+r+1);
+	int i=0,j=0;
+	long long cnt=0;
+	while(i<x.size() && j<y.size()){
+		if(x[i]<=y[j]){
+			a[l]=x[i];
+			l++; i++;
+		}
+		else{
+			cnt+=x.size()-i;
+			a[l]=y[j];
+			l++; j++;
+		}
+	}
+	while(i<x.size()){
+		a[l]=x[i];
+		l++; i++;
+	}
+	while(i<y.size()){
+		a[l]=y[j];
+		l++; j++;
+	}
+	return cnt;
+}
+void mergesort(long long a[],int l,int r){
+	if(l>=r) return;
+	int m=(l+r)/2;
+	mergesort(a,l,m);
+	mergesort(a,m+1,r);
+	dem+=merge(a,l,m,r);
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		int n; cin>>n;
+		long long a[n]; dem=0;
+		for(int i=0;i<n;i++){
+			cin>>a[i];
+		}
+		mergesort(a,0,n-1);
+		cout<<dem<<endl;
+	}
+}

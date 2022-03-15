@@ -1,0 +1,41 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+
+
+.CODE
+     ; LAY DU LIEU TU DATA VAO DS
+     MOV AX,DATA
+     MOV DS,AX
+     ;=============================
+     
+     MOV BL,5H ; HOAC LA 0000 0101
+     MOV CX,16 ; GAN GIA TRI VONG LAP VAO CX
+     
+PRINT:
+     SHL BX,1
+     JC  PRINT_ONE
+     JNC PRINT_ZERO
+
+PRINT_ONE:
+     MOV AH,2H
+     MOV DL,'1'
+     INT 21H  
+     JMP CONTINUE
+     
+PRINT_ZERO:
+     MOV AH,2H
+     MOV DL,'0'
+     INT 21H
+     
+     
+CONTINUE:    
+     LOOP PRINT  ; TUONG TU NHU VONG LAP FOR
+     
+     ;=============================
+     ;THOAT CHUONG TRINH
+     MOV AH,4CH
+     INT 21H
+
+
+END

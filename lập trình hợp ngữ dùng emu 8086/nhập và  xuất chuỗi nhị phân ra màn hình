@@ -1,0 +1,75 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+   
+   TBAO1 DB 10,13, 'NHAP VAO 1 CHUOI NHI PHAN: $'
+   TBAO2 DB 10,13, 'CHUOI NHI PHAN VUA NHAP LA: $'
+   TBAO3 DB 10,13, 'NHAP SAI VUI LONG XEM LAI $'
+   
+.CODE
+   MOV AX,DATA
+   MOV DS,AX
+   ;=========================
+   MOV AH,9H
+   LEA DX,TBAO1
+   INT 21H 
+   
+   MOV BL,0
+INPUT:   
+   MOV AH,1H
+   INT 21H
+   
+   CMP AL,13
+   JE BREAK  ;NEU NGUOI DUNG NHAP ENTER THI THOAT CHUONG TRINH
+   CMP AL,'0'
+   JE XULI
+   
+   CMP AL,'1'
+   JE XULI
+   
+   MOV AH,9H
+   LEA DX,TBAO3
+   INT 21H    
+   MOV AH,9H
+   LEA DX,TBAO1
+   INT 21H 
+   JMP INPUT
+   
+XULI:
+   SUB AL,30H ;CHUYEN TU CHUOI SANG SO         
+   SHL BL,1   ;DUNG LENH DICH TRAI
+   OR BL,AL   ;HOP TUNG PHAN TU AL VA BL VOI NHAU
+    
+   JMP INPUT   
+   
+BREAK:
+   
+   MOV AH,9H
+   LEA DX,TBAO2
+   INT 21H
+   
+   MOV CX,8
+   
+PRINT:     
+    SHL BL,1
+    JC PRINT_1 ; NHAY KHI CF=1
+    JNC PRINT_0 ;NHAY KHI CF=0
+    
+PRINT_0:
+    MOV AH,2H
+    MOV DL,'0'
+    INT 21H  
+    JMP CONTINUE
+    
+PRINT_1:
+    MOV AH,2
+    MOV DL,'1'
+    INT 21H    
+    
+CONTINUE: LOOP PRINT 
+   
+   ;=========================              
+   MOV AH,4CH
+   INT 21H
+
+END

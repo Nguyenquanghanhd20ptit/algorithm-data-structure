@@ -1,0 +1,29 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    DEM DB ?
+ 
+.CODE
+    MOV AX,DATA
+    MOV DS,AX
+    ;======================
+    MOV CX, 256 
+    MOV DEM,0
+    
+INPUT: 
+
+    MOV AH,2H
+    MOV DL,DEM 
+    INT 21H      
+    MOV DL,32
+    INT 21H 
+    INC DEM
+    
+    LOOP INPUT
+    
+    
+    ;======================
+    MOV AH,4CH
+    INT 21H
+    
+END

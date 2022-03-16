@@ -1,0 +1,98 @@
+MÃ SỐ
+
+Số lượng máy tính ở các phòng thực hành nhà A3 tăng lên nhanh chóng. Để gán mã cho các máy tính của PTIT người ta sử dụng mã gồm 2*N ký tự, trong đó:
+
+N ký tự đầu tiên là hoán vị của N chữ cái in hoa đầu tiên, tính từ A.
+N ký tự tiếp theo là các ký tự số bất kỳ từ 1 đến N (có thể trùng nhau).
+Người ta ước tính chỉ cần N = 5 là đủ để gán mã cho toàn bộ máy tính kể cả khi mở rộng quy mô các phòng thực hành. Hãy viết chương trình liệt kê các mã tạo được với giá trị N cho trước.
+
+Input
+
+Chỉ có duy nhất số N (1 < N < 6)
+
+Output
+
+Ghi ra lần lượt các mã khác nhau tạo được theo thứ tự từ điển, mỗi mã ghi trên một dòng
+
+Ví dụ
+
+Input
+
+Output
+
+2
+
+AB11
+
+AB12
+
+AB21
+
+AB22
+
+BA11
+
+BA12
+
+BA21
+
+BA22
+
+#include<bits/stdc++.h>
+using namespace std;
+int n,a[1001],used[1001]={0};
+vector<string> v,kq;
+void inp(){
+	cin>>n;
+	for(int i=1;i<=n;i++){
+		a[i]=i;
+	}
+}
+void inkq2(){
+	string res="";
+	for(int i=1;i<=n;i++){
+		res+=to_string(a[i]);
+	}
+	v.push_back(res);
+}
+void inkq1(){
+	string res="";
+	for(int i=1;i<=n;i++){
+		res+=char(a[i]-1+'A');
+	}
+	for(auto x:v){
+		string s="";
+		s+=res+x;
+		kq.push_back(s);
+	}
+}
+void ql1(int i){
+	for(int j=1;j<=n;j++){
+		if(used[j]==0){
+			a[i]=j;
+			used[j]=1;
+			if(i==n){
+				inkq1();
+			}
+			else ql1(i+1);
+			used[j]=0;
+		}
+	}
+}
+void ql2(int i){
+	for(int j=1;j<=n;j++){
+	   a[i]=j;
+	   if(i==n){
+	     	inkq2();
+	   }
+		else ql2(i+1);
+	}
+}
+int main(){
+	inp();
+	ql2(1);
+	ql1(1);
+	for(auto x:kq){
+		cout<<x<<endl;
+	}
+}

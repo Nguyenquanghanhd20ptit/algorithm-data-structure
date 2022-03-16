@@ -1,0 +1,98 @@
+HOÁN VỊ CÁC CHỮ SỐ
+
+Bài làm tốt nhất
+Độ chênh lệch của một dãy số nguyên dương được định nghĩa là hiệu của số lớn nhất trừ đi số nhỏ nhất trong dãy.
+
+Cho hai số nguyên dương n và k, với 1 <= n, k <= 8.
+
+Với n xâu ký tự số có độ dài k, có thể có chữ số 0 ở đầu. Hãy tìm cách duyệt tất cả hoán vị các chữ số của từng số trong danh sách sao cho độ chênh 
+lệch của dãy số tạo được là bé nhất có thể.
+
+Input
+
+Dòng đầu ghi hai số n và k.
+
+Tiếp theo là n dòng, mỗi dòng ghi một xâu ký tự đúng k chữ số.
+
+Output
+
+Ghi ra độ chênh lệch bé nhất có thể.
+
+Ví dụ
+
+Input
+
+Output
+
+6 4
+
+5237
+
+2753
+
+7523
+
+5723
+
+5327
+
+2537
+
+2700
+
+3 3
+
+010
+
+909
+
+012
+
+3
+
+ 
+
+#include<bits/stdc++.h>
+using namespace std;
+int n,k,a[1001],d[1001],used[1001]={0};
+string b[1001];
+int res;
+void inp(){
+	cin>>n>>k; res=1e9;
+	for(int i=1;i<=n;i++){
+		cin>>b[i];
+	}
+	for(int i=1;i<=k;i++){
+		a[i]=i;
+	}
+}
+void inkq(){
+	for(int i=1;i<=n;i++){
+		string res="";
+		for(int j=1;j<=k;j++){
+			res+=b[i][a[j]-1];
+		}
+		d[i]=stoi(res);
+	}
+	sort(d+1,d+n+1);
+	int x=d[n]-d[1];
+	res=min(res,x);
+}
+void ql(int i){
+	for(int j=1;j<=k;j++){
+		if(used[j]==0){
+			a[i]=j;
+			used[j]=1;
+			if(i==k){
+				inkq();
+			}
+			else ql(i+1);
+			used[j]=0;
+		}
+	}
+}
+int main(){
+	inp();
+	ql(1);
+	cout<<res<<endl;
+}

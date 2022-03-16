@@ -1,0 +1,115 @@
+LŨY THỪA MA TRẬN
+
+Cho ma trận vuông A kích thước N x N. Nhiệm vụ của bạn là hãy tính ma trận X = AK với K là số nguyên cho trước. Sau đó, tính tổng các phần tử trên đường chéo phụ.
+Đáp số có thể rất lớn, hãy in ra kết quả theo modulo 109+7.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 100).
+
+Mỗi test bắt gồm một số nguyên N và K (1 ≤ N ≤ 10, 1 ≤ K ≤ 109) là kích thước của ma trận và số mũ.
+
+Output: 
+
+Với mỗi test, in ra kết quả của ma trận X.
+
+Ví dụ:
+
+Input:
+
+Output
+
+2
+
+2 5
+
+1 1
+
+1 0
+
+3 1000000000
+
+1 2 3
+
+4 5 6
+
+7 8 9
+
+10
+
+593171300
+
+ 
+
+ 
+
+ 
+
+Giải thích:
+
+A^5 = 8 5
+
+      5 3
+
+Tổng các phần tử trên đường chéo phụ bằng 5+5 = 10.
+
+               597240088 35500972 473761863
+
+B^1000000000 = 781257150 154135232 527013321
+
+               965274212 272769492 580264779
+
+Tổng các phần tử trên đường chéo phụ là:
+
+(473761863+154135232+965274212) % 1000000007 = 593171300
+
+
+#include<bits/stdc++.h>
+using namespace std;
+long long n,k;
+long long mod=1e9+7;
+struct mt{
+	long long pos[15][15]={0};
+};
+mt nhan(mt a,mt b){
+	mt res;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			res.pos[i][j]=0;
+			for(int l=0;l<n;l++){
+				res.pos[i][j]=(res.pos[i][j]+(a.pos[i][l]*b.pos[l][j]%mod))%mod;
+			}
+		}
+	}
+	return res;
+}
+mt power(mt a,long long k){
+	if(k==1) return a;
+	mt x=power(a,k/2);
+	if(k%2==0) return nhan(x,x);
+	else return nhan(a,nhan(x,x));
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		cin>>n>>k;
+		mt a;
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n;j++){
+				cin>>a.pos[i][j];
+			}
+		}
+	    mt res=power(a,k);
+	    long long kq=0;
+	    for(int i=0;i<n;i++){
+	    	for(int j=0;j<n;j++){
+	    		if(i+j==n-1){
+	    			kq=(kq+res.pos[i][j])%mod;
+				}
+			}
+		}
+		cout<<kq<<endl;
+	}
+}
+
+ 

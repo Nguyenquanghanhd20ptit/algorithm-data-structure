@@ -1,0 +1,68 @@
+QUÂN VUA TRÊN BÀN CỜ
+
+Luật chơi cờ vua chắc chắn không xa lạ gì. Trên bàn cờ vua kích thước 8*8 thì quân vua được phép di chuyển đến cả 8 ô liền kề theo cả đường dọc và đường chéo. Tất nhiên quân vua sẽ không thể di chuyển được ra ngoài bàn cờ.
+
+Cho 2 ô trên bàn cờ gọi là ô bắt đầu và ô kết thúc. Hãy tính xem quân vua cần ít nhất bao nhiêu bước để di chuyển từ ô bắt đầu đến ô kết thúc.
+
+Input
+
+Có 2 cặp số nguyên s1,s2 và f1,f2 lần lượt và vị trí ô bắt đầu và ô kết thúc. Các vị trí đảm bảo nằm trong phạm vi bàn cờ.
+
+Output
+
+Số bước đi ít nhất của quân vua
+
+Ví dụ
+
+Input
+
+Output
+
+4 3 1 6
+
+3
+
+5 5 5 6
+
+1
+
+#include<bits/stdc++.h>
+using namespace std;
+int s1,s2,e1,e2,used[1001][1001];
+int d[1001][1001]={0};
+int dx[8]={-1,-1,-1,0,0,1,1,1};
+int dy[8]={-1,0,1,-1,1,-1,0,1};
+
+void bfs(int i,int j){
+	queue<pair<int,int>> q;
+	q.push({i,j});
+	used[i][j]=true;
+	while(!q.empty()){
+		pair<int,int> u=q.front(); q.pop();
+		int fi=u.first;
+		int se=u.second;
+		for(int k=0;k<8;k++){
+			int i1=fi+dx[k];
+			int j1=se+dy[k];
+			if(used[i1][j1]==false && i1>=1 && i1<=8 && j1>=1 && j1<=8){
+				d[i1][j1]=k;
+				q.push({i1,j1});
+				used[i1][j1]=true;
+				if(i1==e1 && j1==e2) return;
+			}
+		}
+	}
+}
+int main(){
+	cin>>s1>>s2>>e1>>e2;
+	memset(used,false,sizeof(used));
+	bfs(s1,s2);
+	int dem=0;
+	while(e1!=s1 || e2!=s2){
+		int k=d[e1][e2];
+		e1=e1-dx[k];
+		e2=e2-dy[k];
+		dem++;
+	}
+	cout<<dem<<endl;
+}

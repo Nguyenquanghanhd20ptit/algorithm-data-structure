@@ -1,0 +1,75 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+     TBAO1 DB 10,13,'CHUOI VUA NHAP LA: $'
+     TBAO2 DB 10,13,'IN RA CHUOI THUONG: $'
+     TBAO3 DB 10,13,'IN RA CHUOI HOA: $'     
+     
+     CHUOI DB 256 DUP('$')
+     
+.CODE   
+MAIN:
+     MOV AX,DATA
+     MOV DS,AX
+     INT 21H
+     ;==================== 
+     ;NHAP CHUOI TU BAN PHIM    
+     MOV AH,9H
+     LEA DX,TBAO1
+     INT 21H
+     
+     MOV AH,10
+     LEA DX,CHUOI
+     INT 21H
+     
+     ;IN RA CHU THUONG
+     MOV AH,9H
+     LEA DX,TBAO2
+     INT 21H 
+     JMP IN_THUONG
+CONTINUE:     
+     ;IN RA CHU HOA
+     MOV AH,9H
+     LEA DX,TBAO3
+     INT 21H
+     JMP IN_HOA
+     
+IN_THUONG:
+     LEA SI,CHUOI+2
+     XULI1:
+          MOV AL,[SI]
+          CMP AL,'A'
+          JB IN1
+          CMP AL,'Z'
+          JA  IN1
+          ADD AL,32
+     IN1:
+         MOV AH,2H
+         MOV DL,AL
+         INT 21H
+         INC SI
+         CMP [SI],'$'
+         JNE XULI1   
+         JMP CONTINUE
+         
+IN_HOA:
+     LEA SI,CHUOI+2
+     XULI2:
+          MOV AL,[SI]
+          CMP AL,'a'
+          JB IN2
+          CMP AL,'z'
+          JA  IN2
+          SUB AL,32
+     IN2:
+         MOV AH,2H
+         MOV DL,AL
+         INT 21H
+         INC SI
+         CMP [SI],'$'
+         JNE XULI2
+     
+     ;====================
+     MOV AH,4CH
+     INT 21H
+END

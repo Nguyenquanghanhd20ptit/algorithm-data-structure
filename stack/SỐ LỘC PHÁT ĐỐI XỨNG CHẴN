@@ -1,0 +1,72 @@
+SỐ LỘC PHÁT ĐỐI XỨNG CHẴN
+
+
+Trong quan điểm người Việt, một số nguyên dương được gọi là “lộc phát” nếu chỉ có hai chữ số là 6 và/hoặc 8.
+Một số lộc phát X được gọi là đối xứng chẵn nếu:
+
+Số chữ số của X là chẵn
+X thỏa mãn tính chất đối xứng.
+Hãy liệt kê N số lộc phát đối xứng chẵn đầu tiên theo thứ tự từ nhỏ đến lớn.
+
+Input
+
+Dòng đầu tiên đưa vào số lượng test T.
+Dòng tiếp theo đưa vào các bộ test. Mỗi bộ test được là một số N được viết trên một dòng.
+T, N thỏa mãn ràng buộc: 1≤T≤100; 1≤N≤104.
+Output
+
+Đưa ra kết quả mỗi test theo từng dòng. Các số cách nhau đúng một khoảng trống.
+
+Ví dụ
+
+Input
+
+Output
+
+2
+
+4
+
+10
+
+66 88 6666 6886
+
+66 88 6666 6886 8668 8888 666666 668866 686686 688886
+
+ 
+ 
+ #include<bits/stdc++.h>
+using namespace std;
+vector<string> v;
+void hangdoi(){
+	queue<string> q;
+	q.push("6");
+	v.push_back("6");
+	q.push("8");
+	v.push_back("8");
+	while(!q.empty()){
+		string x=q.front(); q.pop();
+		string a=x+"6";
+		string b=x+"8";
+		v.push_back(a);
+		q.push(a);
+		if(v.size()==10000) return;
+		v.push_back(b);
+		q.push(b);
+		if(v.size()==10000) return;
+	}
+}
+int main(){
+	int t; cin>>t;
+	hangdoi();
+	while(t--){
+		int n; cin>>n;
+		for(int i=0;i<n;i++){
+			cout<<v[i];
+			string s=v[i];
+			reverse(s.begin(),s.end());
+			cout<<s<<" ";
+		}
+		cout<<endl;
+	}
+}

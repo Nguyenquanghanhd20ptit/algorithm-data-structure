@@ -1,0 +1,87 @@
+LOẠI BỎ DẤU NGOẶC
+
+Cho một biểu thức đúng và thỏa mãn:
+
+- Các biến trong biểu thức chỉ chứa các chữ cái viết hoa.
+
+- Các toán tử trong biểu thức là ‘+’ hoặc ‘-’
+
+Hãy loại bỏ các dấu ngoặc thừa mà vẫn giữ nguyên ý nghĩa của biểu thức.
+
+Input:
+
+- Dòng đầu tiên chứa số biểu thức M (1<=M<=10).
+
+- M dòng tiếp theo, mỗi dòng là một biểu thức đúng, có thể có các dấu cách tùy ý trong mỗi dòng. Độ dài mỗi dòng (bao gồm cả dấu cách)
+không quá 255 kí tự.
+
+Output:
+
+Với mỗi biểu thức, in ra trên một dòng biểu thức không có các dấu ngoặc thừa.
+
+Chú ý: Thứ tự của các toán hạng trong biểu thức kết quả và biểu thức đầu vào phải giống nhau. Các dấu cách thừa nếu có cũng phải được loại bỏ.
+
+Ví dụ:
+
+Input
+
+Output
+
+3
+
+(A  -  B + C)-(A+   (B–C))  -  (C-   (D- E) )
+
+((A)-  ((B  )    ))
+
+A-(   B+C)
+
+A-B+C-(A+B-C)-(C-(D-E))
+
+A-B
+
+A-(B+C)
+
+#include<bits/stdc++.h>
+using namespace std;
+bool check(string s,int a,int b){
+	for(int i=a;i<=b;i++){
+		if(s[i]=='+' || s[i]=='-') return false;
+	}
+	return true;
+}
+void solve(string s){
+	int kt[s.length()]={0};
+	stack<int> st;
+	for(int i=0;i<s.length();i++){
+		if(s[i]=='('){
+			st.push(i);
+		}
+		else if(s[i]==')'){
+			int x=st.top();
+			st.pop();
+			if(x==0 || i-x==2 || s[x-1]=='+' || (s[x-1]=='-' && check(s,x,i)) || s[x-1]=='('){
+				kt[i]=kt[x]=1;
+			}
+		}
+	}
+	for(int i=0;i<s.length();i++){
+		if(!kt[i]){
+			cout<<s[i];
+		}
+	}
+	cout<<endl;
+}
+int main(){
+ 	int t; cin>>t;
+	while(t--){
+		string s; 
+		getline(cin>>ws,s);
+		stringstream ss(s);
+		string hanh;
+		string x="";
+		while(ss>>hanh){
+			x+=hanh;
+		}
+		solve(x);
+	}
+}

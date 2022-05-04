@@ -1,0 +1,63 @@
+Trong bài tập môn CTDL và GT, số may mắn được hiểu là số chỉ có hai chữ số 4 và 7. Với mỗi số nguyên dương N thì số may mắn tiếp theo của
+N được định nghĩa là số may mắn nhỏ nhất lớn hơn hoặc bằng N.
+
+Cho hai số nguyên dương a và b (với a <= b). Hãy tính tổng các số may mắn tiếp theo của tất cả các số trong đoạn [a,b]
+
+Input
+
+Chỉ có một dòng ghi hai số a,b (1 <= a <= b <= 109).
+
+Output
+
+Ghi ra giá trị kết quả tính được.
+
+Ví dụ
+
+Input
+
+Output
+
+2 7
+
+33
+
+7 7
+
+7
+
+#include<bits/stdc++.h>
+using namespace std;
+vector<long long> v;
+void hangdoi(){
+	queue<string> q;
+	q.push("4");
+	q.push("7");
+	v.push_back(4);
+	v.push_back(7);
+	while(!q.empty()){
+		string x=q.front(); q.pop();
+		string a=x+"4";
+		string b=x+"7";
+		q.push(a);
+		if(a.length()>=10){
+			return;
+		}
+		v.push_back(stoll(a));
+		q.push(b);
+		if(b.length()>=10){
+			return;
+		}
+		v.push_back(stoll(b));
+	}
+}
+int main(){
+	long long a,b; cin>>a>>b;
+	hangdoi();
+	long long res=0,i=a;
+	while(i<=b){
+		auto x=lower_bound(v.begin(),v.end(),i);
+		res+=(*x)*min(b-i+1,*x-i+1);
+		i=*x+1;
+	}
+	cout<<res<<endl;
+}

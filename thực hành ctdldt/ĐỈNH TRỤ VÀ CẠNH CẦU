@@ -1,0 +1,144 @@
+ĐỈNH TRỤ VÀ CẠNH CẦU
+
+Cho đồ thị vô hướng có N đỉnh (1 <= N <= 10^4) và M cạnh (1 <= M <= 10^5). Một đỉnh được gọi là đỉnh trụ nếu như xóa đỉnh đó đi 
+sẽ làm tăng số lượng thành phần liên thông của đồ thị. Một cạnh được gọi là cạnh cầu nếu như xóa cạnh đó đi sẽ làm tăng số lượng
+thành phần liên thông của đồ thị.
+
+Nhiệm vụ của bạn là hãy đếm số lượng đỉnh trụ và cạnh cầu của đồ thị đã cho.
+
+
+
+Input:
+
+Dòng đầu tiên hai số nguyên N và M.
+
+M dòng tiếp theo, mỗi dòng gồm hai số nguyên u, v cho biết có cạnh nối giữa đỉnh u và v.
+
+Output: 
+
+In ra 2 số nguyên là số lượng đỉnh trụ và cạnh cầu của đồ thị
+
+Ví dụ:
+
+Input:
+
+Output
+
+10 12
+
+1 10
+
+10 2
+
+10 3
+
+2 4
+
+4 5
+
+5 2
+
+3 6
+
+6 7
+
+7 3
+
+7 8
+
+8 9
+
+9 7
+
+4 3
+
+ 
+
+ 
+#include<bits/stdc++.h>
+using namespace std;
+int n,m;
+bool used[10001];
+vector<pair<int,int>> edge;
+vector<int> v[10001];
+void inp(){
+	cin>>n>>m;
+	for(int i=0;i<m;i++){
+		int x,y; cin>>x>>y;
+		edge.push_back({x,y});
+		v[x].push_back(y);
+		v[y].push_back(x);
+	}
+}
+void dfs1(int i,int s,int e){
+	used[i]=true;
+	for(auto x:v[i]){
+		if((i==s && x==e) || (i==e && x==s)){
+			continue;
+		}
+		if(used[x]==false){
+			dfs1(x,s,e);
+		}
+	}
+}
+void dfs(int i){
+	used[i]=true;
+	for(auto x:v[i]){
+		if(used[x]==false){
+			dfs(x);
+		}
+	}
+}
+int dinhtru(){
+	int ans=0;
+	int cnt=0;
+	memset(used,false,sizeof(used));
+	for(int i=1;i<=n;i++){
+		if(used[i]==false){
+			cnt++;
+			dfs(i);
+		}
+	}
+	for(int i=1;i<=n;i++){
+		memset(used,false,sizeof(used));
+		used[i]=true;
+		int dem=0;
+		for(int j=1;j<=n;j++){
+			if(used[j]==false){
+				dem++;
+				dfs(j);
+			}
+		}
+		if(dem>cnt){
+			ans++;
+		}
+	}
+	return ans;
+}
+int canhcau(){
+	int ans=0;
+	int cnt=0;
+	memset(used,false,sizeof(used));
+	for(int i=1;i<=n;i++){
+		if(used[i]==false){
+			cnt++;
+			dfs(i);
+		}
+	}
+	for(int i=0;i<edge.size();i++){
+		memset(used,false,sizeof(used));
+		int dem=0;
+		for(int j=1;j<=n;j++){
+			if(used[j]==false){
+				dem++;
+				dfs1(j,edge[i].first,edge[i].second);
+			}
+		}
+		if(dem>cnt) ans++;
+    }
+    return ans;
+}
+int main(){
+	inp();
+	cout<<dinhtru()<<" "<<canhcau()<<endl;
+}

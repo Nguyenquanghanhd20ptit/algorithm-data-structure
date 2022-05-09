@@ -1,0 +1,321 @@
+Viết chương trình C++ in các đường đi và chu trình Hamilton của 1 đồ thị cho trước. Nếu không có đường đi Hamilton (hệ quả là không có chu trình Hamilton) thì in "No Hamiltonian path".
+
+Format bắt buộc cho hệ thống chấm tự động:
+
+Input: đầu tiên nhập số đỉnh của đồ thị, tiếp theo nhập đỉnh bắt đầu duyệt, sau đó nhập ma trận kề (từ bàn phím)
+
+Output: Mỗi dòng in ra 1 đường đi hoặc chu trình Hamilton (nếu có). In thông báo "No Hamiltonian path" nếu không có đường đi Hamilton (và/hoặc chu trình Hamilton) theo như các Test cases dưới đây.
+
+case=1
+
+input=
+
+5
+
+1
+
+0  1  0  1  0  
+
+1  0  1  0  1  
+
+0  1  0  1  1  
+
+1  0  1  0  1  
+
+0  1  1  1  0  
+
+output=
+
+1 2 3 4 5
+
+1 2 3 5 4 1
+
+1 2 5 3 4 1
+
+1 2 5 4 3
+
+1 4 3 2 5
+
+1 4 3 5 2 1
+
+1 4 5 2 3
+
+1 4 5 3 2 1
+
+
+
+case=2
+
+input=
+
+10
+
+1
+
+0  0  0  0  0  0  1  0  1  1  
+
+0  0  1  0  0  1  1  0  0  0  
+
+0  1  0  1  0  1  0  0  0  0  
+
+0  0  1  0  1  1  0  0  0  0  
+
+0  0  0  1  0  1  0  1  0  0  
+
+0  1  1  1  1  0  1  0  1  0  
+
+1  1  0  0  0  1  0  0  0  0  
+
+0  0  0  0  1  0  0  0  1  1  
+
+1  0  0  0  0  1  0  1  0  1  
+
+1  0  0  0  0  0  0  1  1  0  
+
+output=
+
+1 7 2 3 4 5 6 9 8 10 1
+
+1 7 2 3 4 5 6 9 10 8
+
+1 7 2 3 4 5 8 10 9 6
+
+1 7 2 3 4 6 5 8 9 10 1
+
+1 7 2 3 4 6 5 8 10 9 1
+
+1 7 2 3 4 6 9 10 8 5
+
+1 7 2 3 6 4 5 8 9 10 1
+
+1 7 2 3 6 4 5 8 10 9 1
+
+1 7 2 3 6 9 10 8 5 4
+
+1 7 2 6 3 4 5 8 9 10 1
+
+1 7 2 6 3 4 5 8 10 9 1
+
+1 7 2 6 9 10 8 5 4 3
+
+1 7 6 2 3 4 5 8 9 10 1
+
+1 7 6 2 3 4 5 8 10 9 1
+
+1 7 6 9 10 8 5 4 3 2
+
+1 9 6 7 2 3 4 5 8 10 1
+
+1 9 10 8 5 4 3 2 6 7 1
+
+1 9 10 8 5 4 3 2 7 6
+
+1 9 10 8 5 4 3 6 2 7 1
+
+1 9 10 8 5 4 3 6 7 2
+
+1 9 10 8 5 4 6 3 2 7 1
+
+1 9 10 8 5 4 6 7 2 3
+
+1 9 10 8 5 6 4 3 2 7 1
+
+1 9 10 8 5 6 7 2 3 4
+
+1 10 8 5 4 3 2 7 6 9 1
+
+1 10 8 9 6 5 4 3 2 7 1
+
+1 10 8 9 6 7 2 3 4 5
+
+1 10 9 6 7 2 3 4 5 8
+
+1 10 9 8 5 4 3 2 6 7 1
+
+1 10 9 8 5 4 3 2 7 6
+
+1 10 9 8 5 4 3 6 2 7 1
+
+1 10 9 8 5 4 3 6 7 2
+
+1 10 9 8 5 4 6 3 2 7 1
+
+1 10 9 8 5 4 6 7 2 3
+
+1 10 9 8 5 6 4 3 2 7 1
+
+1 10 9 8 5 6 7 2 3 4
+
+
+
+case=3
+
+input=
+
+10
+
+1
+
+0  1  0  0  0  0  0  0  0  0  
+
+1  0  1  0  0  0  0  0  0  0  
+
+0  1  0  1  0  0  0  0  0  0  
+
+0  0  1  0  1  0  0  0  0  0  
+
+0  0  0  1  0  1  0  0  0  0  
+
+0  0  0  0  1  0  1  0  0  0  
+
+0  0  0  0  0  1  0  1  0  0  
+
+0  0  0  0  0  0  1  0  1  1  
+
+0  0  0  0  0  0  0  1  0  0  
+
+0  0  0  0  0  0  0  1  0  0  
+
+output=
+
+No Hamiltonian path
+
+
+
+case=4
+
+input=
+
+8
+
+1
+
+0  1  0  0  0  0  1  1  
+
+1  0  1  0  0  0  1  1  
+
+0  1  0  1  0  0  1  1  
+
+0  0  1  0  1  1  1  1  
+
+0  0  0  1  0  0  0  0  
+
+0  0  0  1  0  0  0  0  
+
+1  1  1  1  0  0  0  0  
+
+1  1  1  1  0  0  0  0  
+
+output=
+
+No Hamiltonian path
+
+#include<bits/stdc++.h>
+using namespace std;
+int n,a;
+vector<int> v[1001];
+bool used[1001];
+vector<string> kq;
+void inp(){
+    cin>>n>>a;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            int x; cin>>x;
+            if(x==1){
+                v[i].push_back(j);
+            }
+        }
+    }
+}
+bool check(vector<int> path,int u){
+    for(int i=0;i<path.size();i++){
+        if(path[i]==u){
+            return false;
+        }
+    }
+    return true;
+}
+void inkq(vector<int> path){
+    set<int> s;
+    for(int i=0;i<path.size();i++){
+        s.insert(path[i]);
+    }
+    string res="";
+    if(s.size()==path.size() && s.size()==n){
+        res+=to_string(a)+" ";
+        for(auto x:path){
+        	if(x==10) {
+        		string m="A";
+        		res+=m+" ";
+			}
+            else res+=to_string(x)+" ";
+        }
+        kq.push_back(res);
+    }
+}
+void inkq2(vector<int> path){
+	set<int> s;
+	s.insert(1);
+    for(int i=0;i<path.size();i++){
+        s.insert(path[i]);
+    }
+    string res="";
+    if(s.size()==n){
+        res+=to_string(a)+" ";
+        for(auto x:path){
+        	if(x==10) {
+        		string m="A";
+        		res+=m+" ";
+			}
+            else res+=to_string(x)+" ";
+        }
+        kq.push_back(res);
+    }
+}
+void bfs(int i){
+    queue<vector<int>> q;
+    for(auto x:v[i]){
+        vector<int> u;
+        u.push_back(x);
+        q.push(u);
+    }
+    while(!q.empty()){
+        vector<int> path=q.front(); q.pop();
+        int last=*path.rbegin();
+        if(last==a){
+            if(path.size()>=n) inkq(path);
+        }
+        int k=1;
+        if(path.size()==n-1){
+        	for(auto x:v[last]){
+        		if(x==1) k=0;
+			}
+			if(k) inkq2(path);
+		}
+        for(auto x:v[last]){
+            if(check(path,x)){
+                vector<int> new_path(path);
+                new_path.push_back(x);
+                q.push(new_path);
+            }
+        }
+    }
+}
+int main(){
+    inp();
+    bfs(a);
+    if(kq.size()==0){
+    	cout<<"No Hamiltonian path"<<endl;
+    	return 0;
+	}
+    sort(kq.begin(),kq.end());
+    for(auto x:kq){
+    	for(int i=0;i<x.length();i++){
+    		if(x[i]!=' '){
+    			if(x[i]=='A') cout<<10<<" ";
+    			else cout<<x[i]<<" ";
+			}
+		}
+		cout<<endl;
+	}
+}

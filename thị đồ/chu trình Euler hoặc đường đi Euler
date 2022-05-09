@@ -1,0 +1,212 @@
+Viết chương trình C++ tìm chu trình Euler hoặc đường đi Euler (xuất phát từ 1 đỉnh cho trước) trên đồ thị.
+
+Format bắt buộc cho hệ thống chấm tự động:
+
+Input: đầu tiên nhập số đỉnh của đồ thị, tiếp theo nhập đỉnh bắt đầu duyệt, sau đó nhập ma trận kề (từ bàn phím)
+
+Output: 
+
+- Nếu có chu trình hoặc đường đi Euler In ra trên 1 dòng chu trình hoặc đường đi Euler xuất phát từ đỉnh cho trước, mỗi đỉnh cách nhau 1 vài khoảng trống (xem output mẫu).
+
+- Nếu đồ thị không tồn tại chu trình hoặc đường đi Euler thì in dòng: no Euler cycle
+
+Test cases:
+
+case=1
+
+input=
+
+6
+
+1
+
+0  0  0  1  1  0  
+
+0  0  1  1  1  1  
+
+0  1  0  1  1  1  
+
+1  1  1  0  1  0  
+
+1  1  1  1  0  0  
+
+0  1  1  0  0  0  
+
+output=
+
+1  4  2  3  4  5  2  6  3  5  1
+
+
+
+case=2
+
+input=
+
+13
+
+5
+
+0  1  0  0  0  1  0  0  0  0  0  0  0  
+
+1  0  1  0  1  1  0  0  0  0  0  1  0  
+
+0  1  0  1  1  0  0  0  0  0  1  0  0  
+
+0  0  1  0  0  0  1  1  0  0  1  0  0  
+
+0  1  1  0  0  1  1  0  0  0  0  0  0  
+
+1  1  0  0  1  0  1  0  1  0  0  0  0  
+
+0  0  0  1  1  1  0  1  0  0  0  0  0  
+
+0  0  0  1  0  0  1  0  1  1  0  0  0  
+
+0  0  0  0  0  1  0  1  0  1  0  1  1  
+
+0  0  0  0  0  0  0  1  1  0  1  1  0  
+
+0  0  1  1  0  0  0  0  0  1  0  1  0  
+
+0  1  0  0  0  0  0  0  1  1  1  0  1  
+
+0  0  0  0  0  0  0  0  1  0  0  1  0  
+
+output=
+
+no Euler cycle
+
+
+
+case=3
+
+input=
+
+13
+
+7
+
+0 0 0 1 0 1 0 0 0 0 0 0 0
+
+0 0 1 0 0 0 0 1 0 1 1 0 0
+
+0 1 0 0 0 0 0 0 1 1 0 0 1
+
+1 0 0 0 0 1 0 1 0 0 0 1 0
+
+0 0 0 0 0 0 1 0 1 0 0 0 0
+
+1 0 0 1 0 0 0 0 0 1 0 1 0
+
+0 0 0 0 1 0 0 0 0 0 1 0 1
+
+0 1 0 1 0 0 0 0 0 0 1 1 0
+
+0 0 1 0 1 0 0 0 0 0 0 0 1
+
+0 1 1 0 0 1 0 0 0 0 0 1 0
+
+0 1 0 0 0 0 1 1 0 0 0 0 1
+
+0 0 0 1 0 1 0 1 0 1 0 0 0
+
+0 0 1 0 0 0 1 0 1 0 1 0 0
+
+output=
+
+7  5  9  3  2  8  4  1  6  4  12  6  10  2  11  7  13  3  10  12  8  11  13  9
+
+
+
+case=4
+
+input=
+
+13
+
+7
+
+0  0  0  1  1  1  0  0  0  0  0  0  0  
+
+0  0  1  0  0  0  0  1  0  1  1  1  0  
+
+0  1  0  0  0  0  0  0  1  1  1  0  1  
+
+1  0  0  0  0  1  0  1  0  0  0  1  0  
+
+1  0  0  0  0  0  1  0  1  0  0  0  0  
+
+1  0  0  1  0  0  0  0  0  1  0  1  0  
+
+0  0  0  0  1  0  0  0  0  0  1  0  1  
+
+0  1  0  1  0  0  0  0  0  0  1  1  0  
+
+0  0  1  0  1  0  0  0  0  0  0  0  1  
+
+0  1  1  0  0  1  0  0  0  0  0  1  0  
+
+0  1  1  0  0  0  1  1  0  0  0  0  1  
+
+0  1  0  1  0  1  0  1  0  1  0  0  0  
+
+0  0  1  0  0  0  1  0  1  0  1  0  0  
+
+output=
+
+no Euler cycle
+
+#include <bits/stdc++.h>
+using namespace std;
+int n, start, edge, path[100];
+bool ok;
+bool isExist;
+void DFS(vector<int> adj[], vector<vector<bool>> &vis, int cur, int idx){
+    if (ok)return;
+    path[idx] = cur;
+    if (idx == edge + 1){
+        ok = true;
+        for (int i = 1; i <= idx; i++)
+            cout << path[i] << " ";
+        return;
+    }
+    for (auto x : adj[cur]){
+        if (!vis[cur][x] && !vis[x][cur]){
+            vis[cur][x] = vis[x][cur] = true;
+            DFS(adj, vis, x, idx + 1);
+            vis[cur][x] = vis[x][cur] = false;
+        }
+    }
+}
+int main(){
+    ok = 0, edge = 0;
+    isExist = 1;
+    cin >> n >> start;
+    vector<vector<int>> a(n + 1, vector<int>(n + 1));
+    vector<int> adj[n + 1];
+    vector<vector<bool>> vis(n + 1, vector<bool>(n + 1, false));
+    for (int i = 1; i <= n; i++){
+        for (int j = 1; j <= n; j++)
+            cin >> a[i][j];
+    }
+    for (int i = 1; i <= n; i++){
+        for (int j = 1; j <= n; j++){
+            if (a[i][j]){
+                edge++;
+                adj[i].push_back(j);
+                adj[j].push_back(i);
+                a[i][j] = a[j][i] = 0;
+            }
+        }
+    }
+    int odd = 0;
+    for (int i = 1; i <= n; i++)
+        odd += ((int)adj[i].size() & 1);
+    if (odd != 0 && odd != 2){
+        cout << "no Euler cycle";
+        return 0;
+    }
+    DFS(adj, vis, start, 1);
+    return 0;
+}
+

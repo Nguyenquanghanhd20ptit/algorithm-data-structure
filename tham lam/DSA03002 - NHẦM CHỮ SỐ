@@ -1,0 +1,69 @@
+NHẦM CHỮ SỐ
+
+Bài làm tốt nhất
+Trong một buổi học toán, giáo viên viết 2 số nguyên, A và B, và yêu cầu Tèo thực hiện phép cộng. Tèo không bao giờ tính toán sai,
+nhưng thỉnh thoảng cậu ta chép các con số một cách không chính xác. Lỗi duy nhất của là ghi nhầm '5' thành '6' hoặc ngược lại.  
+Cho hai số, A và B, tính tổng nhỏ nhất và lớn nhất mà Tèo có thể nhận được.
+
+Input: Có một dòng chứa hai số nguyên dương A và B ( 1 ≤ A, B ≤ 1 000 000).
+
+Output: In ra 2 số nguyên cách nhau một dấu cách, tổng nhỏ nhất và lớn nhất có thể nhận được.
+
+Ví dụ:
+
+Test 1
+
+Test 2
+
+Test 3
+
+Input:
+11 25
+
+Ouput:
+36 37
+
+Input:
+1430 4862
+
+Ouput:
+6282 6292
+
+Input:
+16796 58786
+
+Ouput:
+74580 85582
+
+#include<bits/stdc++.h>
+using namespace std;
+long long solon(string a,string b){
+	for(int i=0;i<a.length();i++){
+		if(a[i]=='5'){
+			a[i]='6';
+		}
+	}	
+	for(int i=0;i<b.length();i++){
+		if(b[i]=='5'){
+			b[i]='6';
+		}
+	}
+	return stoll(a)+stoll(b);
+}
+long long sobe(string a,string b){
+	for(int i=0;i<a.length();i++){
+		if(a[i]=='6'){
+			a[i]='5';
+		}
+	}	
+	for(int i=0;i<b.length();i++){
+		if(b[i]=='6'){
+			b[i]='5';
+		}
+	}
+	return stoll(a)+stoll(b);
+}
+int main(){
+	string a,b; cin>>a>>b;
+	cout<<sobe(a,b)<<" "<<solon(a,b)<<endl;
+}

@@ -1,0 +1,100 @@
+SỐ BƯỚC DI CHUYỂN ÍT NHẤT
+
+Cho ma trận A kích thước N*M.
+
+Hãy tìm số bước đi ít nhất để di chuyển từ vị trí A[1][1] đến vị trí A[N][M].
+
+Biết rằng mỗi bước từ vị trí (i, j) ta có thể di chuyển theo một trong ba hướng:
+
+Hướng xuống dưới với số ô di chuyển là hiệu hai giá trị A[i][j] và A[i+1][j]
+Hướng sang phải với số ô di chuyển là hiệu hai giá trị A[i][j] và A[i][j+1]
+Hướng chéo xuống với số ô di chuyển là hiệu của hai giá trị A[i][j] và A[i+1][j+1]
+Input:
+
+Dòng đầu tiên đưa vào số lượng test T.
+Dòng tiếp theo đưa vào các bộ test. Mỗi bộ test gồm hai phần: phần thứ nhất là hai số N, M; phần thứ hai là các phần tử của ma trận A[][]; 
+các số được viết cách nhau một vài khoảng trống.
+T, N, M, A[i][j] thỏa mãn ràng buộc: 1≤T≤100; 1≤ N, M, A[i][j]≤103.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Nếu không tìm được đường đi ghi ra -1
+Ví dụ:
+
+Input
+
+Output
+
+1
+
+3 3
+
+2 1 2
+
+1 2 4
+
+1 3 2
+
+3
+
+bai lam
+#include<bits/stdc++.h>
+using namespace std;
+struct node{
+	int a,b,w;
+};
+int n,m,a[1001][1001];
+bool used[1001][1001];
+void inp(){
+	cin>>n>>m;
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			cin>>a[i][j];
+		}
+	}
+	memset(used,false,sizeof(used));
+}
+void hangdoi(){
+	queue<node> q;
+	q.push({1,1,0});
+	while(!q.empty()){
+		node u=q.front(); q.pop();
+		if(u.a==n && u.b==m){
+			cout<<u.w<<endl;
+			return;
+		} 
+		int x=u.a,y=u.b,d=u.w;
+		if(x+1<=n){
+			int down=abs(a[x][y]-a[x+1][y]);
+			int i1=x+down,j1=y;
+			if(i1>=1 && i1<=n && j1>=1 && j1<=m && used[i1][j1]==false){
+				q.push({i1,j1,d+1});
+				used[i1][j1]=true;
+			}
+		}
+		if(y+1<=m){
+			int right=abs(a[x][y]-a[x][y+1]);
+			int i2=x,j2=y+right;
+			if(i2>=1 && i2<=n && j2>=1 && j2<=m && used[i2][j2]==false){
+				q.push({i2,j2,d+1});
+				used[i2][j2]=true;
+			}
+		}
+		if(x+1<=n && y+1<=m){
+			int di=abs(a[x][y]-a[x+1][y+1]);
+			int i3=x+di,j3=y+di;
+			if(i3>=1 && i3<=n && j3>=1 && j3<=m && used[i3][j3]==false){
+				q.push({i3,j3,d+1});
+				used[i3][j3]=true;
+			}
+		}
+	}
+	cout<<-1<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		inp();
+		hangdoi();
+	}
+}

@@ -1,0 +1,59 @@
+SỐ NHỎ NHẤT
+
+Bài làm tốt nhất
+Cho hai số nguyên dương S và D, trong đó S là tổng các chữ số và D là số các chữ số của một số. Nhiệm vụ của bạn là tìm số nhỏ nhất thỏa mãn S và D? 
+Ví dụ với S = 9, D = 2 ta có số nhỏ nhất thỏa mãn S và D là 18.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T.
+Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là bộ 2 số S và D được viết trên một dòng.
+T, S, D thỏa mãn ràng buộc: 1≤T≤100;  1≤ S,D≤1000.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng. Nếu không có đáp án, in ra -1.
+Ví dụ:
+
+Input
+
+Output
+
+2
+9 2
+20 3
+
+18
+299
+
+#include<bits/stdc++.h>
+using namespace std;
+void solve(){
+	int n,s; cin>>s>>n;
+	if(n*9<s){
+		cout<<-1<<endl;
+		return;
+	}
+	int a[n+1]={0};
+	int x=s-1;
+	for(int i=n;i>=1;i--){
+		if(x>=9){
+			a[i]=9;
+			x-=9;
+		}
+		else if(x!=0){
+			a[i]=x;  x=0;
+		}
+		else break;
+	}
+	a[1]+=1;
+	for(int i=1;i<=n;i++){
+		cout<<a[i];
+	}
+	cout<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		solve();
+	}
+}

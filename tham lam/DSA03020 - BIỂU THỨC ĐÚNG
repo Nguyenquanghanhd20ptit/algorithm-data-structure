@@ -1,0 +1,64 @@
+BIỂU THỨC ĐÚNG
+
+Bài làm tốt nhất
+Cho một mảng S gồm 2×N ký tự, trong đó có N ký tự ‘[’ và N ký tự ‘]’. Xâu S được gọi là viết đúng nếu S có dạng S2[S1] trong đó S, S2 là các xâu viết đúng
+. Nhiệm vụ của bạn là tìm số các phép đổi chỗ ít nhất các ký tự kề nhau của xâu S viết sai để  S trở thành viết đúng. Ví dụ với xâu S =”[]][][”
+ta có số phép đổi chỗ kề nhau ít nhất là 2.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T.
+Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là một xâu S viết sai theo nguyên tắc kể trên.
+T, S thòa mãn ràng buộc: 1≤T≤100; 1≤length(S)≤100000.
+Output:
+
+Đưa kết quả trên một dòng.
+Ví dụ:
+
+Input
+
+Output
+
+2
+
+[]][][
+
+[][][]
+
+2
+0
+
+// string vd [[]]]][[
+/* 1: x de xet xem bieu thuc co sai hay k
+      pos de tim vi tri tiep theo cua dau ']'
+*/
+// 2: vi khi swap se co them 1 cap [] dung nen ta khong the cho la 0
+//    vi sau do se duyet lai ki tu ]
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t; cin>>t;
+	while(t--){
+		string s; cin>>s;
+		vector<int> v; //de luu vi tri dau '['
+		for(int i=0;i<s.length();i++){
+			if(s[i]=='[') v.push_back(i);
+		}
+		int x=0,res=0,pos=0; //1
+		for(int i=0;i<s.length();i++){
+			if(s[i]=='['){
+				x++;  pos++;
+			}
+			else if(s[i]==']'){
+				x--;
+			}
+			if(x<0){
+				res+=v[pos]-i;
+				swap(s[i],s[v[pos]]);
+				x=1;  //2
+				pos++;
+			}
+		}
+		cout<<res<<endl;
+	}
+}

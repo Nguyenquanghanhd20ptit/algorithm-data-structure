@@ -1,0 +1,82 @@
+SẮP XẾP CÔNG VIỆC 2
+
+Bài làm tốt nhất
+Cho N công việc. Mỗi công việc được biểu diễn như một bộ 3 số nguyên dương <JobId, Deadline, Profit>, trong đó JobId là mã của việc, 
+Deadline là thời gian kết thúc của việc, Profit là lợi nhuận đem lại nếu hoàn thành việc đó đúng hoặc trước thời gian. Thời gian tối thiểu để hoàn
+thành mỗi công việc là 1 đơn vị thời gian. Hãy cho biết lợi nhuận lớn nhất có thể thực hiện các việc với giả thiết mỗi việc được thực hiện đơn lẻ.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T.
+Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai phần: phần thứ nhất là số lượng Job N; phần thứ hai đưa vào 3×N số tương ứng với N job.
+T, N, JobId, Deadline, Profit thỏa mãn ràng buộc:1≤T≤100;  1≤N≤1000; 1≤ JobId ≤1000; 1≤ Deadline ≤1000; 1≤ Profit ≤1000.
+Output:
+
+Đưa số lượng công việc tương ứng và lợi nhuận lớn nhất có thể đạt được.
+Ví dụ:
+
+Input
+
+Output
+
+2
+4
+1 4 20
+
+2 1 10
+
+3 1 40
+
+4 1 30
+5
+1 2 100
+
+2 1 19
+
+3 2 27
+
+4 1 25
+
+5 1 15
+
+2 60
+2 127
+
+
+#include<bits/stdc++.h>
+using namespace std;
+struct work{
+	int a,b,w;
+};
+bool cmp(work a,work b){
+	return a.w>b.w;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		int n; cin>>n;
+		work a[n];
+		for(int i=0;i<n;i++){
+			cin>>a[i].a>>a[i].b>>a[i].w;
+		}
+		sort(a,a+n,cmp);
+		int check[1005]={0};
+		vector<int> v;
+		for(int i=0;i<n;i++){
+			for(int j=min(n,a[i].b);j>=1;j--){
+				if(check[j]==0){
+					v.push_back(a[i].w);
+					check[j]=1;
+					break;
+				}
+			}
+		}
+		
+		long long res=0;
+		for(auto x:v){
+			res+=x;
+		}
+		cout<<v.size()<<" "<<res<<endl;
+	}
+}
+ 

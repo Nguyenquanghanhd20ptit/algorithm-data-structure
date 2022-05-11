@@ -1,0 +1,57 @@
+SỐ MAY MẮN
+
+Bài làm tốt nhất
+Hoàng yêu thích các số may mắn. Ta biết rằng một số là số may mắn nếu biểu diễn thập phân của nó chỉ chứa các chữ số may mắn là 4 và 7. 
+Ví dụ, các số 47, 744, 4 là số may mắn và 5, 17, 467 không phải. Hoàng muốn tìm số may mắn bé nhất có tổng các chữ số bằng n. Hãy giúp anh ấy
+
+Dữ liệu vào: Dòng đầu ghi số bộ test, mỗi bộ test có một dòng chứa số nguyên n (1 ≤ n ≤ 106) — tổng các chữ số của số may mắn cần tìm.
+
+Kết quả: In ra trên 1 dòng số may mắn bé nhất, mà tổng các chữ số bằng n. Nếu không tồn tại số thỏa mãn, in ra -1.
+
+Ví dụ:
+
+Input
+
+Output
+
+2
+
+11
+
+10
+
+47
+
+-1
+
+#include<bits/stdc++.h>
+using namespace std;
+void solve(){
+    int n; cin>>n;
+	int four=0,seven=0;
+	for(int i=0;i<=n/4;i++){
+		int j=(n-i*4)/7;
+		if(i*4+j*7==n){
+			four=i;  seven=j;
+			break;
+		}
+	}
+	if(four==0 && seven==0){
+		cout<<-1<<endl;
+		return;
+	}
+	string s="";
+	for(int i=1;i<=four;i++){
+		s+='4';
+	}
+	for(int i=1;i<=seven;i++){
+		s+='7';
+	}
+	cout<<s<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		solve();
+	}
+}

@@ -1,0 +1,58 @@
+GIÁ TRỊ NHỎ NHẤT CỦA XÂU
+
+Bài làm tốt nhất
+Cho xâu ký tự S. Ta gọi giá trị của xâu S là tổng bình phương số lần xuất hiện mỗi ký tự trong S. Hãy tìm giá trị nhỏ nhất của xâu S
+sau khi thực hiện K lần loại bỏ ký tự.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T.
+Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai phần: phần thứ nhất là số K; phần thứ hai là một xâu ký tự S được viết trên một dòng.
+T, S, K thỏa mãn ràng buộc: 1≤T≤100;  1≤length(S)≤10000; 1≤K≤1000.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Ví dụ:
+
+Input
+
+Output
+
+2
+2
+
+ABCCBC
+2
+
+AAAB
+
+6
+2
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t; cin>>t;
+	while(t--){
+		int k; cin>>k;
+		string s; cin>>s;
+		map<int,int> mp;
+		for(int i=0;i<s.length();i++){
+			mp[s[i]]++;
+		}
+		priority_queue<int> q;
+		for(auto x:mp){
+			q.push(x.second);
+		}
+		while(!q.empty() && k>0){
+			int x=q.top(); q.pop();
+			k--; x--;
+			if(x>0) q.push(x);
+		}
+		long long res=0;
+		while(!q.empty()){
+			res+=pow(q.top(),2); q.pop();
+		}
+		cout<<res<<endl;
+	}
+}

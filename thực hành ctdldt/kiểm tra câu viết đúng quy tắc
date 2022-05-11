@@ -1,0 +1,71 @@
+Cho một câu văn bản kết thúc với dấu chấm, trong đó chỉ có các chữ cái Tiếng Anh và các dấu ngoặc kiểu ngoặc đơn (,) hoặc ngoặc vuông [,].
+
+Nếu chỉ xét các cặp dấu ngoặc, bạn hãy kiểm tra xem câu văn bản trên có viết đúng quy tắc hay không. Tức là các cặp dấu ngoặc đều viết  mở và đóng đẩy đủ, đúng thứ tự.
+
+Input
+
+Dòng đầu ghi số bộ test (không quá 4000). Mỗi test viết trên một dòng câu văn bản có độ dài không quá 100, luôn kết thúc bởi dấu chấm.
+
+Output
+
+Ghi ra YES hoặc NO tùy thuộc kết quả kiểm tra.
+
+Ví dụ
+
+Input
+
+3
+
+[ graph ] ( binary tree ).
+
+Dynamic programming )( devide and conquer.
+
+([ (([( [ ] ) ( ) (( ))] )) ]).
+
+Output
+
+YES
+
+NO
+
+YES
+
+
+#include<bits/stdc++.h>
+using namespace std;
+bool solve(string s){
+	stack<char> st;
+	for(int i=0;i<s.length();i++){
+		if(s[i]=='(' || s[i]=='['){
+			st.push(s[i]);
+		}
+		else if(!st.empty()){
+			if(st.top()=='(' && s[i]==')'){
+				st.pop();
+			}
+			else if(st.top()=='[' && s[i]==']'){
+				st.pop();
+			}
+			else return false;
+		}
+		else return false;
+	}
+	while(!st.empty()){
+		return false;
+	}
+	return true;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		string s; getline(cin>>ws,s);
+		string x="";
+		for(int i=0;i<s.length();i++){
+			if(s[i]=='(' || s[i]==')' || s[i]=='[' || s[i]==']'){
+				x+=s[i];
+			}
+		}
+		if(solve(x)) cout<<"YES"<<endl;
+		else cout<<"NO"<<endl;
+	}
+}

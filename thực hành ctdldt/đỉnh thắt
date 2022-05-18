@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+int n,m,s,e,dem;
+bool a[1001];
+vector<int> v[1001];
+map<int,int> mp;
+void inp(){
+	dem=0;
+	cin>>n>>m>>s>>e;
+	for(int i=0;i<m;i++){
+		int x,y; cin>>x>>y;
+		v[x].push_back(y);
+	}
+}
+void printpath(vector<int>& path){  
+    int size = path.size();
+    for (int i = 0; i < size; i++){
+        if(mp[path[i]]==dem) mp[path[i]]++;
+    }
+    dem++;
+}
+
+int isNotVisited(int x, vector<int>& path){   // kiem tra xem vector da co dinh chuan bi them vao chua
+    int size = path.size();
+    for (int i = 0; i < size; i++)
+        if (path[i] == x)
+            return 0;
+    return 1;
+}
+
+void findpaths(int s, int e){
+    queue<vector<int> > q;
+    vector<int> path;
+    path.push_back(s);
+    q.push(path);
+    while (!q.empty()) {
+        path = q.front();
+        q.pop();
+        int last = path[path.size() - 1];
+        
+        if (last == e) printpath(path);   
+        for (auto x:v[last]) {
+            if (isNotVisited(x, path)) {
+                vector<int> newpath(path); // 1 vector moi giong path.
+                newpath.push_back(x);
+                q.push(newpath);
+            }
+        }
+    }
+}
+ 
+int main(){
+	int t; cin>>t;
+	while(t--){
+		inp();
+		findpaths(s,e);
+		int cnt=0;
+		for(auto x:mp){
+			if(x.second==dem && x.first!=s && x.first!=e){
+			cnt++;
+			}
+		}
+		cout<<cnt<<endl;
+	    mp.clear();
+	    for(int i=1;i<=n;i++){
+	    	v[i].clear();
+		}
+	}
+}

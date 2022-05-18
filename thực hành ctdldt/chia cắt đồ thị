@@ -59,7 +59,7 @@ Output
 #include <bits/stdc++.h>
 using namespace std;
 int n, m;
-int vir[10001];
+bool used[10001];
 vector<int> v[10001],kq[10001];
 void inp(){
 	cin >> n >> m;
@@ -72,31 +72,30 @@ void inp(){
 }
 
 void dfs(int i){
-	vir[i] = true;
+	used[i] = true;
 	for (auto x : v[i]){
-		if (vir[x] == false){
+		if (used[x] == false){
 			dfs(x);
 		}
 	}
 }
 
 int dinhtru(){
-	
 	int ans = 0;
 	int cnt = 0;
-	memset(vir, 0, sizeof(vir));
+	memset(used, false, sizeof(used));
 	for (int i = 1; i <= n; i++){
-		if (vir[i] == false){
+		if (used[i] == false){
 			cnt++;
 			dfs(i);
 		}
 	}
 	for (int i = 1; i <= n; i++){
-		memset(vir, 0, sizeof(vir));
-		vir[i] = true;
+		memset(used, false, sizeof(used));
+		used[i] = true;
 		int dem = 0;
 		for (int j = 1; j <= n; j++){
-			if (vir[j] == false){
+			if (used[j] == false){
 				dem++;
 				dfs(j);
 			}
@@ -119,13 +118,10 @@ int main(){
 		}
 		else{
 			sort(kq[res].begin(),kq[res].end());
-			for(auto x:kq[res]){
-				cout<<x<<" ";
-			}
-			cout<<endl;
+			cout<<kq[res][0]<<endl;
 		}
 		for(int i=1;i<=n;i++){
-			v[i].clear();
+			v[i].clear(); kq[i].clear();
 		}
 	}
 }

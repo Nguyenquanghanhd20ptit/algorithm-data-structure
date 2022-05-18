@@ -2,7 +2,7 @@
 using namespace std;
 int n, m;
 int vir[10001];
-vector<int> v[10001];
+vector<int> v[10001],kq[10001];
 void inp(){
 	cin >> n >> m;
 	for (int i = 0; i < m; i++){
@@ -23,6 +23,7 @@ void dfs(int i){
 }
 
 int dinhtru(){
+	
 	int ans = 0;
 	int cnt = 0;
 	memset(vir, 0, sizeof(vir));
@@ -43,7 +44,8 @@ int dinhtru(){
 			}
 		}
 		if (dem > cnt){
-			ans = max(ans,dem);
+			ans=max(ans,dem);
+			kq[ans].push_back(i);
 		}
 	}
 	return ans;
@@ -53,7 +55,17 @@ int main(){
 	int t; cin>>t;
 	while(t--){
 		inp();
-		cout<<dinhtru()<<endl;
+		int res=dinhtru();
+		if(res==0){
+			cout<<0<<endl;
+		}
+		else{
+			sort(kq[res].begin(),kq[res].end());
+			for(auto x:kq[res]){
+				cout<<x<<" ";
+			}
+			cout<<endl;
+		}
 		for(int i=1;i<=n;i++){
 			v[i].clear();
 		}

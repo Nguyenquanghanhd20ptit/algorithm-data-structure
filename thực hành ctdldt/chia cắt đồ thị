@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+using namespace std;
+int n, m;
+int vir[10001];
+vector<int> v[10001];
+void inp(){
+	cin >> n >> m;
+	for (int i = 0; i < m; i++){
+		int x, y;
+		cin >> x >> y;
+		v[x].push_back(y);
+		v[y].push_back(x);
+	}
+}
+
+void dfs(int i){
+	vir[i] = true;
+	for (auto x : v[i]){
+		if (vir[x] == false){
+			dfs(x);
+		}
+	}
+}
+
+int dinhtru(){
+	int ans = 0;
+	int cnt = 0;
+	memset(vir, 0, sizeof(vir));
+	for (int i = 1; i <= n; i++){
+		if (vir[i] == false){
+			cnt++;
+			dfs(i);
+		}
+	}
+	for (int i = 1; i <= n; i++){
+		memset(vir, 0, sizeof(vir));
+		vir[i] = true;
+		int dem = 0;
+		for (int j = 1; j <= n; j++){
+			if (vir[j] == false){
+				dem++;
+				dfs(j);
+			}
+		}
+		if (dem > cnt){
+			ans = max(ans,dem);
+		}
+	}
+	return ans;
+}
+
+int main(){
+	int t; cin>>t;
+	while(t--){
+		inp();
+		cout<<dinhtru()<<endl;
+		for(int i=1;i<=n;i++){
+			v[i].clear();
+		}
+	}
+}

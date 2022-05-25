@@ -1,0 +1,49 @@
+TỔ HỢP C(n, k)
+
+Bài làm tốt nhất
+Cho 2 số nguyên n, k. Bạn hãy tính C(n, k) modulo 109+7.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+Mỗi test gồm 2 số nguyên n, k (1 ≤ k ≤ n ≤ 1000).
+Output: 
+
+Với mỗi test, in ra đáp án trên một dòng.
+Ví dụ:
+
+Input
+
+Output
+
+2
+
+5 2
+
+10 3
+
+ 
+10
+
+#include<bits/stdc++.h>
+using namespace std;
+long long mod=1e9+7;
+long long d[1001][1001]={0};
+void tohop(){
+	for(int i=0;i<=1000;i++){
+		for(int j=0;j<=i;j++){
+			if(j==0 || j==i) d[i][j]=1;
+			else{
+				d[i][j]=(d[i-1][j]+d[i-1][j-1])%mod;
+			}
+		}
+	}	
+}
+int main(){
+	int t; cin>>t;
+	tohop();
+	while(t--){
+		int n,k; cin>>n>>k;
+		cout<<d[n][k]<<endl;
+	}
+}

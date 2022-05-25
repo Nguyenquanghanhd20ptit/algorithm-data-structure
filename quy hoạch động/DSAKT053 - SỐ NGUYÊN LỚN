@@ -1,0 +1,52 @@
+SỐ NGUYÊN LỚN
+
+Bài làm tốt nhất
+Cho hai số nguyên lớn N và M có không quá 1000 chữ số. Người ta muốn tính xem liệu có thể lấy ra nhiều nhất bao nhiêu chữ số trong N 
+(không cần liên tiếp) và giữ nguyên thứ tự của nó để tạo ra một số X sao cho ta cũng có thể tìm thấy X trong số M theo cách tương tự.
+
+Input: Dòng đầu tiên là số lượng bộ test T (T ≤ 20). Mỗi test gồm hai dòng, dòng thứ nhất ghi số N, dòng thứ 2 ghi số M.
+
+Output:  Với mỗi test, hãy in ra số chữ số nhiều nhất có thể của X.
+
+Ví dụ:
+
+Input
+
+Output
+
+2
+
+144615
+
+4976135
+
+44
+
+88
+
+4
+
+0
+
+Giải thích test 1: số X tìm được là 4615.
+
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+    int t; cin>>t;
+    while(t--){
+    	string a,b; cin>>a>>b;
+    	int n=a.length(),m=b.length();
+    	int d[n+1][m+1];
+    	memset(d,0,sizeof(d));
+    	for(int i=1;i<=n;i++){
+    		for(int j=1;j<=m;j++){
+    			if(a[i-1]==b[j-1]){
+    				d[i][j]=d[i-1][j-1]+1;
+				}
+				else d[i][j]=max(d[i-1][j],d[i][j-1]);
+			}
+		}
+		cout<<d[n][m]<<endl;
+	}
+}

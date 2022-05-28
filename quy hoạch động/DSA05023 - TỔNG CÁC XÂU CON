@@ -1,0 +1,73 @@
+TỔNG CÁC XÂU CON
+
+Bài làm tốt nhất
+Cho số nguyên dương N được biểu diễn như một xâu ký tự số. Nhiệm vụ của bạn là tìm tổng của tất cả các số tạo bởi các xâu con của N.
+Ví dụ N=”1234” ta có kết quả là 1670 = 1 + 2 + 3 + 4 + 12 + 23 + 34 + 123 + 234 + 1234.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T.
+Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là một số N.
+T, N thỏa mãn ràng buộc: 1≤T≤100;  1≤N ≤1012.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Ví dụ:
+
+Input
+
+Output
+
+2
+1234
+421
+
+1670
+491
+
+#include<bits/stdc++.h>
+using namespace std;
+string s;
+int n,a[1001],len;
+vector<long long> v;
+void inkq(){
+	bool ok=true;
+	for(int i=2;i<=len;i++){
+		if(a[i]-a[i-1] != 1){
+			ok=false;
+			break;
+		}
+	}
+	if(ok){
+		string res="";
+		for(int i=1;i<=len;i++){
+			res+=s[a[i]-1];
+		}
+		v.push_back(stoll(res));
+	}
+}
+void ql(int i){
+	for(int j=a[i-1]+1;j<=n-len+i;j++){
+		a[i]=j;
+		if(i==len){
+			inkq();
+		}
+		else ql(i+1);
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		cin>>s; n=s.length();
+		for(int i=1;i<=n;i++){
+			len=i;
+			ql(1);
+		}
+		long long res=0;
+		for(auto x:v){
+			res+=x;
+		}
+		v.clear();
+		cout<<res<<endl;
+	}
+}

@@ -1,0 +1,53 @@
+SỐ THUẬN NGHỊCH
+
+Bài làm tốt nhất
+Cho số nguyên dương N có không quá 1000 chữ số. Hãy tính độ dài lớn nhất của một số thuận nghịch tạo được bằng cách lấy liên tiếp các chữ số trong N.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 10).
+Mỗi test ghi ra một số nguyên dương N không quá 1000 chữ số.
+Output:  Với mỗi test, in ra đáp án tìm được.
+
+Ví dụ:
+
+Input
+
+Output
+
+2
+
+13731456
+
+44444
+
+5
+
+5
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t; cin>>t;
+	while(t--){
+		string s; cin>>s;
+		int res=0;
+		for(int i=0;i<s.length();i++){
+			int x=1,l=i-1, r=i+1;
+			while(l>=0 && r<s.length() && s[l]==s[r]){
+				x+=2;
+				l--; r++;
+			}
+			res=max(res,x);
+		}
+		for(int i=0;i<s.length();i++){
+			int x=0, l=i, r=i+1;
+			while(l>=0 && r<s.length() && s[l]==s[r]){
+				x+=2;
+				l--; r++;
+			}
+			res=max(res,x);
+		}
+		cout<<res<<endl;
+	}
+}

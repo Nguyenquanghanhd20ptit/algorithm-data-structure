@@ -1,0 +1,49 @@
+TÍNH P(N,K)
+
+Bài làm tốt nhất
+P(n, k) là số phép biểu diễn các tập con có thứ tự gồm k phần tử của tập gồm n phần tử. Số P(n, k) được định nghĩa theo công thức sau:
+
+
+
+Cho số hai số n, k. Hãy tìm P(n,k) theo modulo 109+7.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T.
+Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là một cặp số n, k được viết trên một dòng.
+T, n, k thỏa mãn ràng buộc: 1 ≤ T ≤ 100;  1 ≤ n,k ≤ 1000.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Ví dụ:
+
+Input
+
+Output
+
+2
+5 2
+4 2
+ 
+
+20
+12
+ #include<bits/stdc++.h>
+using namespace std;
+long long mod=1e9+7;
+int main() {
+    int t; cin>>t;
+    while(t--){
+    	int n,k; cin>>n>>k;
+    	if(k>n){
+    		cout<<0<<endl;
+		}
+		else{
+			long long kq=1;
+	    	for(int i=0;i<k;i++){
+	    		kq=(kq*(n-i))%mod;
+			}
+			cout<<kq<<endl;
+		}
+	}
+}

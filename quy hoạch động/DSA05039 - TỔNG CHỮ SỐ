@@ -1,0 +1,71 @@
+TỔNG CHỮ SỐ
+
+Bài làm tốt nhất
+Cho hai số nguyên dương A và B. Tìm số N nhỏ nhất thỏa mãn: A là tổng các chữ số của N, B là tổng bình phương các chữ số của N. 
+Nếu không tồn tại N thỏa mãn A và B hãy đưa ra -1. Giả thiết N có không quá 100 chữ số.
+
+Ví dụ với A = 18, B = 162 ta tìm được số nhỏ nhất N=99 vì 9+9=18 và 92 + 92 = 162. Với A = 12, B = 9 ta có kết quả  là -1.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T.
+Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là cặp số A, B được viết trên một dòng.
+T, A, B thỏa mãn ràng buộc: 1≤T≤100;  1≤A≤100; 1≤B≤10000.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Ví dụ:
+
+ Input
+
+Output
+
+2
+18  162
+12  9
+
+99
+
+-1
+
+#include <bits/stdc++.h>
+using namespace std;
+vector<vector<int>> dp(901, vector<int>(8101, 105));
+void solve(){
+    dp[0][0] = 0;
+    for (int i = 1; i <= 900; i++){
+        for (int j = 1; j <= 8100; j++){
+            for (int dig = 1; dig < 10; dig++){
+                if (i >= dig && j >= dig * dig) {
+                    if (dp[i - dig][j - dig * dig] != 105)
+                        dp[i][j] = min(dp[i][j], dp[i - dig][j - dig * dig] + 1);
+                }
+            }
+        }
+    }
+}
+int main(){
+    int t;
+    cin >> t;
+    solve();
+    while (t--){
+        int a, b;
+        cin >> a >> b;
+        if (a > 900 || b > 8101 || dp[a][b] > 100)
+            cout << -1 << "\n";
+        else{
+            while (a > 0 && b > 0){
+                for (int i = 1; i < 10; i++){
+                    if (a >= i && b >= i * i && dp[a][b] == dp[a - i][b - i * i] + 1) {
+                        cout << i;
+                        a -= i;
+                        b -= i * i;
+                        break;
+                    }
+                }
+            }
+            cout << endl;
+        }
+    }
+    return 0;
+}

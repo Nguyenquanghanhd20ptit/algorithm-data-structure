@@ -1,0 +1,55 @@
+SỐ UGLY
+
+Bài làm tốt nhất
+Số Ugly là các số chỉ có ước số là 2, 3, 5. Theo qui ước số 1 cũng là 1 số Ugly. Dưới đây là 11 số Ugly đầu tiên:
+1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15. Cho số tự nhiên N, nhiệm vụ của bạn là tìm số Ugly thứ N.
+
+Input:  Dòng đầu tiên đưa vào số lượng bộ test T.  Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là một số tự nhiên N được viết trên một dòng. 
+T, N thỏa mãn ràng buộc: 1 ≤ T ≤ 100;  1 ≤ N ≤ 104.
+
+Output: Đưa ra kết quả mỗi test theo từng dòng.
+
+Ví dụ:
+
+ 
+
+ 
+
+ 
+
+Input
+
+Output
+
+2
+10
+4
+
+12
+4
+
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+    int t; cin>>t;
+    while(t--){
+    	int n; cin>>n;
+    	long long d[n+5]; d[1]=1;
+    	int i=2,two=1,three=1,five=1;
+    	while(i<=n){
+    		d[i]=min(d[two]*2,min(d[three]*3,d[five]*5));
+    		if(d[i]==d[two]*2){
+    			two++;
+			}
+			else if(d[i]==d[three]*3){
+    			three++;
+			}
+			else if(d[i]==d[five]*5){
+    			five++;
+			}
+			if(d[i]==d[i-1]) continue;
+			i++;
+		}
+		cout<<d[n]<<endl;
+	}
+}

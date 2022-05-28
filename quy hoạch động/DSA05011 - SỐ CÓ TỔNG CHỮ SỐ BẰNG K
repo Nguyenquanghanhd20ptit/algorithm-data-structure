@@ -1,0 +1,58 @@
+SỐ CÓ TỔNG CHỮ SỐ BẰNG K
+
+Bài làm tốt nhất
+Cho 2 số nguyên N và K. Bạn hãy đếm số lượng các số có N chữ số mà tổng các chữ số của nó bằng K. Lưu ý, chữ số 0 ở đầu không được chấp nhận.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 50).
+Mỗi test gồm 2 số nguyên N và K (1 ≤ N ≤ 100, 0 ≤ K ≤ 50000).
+Output: 
+
+Với mỗi test, in ra đáp số tìm được theo modulo 109+7 trên một dòng.
+ 
+
+Ví dụ:
+
+Input:
+
+Output
+
+3
+
+2 2
+
+2 5
+
+3 6
+
+ 
+
+2
+
+5
+
+21
+#include<bits/stdc++.h>
+using namespace std;
+long long mod=1e9+7;
+int main(){
+	int t; cin>>t;
+	while(t--){
+		int n, k; cin >> n >> k;
+		long long dp[n+1][k+1];
+		memset(dp, 0, sizeof(dp));
+		for (int i=1;i<=9;i++){
+		    dp[1][i] = 1;
+		}
+		 
+		for(int i=1;i<=n;i++){
+			for(int l=0;l<=9;l++){
+				for(int j=l;j<=k;j++){
+					dp[i][j]=(dp[i][j]%mod+dp[i-1][j-l] % mod) % mod;
+				}
+			}
+		}
+		cout << dp[n][k] << endl;
+	}
+}

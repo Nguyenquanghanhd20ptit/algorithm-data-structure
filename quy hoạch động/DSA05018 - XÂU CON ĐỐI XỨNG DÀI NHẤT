@@ -1,0 +1,64 @@
+XÂU CON ĐỐI XỨNG DÀI NHẤT
+
+Bài làm tốt nhất
+Cho xâu S chỉ bao gồm các ký tự viết thường và dài không quá 1000 ký tự.
+
+Hãy tìm xâu con đối xứng dài nhất của S.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 10).
+Mỗi test gồm một xâu S có độ dài không vượt quá 1000, chỉ gồm các kí tự thường.
+Output:  Với mỗi test, in ra đáp án tìm được.
+
+Ví dụ:
+
+Input
+
+Output
+
+2
+
+abcbadd
+
+aaaaa
+
+ 
+
+5
+
+5
+
+//(1) xau doi xung le vd nhu 23132
+//(2) xau doi xung chan vd nhu 3223
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t; cin>>t;
+	while(t--){
+		string s; cin>>s;
+		int n=s.length();
+		int res=1;
+		for(int i=0;i<n;i++){ 
+			int l=i, r=i;
+			while(l>=0 && r<n){ //(1)
+				if(s[l]==s[r]){
+					res=max(res,r-l+1);
+					l--; r++;
+				}
+				else break;
+			}
+		}
+		for(int i=0;i<n-1;i++){
+			int l=i, r=i+1;
+			while(l>=0 && r<n){  //(2)
+				if(s[l]==s[r]){
+					res=max(res,r-l+1);
+					l--; r++;
+				}
+				else break;
+			}
+		}
+		cout<<res<<endl;
+	}
+}

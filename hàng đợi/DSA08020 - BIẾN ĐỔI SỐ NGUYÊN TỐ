@@ -1,0 +1,112 @@
+BIẾN ĐỔI SỐ NGUYÊN TỐ
+
+Bài làm tốt nhất
+Cho cặp số S và T là các số nguyên tố có 4 chữ số (Ví dụ S = 1033, T = 8197 là các số nguyên tố có 4 chữ số). 
+Hãy viết chương trình tìm cách dịch chuyển S thành T thỏa mãn đồng thời những điều kiện dưới đây:
+
+Mỗi phép dịch chuyển chỉ được phép thay đổi một chữ số của số ở bước trước đó (ví dụ nếu S=1033 thì phép dịch chuyển S thành 1733 là hợp lệ);
+Số nhận được cũng là một số nguyên tố có 4 chữ số (ví dụ nếu S=1033 thì phép dịch chuyển S thành 1833 là không hợp lệ,
+và S dịch chuyển thành 1733 là hợp lệ);
+Số các bước dịch chuyển là ít nhất.
+Ví dụ số các phép dịch chuyển ít nhất để S = 1033 thành  T = 8179 là 6 bao gồm các phép dịch chuyển như sau:       
+
+8179 ß 8779ß 3779ß 3739ß 3733ß 1733ß 1033.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng test T (T≤100)
+Những dòng kế tiếp mỗi dòng đưa vào một test. Mỗi test là một bộ đôi S, T.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Ví dụ:
+
+Input
+
+Output
+
+2
+
+1033 8179
+
+1033 8779
+
+6
+
+5
+
+#include<bits/stdc++.h>
+using namespace std;
+int prime[10001];
+void nto(){
+	for(int i=1;i<=10000;i++){
+		prime[i]=1;
+	}
+	prime[0]=prime[1]=0;
+	for(int i=2;i<=100;i++){
+		if(prime[i]){
+			for(int j=i*i;j<=10000;j+=i){
+				prime[j]=0;
+			}
+		}
+	}
+}
+int d[10001]={0};
+bool used[10001];
+vector<int> u;
+vector<int> v[10001];
+
+int check(string a,string b){
+	int dem=0;
+	for(int i=0;i<a.size();i++){
+		if(a[i]==b[i]) dem++;
+	}
+	if(dem==3) return 1;
+	else return 0;
+}
+void data(){
+	for(int i=1000;i<10000;i++){
+		if(prime[i]){
+			u.push_back(i);
+		}
+	}
+	for(auto x:u){
+		for(int i=0;i<u.size();i++){
+			if(check(to_string(x),to_string(u[i]))){
+				v[x].push_back(u[i]);
+			}
+		}
+	}
+}
+void solve(int s,int e){
+	memset(d,0,sizeof(d));
+	memset(used,false,sizeof(used));
+	queue<int> q;
+	q.push(s);
+	used[s]=true;
+	while(!q.empty()){
+		int u=q.front(); q.pop();
+		for(auto x:v[u]){
+			if(used[x]==false){
+				q.push(x);
+				used[x]=true;
+				d[x]=d[u]+1;
+				if(x==e){
+					cout<<d[x]<<endl;
+					return;
+				}
+			}
+		}
+	}
+}
+int main(){
+	int t; cin>>t;
+	nto();  data();
+	while(t--){
+		int a,b; cin>>a>>b;
+		if(a==b) cout<<0<<endl;
+		else solve(a,b);
+	}
+}
+
+ 

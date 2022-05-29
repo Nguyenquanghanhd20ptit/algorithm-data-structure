@@ -1,0 +1,72 @@
+GIẢI MÃ XÂU KÝ TỰ
+
+Bài làm tốt nhất
+Cho xâu ký tự mã hóa str. Hãy viết chương trình giải mã xâu ký tự str. Xâu ký tự mã hóa được thực hiện theo số lần lặp các xâu con của str như sau:
+
+Xâu đầu vào: “abbbababbbababbbab ”
+
+Xâu mã hóa : "3[a3[b]1[ab]]"
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T;
+Những dòng tiếp theo mỗi dòng đưa vào một bộ test. Mỗi bộ test là một xâu mã hóa str được viết trên một dòng.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Ràng buộc:
+
+T, str thỏa mãn ràng buộc: 1≤T≤100; 1≤length(str)≤100.
+Ví dụ:
+
+Input
+
+Output
+
+2
+1[b]
+3[b2[ca]]
+
+b
+bcacabcacabcaca
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t; cin>>t;
+	while(t--){
+		string s; cin>>s;
+		stack<char> st;
+		for(int i=0;i<s.length();i++){
+			if(s[i]==']'){
+				string x;
+				while(!st.empty() && st.top()!='['){
+					x=st.top()+x; 
+					st.pop();
+				}
+				st.pop();
+				string number="";
+				while(!st.empty() && st.top()>='0' && st.top()<='9'){
+					number=st.top()+number; st.pop();
+				}
+				int n=1;
+				string a="";
+				if(number.size()) n=stoi(number);
+				for(int i=0;i<n;i++){
+					a+=x;
+				}
+				for(int i=0;i<a.length();i++){
+					st.push(a[i]);
+				}
+			}
+			else st.push(s[i]);
+		}
+		string res="";
+		while(!st.empty()){
+			res=st.top()+res;
+			st.pop();
+		}
+		cout<<res<<" ";
+		cout<<endl;
+	}
+}

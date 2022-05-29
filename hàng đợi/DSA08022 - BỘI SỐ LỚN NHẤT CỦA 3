@@ -1,0 +1,117 @@
+BỘI SỐ LỚN NHẤT CỦA 3
+
+Bài làm tốt nhất
+Cho dãy số A[] có N phần tử là các chữ số từ 0 đến 9. Nhiệm vụ của bạn là hãy chọn lấy một tổ hợp các phần tử và sắp xếp chúng
+sao cho thu được số lớn nhất chia hết cho 3.
+
+Nếu không tìm được số nào, in ra -1.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (1 ≤ N ≤ 50).
+Mỗi test bắt đầu bởi số nguyên N (1 ≤ N ≤ 100 000).
+Dòng tiếp theo gồm N số nguyên A[i] (0 ≤ A[i] ≤ 9).
+Output: 
+
+Với mỗi test, in ra đáp án tìm được trên một dòng.
+Ví dụ:
+
+Input
+
+Output
+
+3
+
+3
+
+8 1 9
+
+5
+
+8 1 7 6 0
+
+2
+
+5 2
+
+ 
+
+981
+
+8760
+
+-1
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void Solve(){
+    int n;
+    cin >> n;
+    priority_queue<int> ans;
+    priority_queue<int, vector<int>, greater<int>> one, two;
+    int sum = 0;
+    for (int i = 0; i < n; i++){
+        int x;
+        cin >> x;
+        if (x % 3 == 0)
+            ans.push(x);
+        else if (x % 3 == 1)
+            one.push(x);
+        else
+            two.push(x);
+            sum += x;
+    }
+    bool ok = false;
+    if (sum % 3 == 0)
+        ok = true;
+    else if (sum % 3 == 1) {
+        if (one.size() > 0){
+            one.pop();
+            ok = true;
+        }
+        else if (two.size() > 1){
+            two.pop();
+            two.pop();
+            ok = true;
+        }
+    }
+    else{
+        if (two.size() > 0){
+            two.pop();
+            ok = true;
+        }
+        else if (one.size() > 1){
+            one.pop();
+            one.pop();
+            ok = true;
+        }
+    }
+    if (ok){
+        while (!one.empty()){
+            ans.push(one.top());
+            one.pop();
+        }
+        while (!two.empty()){
+            ans.push(two.top());
+            two.pop();
+        }
+    }
+    if (ans.size() == 0) cout << -1 << endl;
+    else if (ans.top() == 0)  cout << 0 << endl;
+    else{
+        while (!ans.empty()){
+            cout << ans.top();
+            ans.pop();
+        }
+        cout << endl;
+    }
+}
+int main(){
+    int t;
+    cin >> t;
+    while (t--){
+        Solve();
+    }
+    return 0;
+}

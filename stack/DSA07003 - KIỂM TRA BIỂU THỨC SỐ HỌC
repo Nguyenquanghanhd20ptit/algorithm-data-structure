@@ -1,0 +1,79 @@
+KIỂM TRA BIỂU THỨC SỐ HỌC
+
+Bài làm tốt nhất
+Cho biểu thức số học, hãy cho biết biểu thức số học có dư thừa các cặp ký hiệu ‘(’,’) ‘ hay không?
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T;
+Những dòng tiếp theo mỗi dòng đưa vào một bộ test. Mỗi bộ test là một biểu thức.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Ràng buộc:
+
+T, exp thỏa mãn ràng buộc: 1≤T≤100; 2≤length(exp)≤20.
+Ví dụ:
+
+ 
+
+Input
+
+Output
+
+3
+
+((a+b))
+
+(a + (b)/c)
+
+(a + b*(c-d))
+
+Yes
+
+Yes
+
+No
+
+#include<bits/stdc++.h>
+using namespace std;
+bool check(char x){
+	if(x=='+' || x=='-' || x=='*' || x=='/' || x=='%' || x=='^'){
+		return true;
+	}
+	return false;
+}
+void solve(string s){
+	bool ok=false;
+	stack<char> st;
+	for(int i=0;i<s.length();i++){
+		if(s[i]=='('){
+			st.push(s[i]);
+		}
+		else if(check(s[i])){
+			st.push(s[i]);
+		}
+		else if(s[i]==')'){
+			if(st.top()=='('){
+				ok=true;
+				break;
+			}
+			else{
+				while(!st.empty() && st.top()!='('){
+					st.pop();
+				}
+				if(!st.empty()) st.pop();
+			}
+		}
+	}
+	if(ok) 	cout<<"Yes"<<endl;
+	else cout<<"No"<<endl;
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		string s; 
+		getline(cin>>ws,s);
+		solve(s);
+	}
+}

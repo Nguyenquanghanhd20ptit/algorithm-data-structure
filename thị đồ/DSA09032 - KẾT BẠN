@@ -1,0 +1,107 @@
+KẾT BẠN
+
+Bài làm tốt nhất
+Trường học X có N sinh viên, trong đó có M cặp là bạn bè của nhau. Bạn của bạn cũng là bạn, tức là nếu A là bạn của B, B là bạn của C thì A và C 
+cũng là bạn bè của nhau.
+
+Các bạn hãy xác định xem số lượng sinh viên nhiều nhất trong một nhóm bạn là bao nhiêu?
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+
+Mỗi test bắt đầu bởi 2 số nguyên N và M (N, M ≤ 100 000).
+
+M dòng tiếp theo, mỗi dòng gồm 2 số nguyên u, v (u #v) cho biết sinh viên u là bạn của sinh viên v.
+
+Output: 
+
+Với mỗi test, in ra đáp án tìm được trên một dòng.
+
+Ví dụ:
+
+Input:
+
+Output
+
+2
+
+3 2
+
+1 2
+
+2 3
+
+10 12
+
+1 2
+
+3 1
+
+3 4
+
+5 4
+
+3 5
+
+4 6
+
+5 2
+
+2 1
+
+7 1
+
+1 2
+
+9 10
+
+8 9
+
+ 
+
+3
+
+7
+
+// y tuong:dem so t phan lien thong co nhieu phan tu nhat
+#include<bits/stdc++.h>
+using namespace std;
+int n,m,dem,res;
+bool used[100001];
+vector<int> v[100001];
+void inp(){
+	cin>>n>>m; res=0;
+	for(int i=0;i<m;i++){
+		int x,y; cin>>x>>y;
+		v[x].push_back(y);
+		v[y].push_back(x);
+	}
+	memset(used,false,sizeof(used));
+}
+void dfs(int i){
+	used[i]=true;
+	dem++;
+	for(auto x:v[i]){
+		if(used[x]==false){
+			dfs(x);
+		}
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		inp();
+		for(int i=1;i<=n;i++){
+			if(used[i]==false){
+				dem=0;
+				dfs(i);
+				res=max(res,dem);
+			}
+		}
+		cout<<res<<endl;
+		for(int i=1;i<=n;i++){
+			v[i].clear();
+		}
+	}
+}

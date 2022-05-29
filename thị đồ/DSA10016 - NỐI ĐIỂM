@@ -1,0 +1,116 @@
+NỐI ĐIỂM
+
+Bài làm tốt nhất
+Cho N điểm trên mặt phẳng Oxy. Để vẽ được đoạn thẳng nối A và B sẽ tốn chi phí tương đương với khoảng cách từ A tới B.
+
+Nhiệm vụ của bạn là nối các điểm với nhau, sao cho N điểm đã cho tạo thành 1 thành phần liên thông duy nhất và chi phí để thực hiện là nhỏ nhất có thể.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+Mỗi test bắt đầu bởi số nguyên N (1 ≤ N ≤ 100).
+N dòng tiếp theo, mỗi dòng gồm 2 số thực x[i], y[i] là tọa độ của điểm thứ i (|x[i]|, |y[i]| ≤ 100).
+Output: 
+
+Với mỗi test, in ra chi phí nhỏ nhất tìm được với độ chính xác 6 chữ số thập phân sau dấu phẩy.
+Ví dụ:
+
+Input:
+
+Output
+
+1
+
+3
+
+1.0 1.0
+
+2.0 2.0
+
+2.0 4.0
+
+ 
+
+3.414214
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef pair<double,double> pii;
+struct edge{
+	int a,b;
+	double w;
+};
+int n,parent[1001],sz[1001];
+vector<pii>u;
+vector<edge> canh;
+double kcach( pii a, pii b){
+	double x=b.first-a.first;
+	double y=b.second-a.second;
+	return sqrt(x*x+y*y);
+}
+void inp(){
+	cin>>n;
+	for(int i=0;i<n;i++){
+		double x,y; cin>>x>>y;
+		u.push_back({x,y});
+	}
+	for(int i=1;i<u.size();i++){
+		for(int j=0;j<i;j++){
+			canh.push_back({j+1,i+1,kcach(u[i],u[j])});
+		}
+	}
+}
+void make_set(){
+	for(int i=1;i<=n;i++){
+		parent[i]=i;
+		sz[i]=1;
+	}
+}
+
+int find(int v){
+	if(v==parent[v]){
+		return v;
+	}
+	return parent[v]=find(parent[v]);
+}
+bool Union(int a,int b){
+	a=find(a); b=find(b);
+	if(a==b) return false;
+	if(sz[a]<sz[b]) swap(a,b);
+	parent[b]=a;
+	sz[a]+=sz[b];
+	return true;
+}
+bool cmp(edge a,edge b){
+	return a.w<b.w;
+}
+void kruskal(){
+	vector<edge> mst;
+	double d=0;
+	sort(canh.begin(),canh.end(),cmp);
+	for(int i=0;i<canh.size();i++){
+		if(mst.size()>=n-1) break;
+		edge e=canh[i];
+		if(Union(e.a,e.b)){
+			mst.push_back(e);
+			d+=e.w;
+		}
+	}
+	if(mst.size()!=n-1){
+		cout<<-1<<endl;
+	}
+	else{
+		cout<<fixed<<setprecision(6)<<d<<endl;
+	}
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		inp();
+		make_set();
+		kruskal();
+		u.clear(); canh.clear();
+	}
+}
+
+ 

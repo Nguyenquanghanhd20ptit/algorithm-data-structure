@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t; cin>>t;
+	while(t--){
+		string m; cin>>m;
+		string s="";
+		for(int i=0;i<m.length();i++){
+			if(m[i]=='(' || m[i]==')'){
+				s+=m[i];
+			}
+		}
+		stack<int> st;
+		bool ok=false;
+		int n=s.length(), a[n],dem=0;
+		for(int i=0;i<s.length();i++){
+			if(s[i]=='('){
+				dem++;
+				st.push(dem);
+			    a[i]=dem;
+			}
+			else{
+				if(!st.empty()){
+					int x=st.top(); st.pop();
+					a[i]=x;
+				}
+				else{
+					ok=true;
+				}
+			}
+		}
+		if(!st.empty()) ok=true;
+		if(ok) cout<<-1<<endl;
+		else{
+			int cnt=0,res=0;
+			for(int i=1;i<n;i++){
+				if(a[i]==a[i-1]){
+					int j=i, l=i-2, r=i+1;
+				    cnt=2; res=max(res,cnt);
+					while(l>=0 && r<n && a[l]==a[r] && a[j]==a[l]+1){
+						cnt+=2;
+						res=max(res,cnt);
+						j=l;
+						l--; r++;
+					}
+					i=r;
+				}
+			}
+			cout<<res<<endl;
+		}
+	}
+}

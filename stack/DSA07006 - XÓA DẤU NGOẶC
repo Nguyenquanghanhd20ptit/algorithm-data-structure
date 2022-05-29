@@ -1,0 +1,103 @@
+XÓA DẤU NGOẶC
+
+Bài làm tốt nhất
+Cho biểu thức toán học đúng, bạn cần tìm tất cả các biểu thức đúng có thể bằng cách xóa bỏ các cặp dấu ngoặc tương ứng với nhau từ biểu thức ban đầu.
+
+Ví dụ: Cho biểu thức: (2+(2*2)+2) Các biểu thức tìm được:
+
+(2+2*2+2)
+
+2+(2*2)+2
+
+2+2*2+2
+
+Các biểu thức (2+2*2)+2 và 2+(2*2+2) không được chấp nhận vì không xóa đi các cặp dấu ngoặc tương ứng với nhau
+
+Input: Một dòng chứa biểu thức gồm các số nguyên không âm, các dấu +, -, *, / và dấu ngoặc đơn.
+
+Biểu thức không quá 200 kí tự, có chứa ít nhất 1 và không quá 10 cặp dấu ngoặc.
+
+Output: In ra tất các các biểu thức khác nhau thỏa mãn đầu bài theo thứ tự từ điển
+
+Ví dụ
+
+Input
+
+Output
+
+(1+(2*(3+4)))
+
+ 
+
+(1+(2*3+4))
+
+(1+2*(3+4))
+
+(1+2*3+4)
+
+1+(2*(3+4))
+
+1+(2*3+4)
+
+1+2*(3+4)
+
+1+2*3+4
+
+ #include <bits/stdc++.h>
+using namespace std;
+string s;
+vector<pair<int, int>> bracket;
+int n;
+int bin[15];
+set<string> ans;
+void Push()
+{
+    int len = s.size();
+    vector<bool> exist(len, 1);
+    for (int i = 0; i < n; i++)
+    {
+        if (bin[i])
+            exist[bracket[i].first] = exist[bracket[i].second] = 0;
+    }
+    string tmp = "";
+    for (int i = 0; i < len; i++)
+    {
+        if (exist[i])
+            tmp += s[i];
+    }
+    if (tmp != s)
+        ans.insert(tmp);
+}
+void Try(int k)
+{
+    if (k == n)
+        return;
+    for (int i = 0; i < 2; i++)
+    {
+        bin[k] = i;
+        if (k == n - 1)
+            Push();
+        else
+            Try(k + 1);
+    }
+}
+int main()
+{
+    cin >> s;
+    stack<int> stk;
+    for (int i = 0; i < int(s.size()); i++)
+    {
+        if (s[i] == '(')
+            stk.push(i);
+        else if (s[i] == ')')
+        {
+            bracket.push_back({stk.top(), i});
+            stk.pop();
+        }
+    }
+    n = bracket.size();
+    Try(0);
+    for (auto x : ans)
+        cout << x << "\n";
+    return 0;
+}

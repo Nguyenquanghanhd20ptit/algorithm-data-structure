@@ -1,0 +1,67 @@
+TÌM SỐ K THỎA MÃN ĐIỀU KIỆN
+
+Bài làm tốt nhất
+Cho hai số nguyên dương L, R. Hãy đưa ra số các số K trong khoảng [L, R] thỏa mãn điều kiện:
+
+Tất cả các chữ số của K đều khác nhau.
+Tất cả các chữ số của K đều nhỏ hơn hoặc bằng 5.
+Ví dụ với L = 4, R = 13 ta có 5 số thỏa mãn yêu cầu là 4, 5, 10, 12, 13,
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng test T.
+Dòng tiếp theo đưa vào các bộ test. Mỗi bộ test được là một cặp L, R được viết trên một dòng.
+T, L, R thỏa mãn ràng buộc: 1≤T≤100; 0≤L≤R≤105.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Ví dụ:
+
+Input
+
+Output
+
+2
+
+4  13
+
+100  1000
+
+5
+
+100
+
+#include<bits/stdc++.h>
+using namespace std;
+vector<int> v;
+bool ok=true;
+void solve(){
+	queue<string> q;
+	for(int i=1;i<=5;i++){
+		q.push(to_string(i));
+		v.push_back(i);
+	}
+	while(ok){
+		string x=q.front(); q.pop();
+		for(int i=0;i<=5;i++){
+			string s=to_string(i);
+			if(x.find(s)>5) {
+				q.push(x+s);
+				v.push_back(stoi(x+s));
+				if(x+s=="54321") ok=false;
+			}
+		}
+	}
+}
+int main(){
+	int t; cin>>t; 
+	solve();
+	while(t--){
+		int l,r; 
+		cin>>l>>r;
+		auto s=lower_bound(v.begin(),v.end(),l);
+		auto e=upper_bound(v.begin(),v.end(),r);
+		int res=e-s;
+		cout<<res<<endl;
+	}
+}

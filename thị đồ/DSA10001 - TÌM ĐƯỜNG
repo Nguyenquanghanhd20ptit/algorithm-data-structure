@@ -1,0 +1,144 @@
+TÌM ĐƯỜNG
+
+Bài làm tốt nhất
+Cho một bảng S[][] kích thước N x M, bao gồm các ô trống, các vật cản. Ban đầu bạn ở vị trí S. Nhiệm vụ của bạn là hãy di chuyển tới vị trí T,
+sao cho số lần đổi hướng không quá hai lần.
+
+Input:
+
+Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+Mỗi test bắt đầu bởi hai số nguyên N và M (1 ≤ N, M ≤ 500).
+N dòng tiếp theo, mỗi dòng gồm M kí tự mô tả bảng S. Trong đó: ‘.’ là một ô trống, ‘*’ là vật cản, ‘S’ là vị trí xuất phát và ‘T’ là vị trí đích. 
+(Chỉ có một vị trí S và T duy nhất).
+Output: 
+
+Với mỗi test, in ra “YES” nếu tìm được đường đi, ra in “NO” trong trường hợp ngược lại.
+Ví dụ:
+
+Input:
+
+Output
+
+2
+
+5 5
+
+..S..
+
+****.
+
+T....
+
+****.
+
+.....
+
+5 5
+
+S....
+
+****.
+
+.....
+
+.****
+
+..T..
+
+ 
+
+YES
+
+NO
+
+ #include <bits/stdc++.h>
+using namespace std;
+int n,m,s1,s2,e1,e2;
+char a[505][505];
+bool used[505][505];
+struct Node{
+    int x, y;
+    int count;
+};
+void inp(){
+	cin>>n>>m;
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			cin>>a[i][j];
+			if(a[i][j]=='S'){
+				s1=i; s2=j;
+			}
+			if(a[i][j]=='T'){
+				e1=i; e2=j;
+			}
+		}
+	}
+}
+void Solve(){
+    memset(used, false, sizeof(used));
+    queue<Node> q;
+    q.push({s1,s2, -1});
+    used[s1][s2] = true;
+    while (!q.empty()){
+        Node u = q.front();
+        q.pop();
+        if (u.count > 2){
+            cout << "NO"<<endl;
+            return;
+        }
+        if (u.x == e1 && u.y == e2){
+            if (u.count <= 2){
+                cout << "YES"<<endl;
+                return;
+            }
+        }
+        // Down
+        for (int i = u.x; i <= n; i++){
+            if (a[i][u.y] == '*')break;
+            if (!used[i][u.y]){
+                q.push({i, u.y, u.count + 1});
+                used[i][u.y] = true;
+            }
+        }
+        // Up
+        for (int i = u.x; i > 0; i--)
+        {
+            if (a[i][u.y] == '*')
+                break;
+            if (!used[i][u.y])
+            {
+                q.push({i,u.y,u.count + 1});
+                used[i][u.y] = true;
+            }
+        }
+        // Right
+        for (int i =u.y; i <= m; i++)
+        {
+            if (a[u.x][i] == '*')break;
+            if (!used[u.x][i]){
+                q.push({u.x, i, u.count + 1});
+                used[u.x][i] = true;
+            }
+        }
+        // Left
+        for (int i = u.y; i > 0; i--)
+        {
+            if (a[u.x][i] == '*')
+                break;
+            if (!used[u.x][i])
+            {
+                q.push({u.x, i, u.count + 1});
+                used[u.x][i] = true;
+            }
+        }
+    }
+}
+int main(){
+    int t;
+    cin >> t;
+    while (t--){
+    	inp();
+        Solve();
+    }
+    return 0;
+}

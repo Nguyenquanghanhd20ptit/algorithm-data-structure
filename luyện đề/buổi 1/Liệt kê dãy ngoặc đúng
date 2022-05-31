@@ -1,0 +1,51 @@
+https://oj.luyencode.net/problem/PTIT015
+
+#include<bits/stdc++.h>
+using namespace std;
+int n,a[1001],b[1001]={0};
+set<string> ms;
+bool check(string s){
+	stack<char> st;
+	for(int i=0;i<s.length();i++){
+		if(s[i]=='('){
+			st.push(s[i]);
+		}
+		else{
+			if(!st.empty()){
+				st.pop();
+			}
+			else return false;
+		}
+	}
+	if(!st.empty()) return false;
+	return true;
+}
+void inkq(){
+	string s="";
+	for(int i=1;i<=n;i++){
+		if(a[i]==0) s+='(';
+		else s+=')';
+	}
+	if(check(s)){
+		ms.insert(s);
+	}
+}
+void ql(int i){
+	for(int j=0;j<=1;j++){
+		a[i]=j;
+		b[i]=b[i-1]+a[i];
+		if(i==n){
+			if(b[i]==n/2)inkq();
+		}
+		else ql(i+1);
+		b[i]-=a[i];
+	}
+}
+int main(){
+	cin>>n;
+	ql(1);
+	for(auto x:ms){
+		cout<<x<<endl;
+	}
+	cout<<ms.size()<<endl;
+}

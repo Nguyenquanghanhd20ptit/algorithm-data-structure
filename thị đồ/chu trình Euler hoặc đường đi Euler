@@ -156,6 +156,51 @@ output=
 
 no Euler cycle
 
+
+danh sach ke
+#include<bits/stdc++.h>
+using namespace std;
+int n,m;
+set<int> adj[1001];
+vector<int> kq;
+void inp(){
+	cin>>n>>m;
+	for(int i=0;i<m;i++){
+		int x,y; cin>>x>>y;
+		adj[x].insert(y);
+		adj[y].insert(x);
+	}
+}
+void euler(int i){
+	stack<int> st;
+	st.push(i);
+	while(!st.empty()){
+		int x=st.top();
+		if(adj[x].size()>0){
+			int y=*adj[x].begin();
+			st.push(y);
+			adj[x].erase(y);
+			adj[y].erase(x);
+		}
+		else{
+			st.pop();
+			kq.push_back(x);
+		}
+	}
+}
+int main(){
+	inp();
+	euler(1);
+	reverse(kq.begin(),kq.end());
+	for(auto x:kq){
+		cout<<x<<" ";
+	}
+	cout<<endl;
+}
+
+
+
+ma tran ke
 #include <bits/stdc++.h>
 using namespace std;
 int n, start, edge, path[100];

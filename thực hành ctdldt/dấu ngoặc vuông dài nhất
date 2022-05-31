@@ -17,6 +17,38 @@ int main(){
 		if(s[i]=='[' || s[i]=='('){
 			st.push(i);
 		}
+		else if(!st.empty()){
+			if((s[st.top()]=='[' && s[i]==']') || (s[st.top()]=='(' && s[i]==')')){
+				st.pop();
+				res=max(res,b[i]-b[st.top()]);
+			}
+		}
+		else st.push(i);
+	}
+	cout<<res<<endl;
+}
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	string s; cin>>s;
+	int n=s.length(),dem=0, b[n+1]={0};
+	s=" "+s;
+	for(int i=1;i<=n;i++){
+		if(s[i]=='['){
+			dem++;
+		}
+		b[i]=dem;
+	}
+	stack<int> st;
+	st.push(0);
+	int res=0;
+	for(int i=1;i<=n;i++){
+		if(s[i]=='[' || s[i]=='('){
+			st.push(i);
+		}
 		else{
 			if (!st.empty() && ((s[i] == ')' && s[st.top()] != '(') || (s[i] == ']' && s[st.top()] != '[')))
 				st.push(i);

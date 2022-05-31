@@ -1,0 +1,17 @@
+https://oj.luyencode.net/problem/LKNGOAC
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	string s; cin>>s;
+	stack<int> st;
+	for(int i=0;i<s.length();i++){
+		if(s[i]=='('){
+			st.push(i+1);
+		}
+		else{
+			cout<<st.top()<<" "<<i+1<<endl;
+			st.pop();
+		}
+	}
+}

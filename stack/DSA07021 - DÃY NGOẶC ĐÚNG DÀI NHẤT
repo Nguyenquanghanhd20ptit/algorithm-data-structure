@@ -39,6 +39,45 @@ Output
 
 6
 
+
+cach 1
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int t; cin>>t;
+	while(t--){
+		string s; cin>>s;
+		int n=s.length(),dem=0;
+		int a[n+1]={0};
+		s=" "+s;
+		for(int i=1;i<=n;i++){
+			if(s[i]=='('){
+				dem++;
+			}
+			a[i]=dem;
+		}
+		stack<int> st;
+    	st.push(0);
+    	int res=0;
+		for(int i=1;i<=n;i++){
+			if(s[i]=='('){
+				st.push(i);
+			}
+			else if(!st.empty()){
+				if(s[st.top()]=='(' && s[i]==')'){
+					st.pop();
+			    	res=max(res,a[i]-a[st.top()]);
+				}
+				else st.push(i);
+			}
+			if(st.empty()) st.push(i);	
+		}
+		cout<<res*2<<endl;
+	}
+}
+
+
+cach2
 #include<bits/stdc++.h>
 using namespace std;
 void solve(string s){

@@ -22,8 +22,9 @@ int main(){
 				st.pop();
 				res=max(res,b[i]-b[st.top()]);
 			}
+			else st.push(i);
 		}
-		else st.push(i);
+		if(st.empty()) st.push(i);
 	}
 	cout<<res<<endl;
 }

@@ -1,0 +1,48 @@
+Bài 3: Trò chơi ăn điểm.
+Cho lưới ô vuông kích thước N*N, mỗi ô sẽ có giá trị của 1 điểm thưởng.
+Nhiệm vụ của bạn là di chuyển từ ô (1,1) đến ô (N,N) với cách di chuyển sang
+phải hoặc đi xuống 1 ô . Tính tổng tất cả điểm thưởng của tất cả các đường đi từ
+ô (1,1) đến ô (N, N).
+Input: Dòng đầu nhập vào số N. N <= 1000. Tiếp theo là N*N số là giá trị điểm
+thưởng, giá trị ko quá 10^9.
+Output: In ra tổng điểm theo mod 1e9+7.
+Input
+2
+3 4
+5 1
+
+17
+
+3
+1 2 3
+4 5 6
+7 8 9
+
+150
+
+#include<bits/stdc++.h>
+using namespace std;
+long long mod=1e9+7;
+int main(){
+	int n; cin>>n;
+	long long a[n+1][n+1],d[n+1][n+1];
+	memset(d,0,sizeof(d));
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=n;j++){
+			cin>>a[i][j];
+		}
+	}
+	//tim so cach di qua 1 o d[i][j]
+	d[1][1]=1;
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=n;j++){
+			d[i][j]=(d[i][j]+d[i-1][j]+d[i][j-1])%mod;
+		}
+	}
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=n;j++){
+			d[i][j]=(d[i-1][j]+d[i][j-1]+(d[i][j]*a[i][j]))%mod;
+		}
+	}
+	cout<<d[n][n];
+}

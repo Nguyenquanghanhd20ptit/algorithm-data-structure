@@ -1,0 +1,38 @@
+BÀI 2: Số Lớn Hơn
+Cho số N, tìm số bé nhất lớn hơn N với tất cả các chữ số đều giống nhau.
+Input: Dòng 1 nhập số bộ test T. T dòng tiếp theo mỗi dòng nhập vào 1 số N.
+Input Output
+3
+5
+9
+123
+
+6
+11
+222
+
+Giới hạn: N <= 10^18.
+
+#include<bits/stdc++.h>
+using namespace std;
+vector<long long> v;
+void solve(){
+	for(int i=1;i<=18;i++){
+		for(int j=1;j<=9;j++){
+			string s="";
+			for(int k=1;k<=i;k++){
+				s+=char(j+48);
+			}
+			v.push_back(stoll(s));
+		}
+	}
+}
+int main(){
+	int t; cin>>t;
+	solve();
+	while(t--){
+		long long n; cin>>n;
+		auto x=upper_bound(v.begin(),v.end(),n);
+		cout<<*x<<endl;
+	}
+}

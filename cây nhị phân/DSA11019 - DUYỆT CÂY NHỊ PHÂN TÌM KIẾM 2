@@ -1,0 +1,72 @@
+DUYỆT CÂY NHỊ PHÂN TÌM KIẾM 2
+
+Bài làm tốt nhất
+Cho một mảng A[] gồm N phần tử biểu diễn phép duyệt preorder của cây nhị phân tìm kiếm. Nhiệm vụ của bạn là đưa ra phép duyệt postorder 
+của cây nhị phân tìm kiếm.
+
+     Input:
+
+Dòng đầu tiên đưa vào số lượng test T.
+Những dòng tiếp theo đưa vào các bộ test. Mỗi bộ test gồm 2 dòng: dòng đầu tiên đưa vào số N là số lượng node của cây tìm kiếm;
+dòng tiếp theo đưa vào phép duyệt preorder của cây tìm kiếm; các số được viết cách nhau một vài khoảng trống.
+T, N, A[i] thỏa mãn ràng buộc: 1≤T≤100; 1≤N≤103; 1≤A[i]≤104;
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng là phép duyệt postorder của cây tìm kiếm.
+      Ví dụ:
+
+Input
+
+Output
+
+2
+5
+40 30 35 80 100
+8
+40 30 32 35 80 90 100 120
+
+35 30 100 80 40
+35 32 30 120 100 90 80 40
+
+#include<bits/stdc++.h>
+using namespace std;
+struct Node{
+	int data;
+	Node *l;
+	Node *r;
+	Node(int x){
+		data=x;
+		l=NULL;
+		r=NULL;
+	}
+};
+typedef Node* node;
+void them_node(node &a,int x){
+	if(a==NULL){
+		a=new Node(x);
+	}
+	else{
+		if(x < a->data) them_node(a->l,x);
+		if(x > a->data) them_node(a->r,x);
+	}
+}
+
+void duyet_sau(node a){
+	if(a==NULL) return;
+	duyet_sau(a->l);
+	duyet_sau(a->r);
+	cout<<a->data<<" ";
+}
+int main(){
+	int t; cin>>t;
+	while(t--){
+		int n; cin>>n;
+		node a=NULL;
+		for(int i=0;i<n;i++){
+			int x; cin>>x;
+			them_node(a,x);
+		}
+		duyet_sau(a);
+		cout<<endl;
+	}
+}

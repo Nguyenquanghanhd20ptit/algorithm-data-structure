@@ -1,0 +1,68 @@
+TRUY VẤN ĐỐI XỨNG
+
+Bài làm tốt nhất
+Cho số nguyên S gồm N chữ số. Có Q truy vấn, mỗi truy vấn thuộc một trong hai loại sau:
+
+q L R: yêu cầu xác định xâu con S[L, L+1, …, R] có phải là một xâu đối xứng hay không?
+
+c U x: thay đổi kí tự thứ U thành chữ số x.
+
+Input
+
+Dòng đầu tiên chứa số nguyên S gồm N kí tự (N  <= 10^5).
+Tiếp theo là số lượng truy vấn Q (Q <= 10^5)
+Q dòng tiếp theo, mỗi dòng gồm một loại truy vấn.
+Output
+
+Với mỗi truy vấn loại 1, nếu xâu con là một số đối xứng, hãy in ra “YES”, ngược lại in ra “NO”.
+Test ví dụ:
+
+Input
+
+Output
+
+12345
+
+5
+
+q 1 5
+
+q 5 5
+
+c 4 3
+
+q 3 5
+
+q 3 4
+
+ 
+
+NO
+
+YES
+
+NO
+
+YES
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	string s; cin>>s;
+	int t; cin>>t;
+	while(t--){
+		char c; cin>>c;
+		if(c=='q'){
+			int l,r; cin>>l>>r;
+			string tmp=s;
+			reverse(tmp.begin()+l-1,tmp.begin()+r);
+			if(s==tmp) cout<<"YES"<<endl;
+			else cout<<"NO"<<endl;
+		}
+		else{
+			int a; cin>>a;
+			char b; cin>>b;
+			s[a-1]=b;
+		}
+	}
+}

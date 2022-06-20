@@ -1,0 +1,55 @@
+.MODEL SMALL
+.STACK 100
+.DATA
+      TBAO1 DB 10,13,'NHAP VAO 1 SO N: $'
+      TBAO2 DB 10,13,'GIAI THUA CUA SO N = $'  
+      MUOI DW 10
+.CODE
+     MOV AX,DATA
+     MOV DS,AX
+     ;=================
+     MOV AH,9
+     LEA DX,TBAO1
+     INT 21H
+     
+     MOV AH,1
+     INT 21H
+     
+     
+     SUB AL,30H
+     MOV CL,AL
+     MOV AX,1
+     MOV BX,1
+     
+     GIAITHUA:    
+          MUL BX    ;NHAN AL VOI BL KQ LUU VAO AL
+          INC BX
+          CMP BX,CX
+          JBE GIAITHUA
+     
+     MOV CX,0   
+     
+     LAPPUSH:         ;LAY KI TU O TREN ROI PUSH DAN VAO NGAN XEP
+          MOV DX,0
+          DIV MUOI   ;CHIA CHO 10                            
+          ADD DX,30H
+          PUSH DX    ;SO DU CHUA TRONG DX TA PUSH VAO STACK  
+          INC CX
+          CMP AX,0   ;THUONG CHUA TRONG AX
+          JNE LAPPUSH 
+          
+     
+     MOV AH,9
+     LEA DX,TBAO2
+     INT 21H     
+     INKQ:
+        POP DX
+        MOV AH,2
+        INT 21H
+        LOOP INKQ
+     
+     ;=================
+     MOV AH,4CH
+     INT 21H
+  
+END      

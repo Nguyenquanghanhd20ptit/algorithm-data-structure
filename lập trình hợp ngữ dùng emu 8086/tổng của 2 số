@@ -1,0 +1,43 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+     TBAO1 DB 13,10,'NHAP VAO SO THU NHAT: $'
+     TBAO2 DB 13,10,'NHAP VAO SO THU HAI: $'
+     TBAO3 DB 13,10,'TONG CUA 2 SO LA: $'
+     NUM1 DB ?
+  
+     
+.CODE
+     MOV AX,DATA
+     MOV DS,AX
+     ;========================
+     MOV AH,9
+     LEA DX,TBAO1
+     INT 21H
+     
+     MOV AH,1
+     INT 21H   
+     SUB AL,30H
+     MOV NUM1,AL
+     
+     MOV AH,9
+     LEA DX,TBAO2
+     INT 21H
+     
+     MOV AH,1
+     INT 21H  
+     SUB AL,30H
+     ADD NUM1,AL
+     
+     MOV AH,9
+     LEA DX,TBAO3
+     INT 21H
+     
+     ADD NUM1,30H
+     MOV AH,2
+     MOV DL,NUM1
+     INT 21H
+     ;========================
+     MOV AH,4CH
+     INT 21H
+END
